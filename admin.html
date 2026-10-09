@@ -1214,11 +1214,13 @@
 
       var currentSelectedKey = null;
       var reportersMap = {};
+      var reportersLoaded = false;
       var chatInbox = [];
       var chatInboxLoaded = false;
       var chatMessagesRequestId = 0;
       var chatModerationRequestId = 0;
       var adminModerationPasscode = '';
+      var adminAuthenticated = false;
       async function adminAuthRequest(body) {
         var config = window.SUPABASE_CONFIG || {};
         if (!config.url || !config.anonKey) {
@@ -1383,7 +1385,6 @@
           if (!result || result.success !== true) {
             throw new Error('The report was not deleted.');
           }
-          delete reportersMap[key];
           var deletedRefs = result.refs || [chatRefFor(user, key)];
           chatInbox = chatInbox.filter(function (item) {
             return deletedRefs.indexOf(item.ref) === -1;
@@ -1404,9 +1405,7 @@
           document.getElementById('chatRefInfo').textContent = 'Select a conversation';
           document.getElementById('chatBody').innerHTML = '<div style="text-align:center;color:var(--muted);padding:1rem;">Select a report to view its chat.</div>';
           setChatModerationStatus(false, 'Select a conversation');
-          updateStats();
-          renderReportersList(document.getElementById('reporterSearch').value);
-          loadChatInbox();
+          loadReporters();
           alert('Report, chat history, and chat attachments deleted.');
         } catch (error) {
           console.error('[Admin] Report deletion failed:', error);
@@ -1458,7 +1457,7 @@
           document.getElementById('currentAdminPassword').value = '';
           document.getElementById('newAdminPassword').value = '';
           document.getElementById('confirmAdminPassword').value = '';
-          setAdminPasswordMessage('Passcode changed. It will be required the next time each device unlocks.', false);
+          setAdminPasswordMessage('Passcode changed. This console stays open; the new passcode is required after refresh or the next time it is locked.', false);
         } catch (error) {
           console.error('[Admin] Failed to change admin passcode:', error);
           setAdminPasswordMessage(error.message || 'Could not save the new passcode.', true);
@@ -1467,10 +1466,9 @@
 
       // Authentication lock check
       function checkAdminAuth() {
-        var isAuth = sessionStorage.getItem('ic3_admin_authenticated') === 'true';
         var overlay = document.getElementById('adminLockOverlay');
         if (overlay) {
-          if (isAuth) {
+          if (adminAuthenticated) {
             overlay.classList.add('unlocked');
             showAdminNotificationPromptIfNeeded();
             showPwaInstallPrompt('adminPwaPrompt');
@@ -1554,7 +1552,7 @@
         try {
           if (await verifyAdminPassword(pass)) {
             adminModerationPasscode = pass;
-            sessionStorage.setItem('ic3_admin_authenticated', 'true');
+            adminAuthenticated = true;
             showAdminNotificationPromptIfNeeded();
             showPwaInstallPrompt('adminPwaPrompt');
             if (errorBox) errorBox.classList.remove('show');
@@ -1582,7 +1580,7 @@
 
       window.lockAdminConsole = function() {
         adminModerationPasscode = '';
-        sessionStorage.removeItem('ic3_admin_authenticated');
+        adminAuthenticated = false;
         var passInput = document.getElementById('adminPassInput');
         if (passInput) passInput.value = '';
         checkAdminAuth();
@@ -1661,6 +1659,7 @@
       // Load reporters from Supabase
       function loadReporters() {
         var container = document.getElementById('reportersList');
+        reportersLoaded = false;
         if (container) container.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--muted);font-size:0.85rem;">⏳ Loading from database…</div>';
 
         if (!window.IC3API || !window.IC3API.ready()) {
@@ -1670,6 +1669,7 @@
 
         window.IC3API.getAllComplaints().then(function(complaints) {
           reportersMap = {};
+          reportersLoaded = true;
           complaints.forEach(function(u) {
             if (!u) return;
             var pk = (u.email || u.trackingId || u.matterId || u.id || '').toLowerCase();
@@ -1706,7 +1706,7 @@
         });
 
         document.getElementById('statActiveCases').textContent = activeCount;
-        document.getElementById('statTotalLoss').textContent = totalLoss > 0 ? '$' + totalLoss.toLocaleString('en-US') : '$150,000+';
+        document.getElementById('statTotalLoss').textContent = totalLoss > 0 ? '$' + totalLoss.toLocaleString('en-US') : '$0';
 
         document.getElementById('statTotalMsgs').textContent = chatInbox.reduce(function (total, item) {
           return total + item.unread;
@@ -1878,7 +1878,9 @@
         var q = (filterQuery || '').toLowerCase();
 
         if (keys.length === 0) {
-          container.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--muted);font-size:0.85rem;" id="reportersEmptyState">⏳ Loading reporters from cloud...<br><br><small>If no reporters appear, submit a complaint via <a href="complaint.html" style="color:var(--accent);">complaint.html</a> first.</small></div>';
+          container.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--muted);font-size:0.85rem;" id="reportersEmptyState">' +
+            (reportersLoaded ? 'No reports found.' : 'Loading reports from cloud…') +
+            '</div>';
           return;
         }
 
@@ -1922,7 +1924,7 @@
           '</div>';
         });
 
-        container.innerHTML = html;
+        container.innerHTML = html || '<div style="padding:2rem;text-align:center;color:var(--muted);font-size:0.85rem;">No reports match your search.</div>';
 
         // Auto select first if none selected
         if (!currentSelectedKey && keys.length > 0) {

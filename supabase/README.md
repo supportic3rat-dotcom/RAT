@@ -16,7 +16,8 @@ supabase functions deploy admin-moderation
 The migration initializes the shared passcode to `admin1234` only if no admin
 credential exists yet. Change it from **Security** in the admin console.
 Existing unlocked browser sessions remain open and will use the new passcode
-the next time they are locked.
+the next time they are locked or refreshed. Admin authentication is checked
+against Supabase on every page load.
 
 The admin page's access gate is still client-side only. Server-side
 authorization must also protect admin data and operations before relying on it
