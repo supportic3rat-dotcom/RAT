@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <title>SocksEscort Indicators — Indicators of Compromise | FBI IC3 RAT</title>
+    <link rel="icon" type="image/jpeg" href="../../images/ic3ratlogo.jpeg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon-32.8aaa0.png">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../css/site.d8c3f.css">
+    <style>
+        :root { color-scheme: dark !important; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #030712 !important;
+            color: #f8fafc !important;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+        }
+        .ioc-header {
+            background: #0b1d3a;
+            border-bottom: 1px solid #1e293b;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .ioc-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+        .ioc-brand img {
+            height: 40px;
+            width: auto;
+        }
+        .ioc-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        .ioc-card {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+        .ioc-card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #1e293b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .ioc-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+        }
+        .ioc-subtitle {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin-top: 0.25rem;
+        }
+        .search-box {
+            padding: 0.5rem 0.85rem;
+            background: #030712;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.875rem;
+            width: 260px;
+        }
+        .ioc-table-wrapper {
+            overflow-x: auto;
+            max-height: 70vh;
+        }
+        table.ioc-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+        table.ioc-table th {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 0.85rem 1.25rem;
+            font-weight: 600;
+            border-bottom: 1px solid #334155;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        table.ioc-table td {
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid #1e293b;
+            color: #cbd5e1;
+            font-family: 'JetBrains Mono', monospace, sans-serif;
+            word-break: break-all;
+        }
+        table.ioc-table tr:hover td {
+            background: #1e293b55;
+            color: #ffffff;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            background: #1e293b;
+            color: #ffffff;
+            border: 1px solid #334155;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            background: #334155;
+        }
+    </style>
+    <script defer src="../../js/recovery-toast.js"></script>
+<style>
+/* ── US Government Banner & Dropdown ── */
+.usa-banner {
+  background-color: #ffffff !important;
+  color: #1b1b1b !important;
+  font-family: inherit;
+  font-size: 0.82rem;
+  border-bottom: 1px solid #e5e7eb;
+  position: relative;
+  z-index: 100;
+  width: 100%;
+}
+.usa-banner__header {
+  padding: 0.4rem 1.25rem;
+  background-color: #ffffff !important;
+}
+.usa-banner__inner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.usa-banner__header-flag {
+  height: 13px;
+  width: auto;
+  vertical-align: middle;
+}
+.usa-banner__header-text {
+  font-size: 0.78rem;
+  margin: 0;
+  display: inline;
+  color: #1b1b1b !important;
+}
+.usa-banner__header-action {
+  display: none;
+}
+.usa-banner__button {
+  background: none;
+  border: none;
+  padding: 0 0.25rem;
+  font-size: 0.78rem;
+  font-family: inherit;
+  color: #1b1b1b !important;
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.usa-banner__button::after {
+  content: '▼';
+  font-size: 0.6rem;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+.usa-banner__button[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+.usa-banner__button:hover {
+  background-color: #f0f0f0 !important;
+  color: #000000 !important;
+}
+.usa-banner__content {
+  background-color: #ffffff !important;
+  color: #1b1b1b !important;
+  padding: 1rem 1.25rem 1.25rem;
+  border-top: 1px solid #f0f0f0;
+}
+.usa-banner__content[hidden] {
+  display: none !important;
+}
+.usa-banner .grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.usa-banner__guidance {
+  flex: 1 1 300px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+.usa-banner__guidance p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #1b1b1b !important;
+}
+.usa-banner__guidance strong {
+  color: #1b1b1b !important;
+}
+.usa-banner__icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.usa-banner__lock-image,
+.usa-banner__lock-image path {
+  width: 11px;
+  height: 14px;
+  fill: #1b1b1b !important;
+  color: #1b1b1b !important;
+  vertical-align: middle;
+}
+</style>
+<style>
+/* ── US Government Banner & Dropdown (Strict White BG & Black Text) ── */
+.usa-banner,
+.usa-banner *,
+.usa-banner header,
+.usa-banner .usa-banner__header,
+.usa-banner .usa-banner__inner,
+.usa-banner .usa-banner__content,
+.usa-banner p,
+.usa-banner span,
+.usa-banner strong,
+.usa-banner button,
+.usa-banner .usa-banner__header-text,
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  position: relative !important;
+  z-index: 1000 !important;
+  width: 100% !important;
+}
+
+.usa-banner .usa-banner__header {
+  padding: 0.4rem 1.25rem !important;
+}
+
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+}
+
+.usa-banner .usa-banner__button:hover,
+.usa-banner .usa-banner__header-action:hover {
+  color: #000000 !important;
+  background-color: #f3f4f6 !important;
+}
+
+.usa-banner .usa-banner__content {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  padding: 1rem 1.25rem 1.25rem !important;
+  border-top: 1px solid #e5e7eb !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner .usa-banner__content[hidden] {
+  display: none !important;
+}
+
+.usa-banner .usa-banner__lock-image,
+.usa-banner .usa-banner__lock-image path {
+  fill: #1b1b1b !important;
+  color: #1b1b1b !important;
+}
+</style>
+</head>
+<body>
+    <header class="ioc-header">
+        <a href="../../index.html" class="ioc-brand">
+            <img src="../../images/ic3ratlogo.jpeg" alt="FBI IC3 RAT">
+            <span>FBI IC3 Threat Intelligence</span>
+        </a>
+        <a href="javascript:history.back()" class="btn">Back</a>
+    </header>
+    <main class="ioc-container">
+        <div class="ioc-card">
+            <div class="ioc-card-header">
+                <div>
+                    <h1 class="ioc-title">SocksEscort Indicators</h1>
+                    <div class="ioc-subtitle">Official Threat Indicators of Compromise (IOC) • 132 Entries</div>
+                </div>
+                <input type="text" id="filterInput" class="search-box" placeholder="Filter indicators..." onkeyup="filterTable()">
+            </div>
+            <div class="ioc-table-wrapper">
+                <table class="ioc-table" id="iocTable">
+                    <thead>
+                        <tr><th>Hash (MD5)</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>007fe05132e429ff57393163354f4c90</td><td>AVRecon Loader</td></tr>
+<tr><td>232fdd85e07f74ea232cadafdb095d31</td><td>AVRecon Loader</td></tr>
+<tr><td>3f83790a150a6bf71b908289fd230014</td><td>AVRecon Loader</td></tr>
+<tr><td>4651d6a90d24cf57c83a76ab160abf85</td><td>AVRecon Loader</td></tr>
+<tr><td>53f02fdf9c375c1837a31edf68694380</td><td>AVRecon Loader</td></tr>
+<tr><td>5f6f52fd4ece5918ee7979036a49bca3</td><td>AVRecon Loader</td></tr>
+<tr><td>6e9540f68507580a3f495e9ff58dbd4e</td><td>AVRecon Loader</td></tr>
+<tr><td>7fe57eca60841291cdd8ef1bb5c27de9</td><td>AVRecon Loader</td></tr>
+<tr><td>9f2df912212f67adcb64dbae8bfa2ca9</td><td>AVRecon Loader</td></tr>
+<tr><td>444138b1d805808a06c4b908c7b73d96</td><td>AVRecon Malware</td></tr>
+<tr><td>48374bfb610280c48086817cfb2bb310</td><td>AVRecon Malware</td></tr>
+<tr><td>48ef5c2a62d1ae95ea37d165e8a1be26</td><td>AVRecon Malware</td></tr>
+<tr><td>4943e8c2a29ad616ec12cd7a507c612c</td><td>AVRecon Malware</td></tr>
+<tr><td>4a884070ea340d89756be6575676ce85</td><td>AVRecon Malware</td></tr>
+<tr><td>4d63235fdd3e0ace207d8fdbe19d63e0</td><td>AVRecon Malware</td></tr>
+<tr><td>53437d28fdf92c09821f56140c67aaca</td><td>AVRecon Malware</td></tr>
+<tr><td>6501a2d2ed60b85b1080ac9edaf39b70</td><td>AVRecon Malware</td></tr>
+<tr><td>06d491b70f369b2672fce5a7b59a5c93</td><td>AVRecon Malware</td></tr>
+<tr><td>126b1c224e8635d9571f9d769d7b55e2</td><td>AVRecon Malware</td></tr>
+<tr><td>1c8c17ef978bd4f03db672c0b2d51d00</td><td>AVRecon Malware</td></tr>
+<tr><td>1f970f5eb9cbef8dba11e2aed72373ba</td><td>AVRecon Malware</td></tr>
+<tr><td>2a646682ee7f0f853605c78bb9126ed5</td><td>AVRecon Malware</td></tr>
+<tr><td>327c1ca93321705027e0bf47658b5f53</td><td>AVRecon Malware</td></tr>
+<tr><td>32f1f238da09f1ebc1385317d50e94b4</td><td>AVRecon Malware</td></tr>
+<tr><td>3bfc273e5592825443ded9c28f50cd5d</td><td>AVRecon Malware</td></tr>
+<tr><td>6501a2d2ed60b85b1080ac9edaf39b70</td><td>AVRecon Malware</td></tr>
+<tr><td>667ae41f4a6201071b8cc3f88e3e02c7</td><td>AVRecon Malware</td></tr>
+<tr><td>6a389a89a6da7433210d9a52fc72589c</td><td>AVRecon Malware</td></tr>
+<tr><td>6a6619b4b9a53233ca0a56606c484f9a</td><td>AVRecon Malware</td></tr>
+<tr><td>6ec7063f03f95499b6c1821f90bda7e6</td><td>AVRecon Malware</td></tr>
+<tr><td>70c2317f40de5b28f42d640488910140</td><td>AVRecon Malware</td></tr>
+<tr><td>74e5514cdd3ef6f703483700f04b5812</td><td>AVRecon Malware</td></tr>
+<tr><td>7d4c60c77a7d74cc3d9af4dabbecdbb8</td><td>AVRecon Malware</td></tr>
+<tr><td>8a978017496adb02eb368f3b28bc4ccd</td><td>AVRecon Malware</td></tr>
+<tr><td>8ad3f40fd8fcf2c7ee04d1219017cfe3</td><td>AVRecon Malware</td></tr>
+<tr><td>8fc84a03b66ceccd394c6a754bb513a6</td><td>AVRecon Malware</td></tr>
+<tr><td>920534d235204ced7ad2c76c1af7b3f8</td><td>AVRecon Malware</td></tr>
+<tr><td>963354b60552af16408cf4d82a827832</td><td>AVRecon Malware</td></tr>
+<tr><td>9752ac893640a027bea5a6df48ceb396</td><td>AVRecon Malware</td></tr>
+<tr><td>9dfba3b92850a74135925e524e7b4748</td><td>AVRecon Malware</td></tr>
+<tr><td>b1a32a442cdb34901f1f7ffbe47749f0</td><td>AVRecon Malware</td></tr>
+<tr><td>b5ad7f7e10f5d0401a2ad6b737724ff6</td><td>AVRecon Malware</td></tr>
+<tr><td>bb5e9faa666e6d96eb95e358524213b6</td><td>AVRecon Malware</td></tr>
+<tr><td>bd24f43084b33f13a835f661bf48b5e2</td><td>AVRecon Malware</td></tr>
+<tr><td>bd4a12d4de4e42c4d9246aa92ddb86b8</td><td>AVRecon Malware</td></tr>
+<tr><td>c32ac3f6cba0772de7737da60f9170c0</td><td>AVRecon Malware</td></tr>
+<tr><td>c53397dc47ddc38a8c6daa3a02116518</td><td>AVRecon Malware</td></tr>
+<tr><td>d5d63db439bb1dba080ab27555b03a2a</td><td>AVRecon Malware</td></tr>
+<tr><td>de86b12800919ce8b213b51354d28ab8</td><td>AVRecon Malware</td></tr>
+<tr><td>ef7f3f7cb4f3f1a90a2028d44c4fe702</td><td>AVRecon Malware</td></tr>
+<tr><td>f0d1852065c498c3bdaec3de8e6cd626</td><td>AVRecon Malware</td></tr>
+<tr><td>f143b44d3b8d835c09bf2c346d90ec22</td><td>AVRecon Malware</td></tr>
+<tr><td>f3cf4a369e5fb451db250c31776ba84e</td><td>AVRecon Malware</td></tr>
+<tr><td>f74c8bd1701746cce8b4bad819cdd148</td><td>AVRecon Malware</td></tr>
+<tr><td>f774fcbf889a8a629004f31e8b962b63</td><td>AVRecon Malware</td></tr>
+<tr><td>ffaa0890eb9a38307477157c02f63583</td><td>AVRecon Malware</td></tr>
+<tr><td>f81b9fceea2056ba2c3f261b56f577b1</td><td>AVRecon Malware</td></tr>
+<tr><td>8dcaf0e2a0baf54e65f46689b2a845ef</td><td>AVRecon Malware</td></tr>
+<tr><td>3ed1a6d57f00c1643cc85e049c82d1b4</td><td>AVRecon Malware</td></tr>
+<tr><td>8fc84a03b66ceccd394c6a754bb513a6</td><td>AVRecon Malware</td></tr>
+<tr><td>0c5e43e51d3c2a00f4ac1b517891872d</td><td>AVRecon Malware</td></tr>
+<tr><td>a3e31f70b7a6abf3de15ca6646d16bfe</td><td>AVRecon Malware</td></tr>
+<tr><td>efb8b73d59a805e1fd9ebf0d3540b0e8</td><td>AVRecon Malware</td></tr>
+<tr><td>bf0183b2d18341c47576ba8e0d36fdff</td><td>AVRecon Malware</td></tr>
+<tr><td>22c5849855878f331d7bbf07e7ec7e41</td><td>AVRecon Malware</td></tr>
+<tr><td>0a4e197044ad59116f0a1c2776125065</td><td>AVRecon Malware</td></tr>
+<tr><td>006cc428088ea3766c094b421bf8e77f</td><td>AVRecon Malware</td></tr>
+<tr><td>fb9d610a2b535dde194c05c099f0b307</td><td>AVRecon Malware</td></tr>
+<tr><td>5aed40bccde5a7646c6fea17f7dd2083</td><td>AVRecon Malware</td></tr>
+<tr><td>IOC</td><td>Description</td></tr>
+<tr><td>188.138.125.163</td><td>AVRecon C2 Server</td></tr>
+<tr><td>62.138.0.10</td><td>AVRecon C2 Server</td></tr>
+<tr><td>91.245.255.112</td><td>AVRecon C2 Server</td></tr>
+<tr><td>188.116.22.153</td><td>AVRecon C2 Server</td></tr>
+<tr><td>176.120.22.67</td><td>AVRecon C2 Server</td></tr>
+<tr><td>91.215.85.178</td><td>AVRecon C2 Server</td></tr>
+<tr><td>37.77.150.77</td><td>AVRecon C2 Server</td></tr>
+<tr><td>37.77.150.19</td><td>AVRecon C2 Server</td></tr>
+<tr><td>5.149.254.109</td><td>AVRecon C2 Server</td></tr>
+<tr><td>185.162.128.133</td><td>AVRecon C2 Server</td></tr>
+<tr><td>5.149.250.54</td><td>AVRecon C2 Server</td></tr>
+<tr><td>5.149.250.171</td><td>AVRecon C2 Server</td></tr>
+<tr><td>38.180.91.47</td><td>AVRecon C2 Server</td></tr>
+<tr><td>45.137.213.88</td><td>AVRecon C2 Server</td></tr>
+<tr><td>79.141.160.92</td><td>AVRecon C2 Server</td></tr>
+<tr><td>212.118.38.30</td><td>AVRecon C2 Server</td></tr>
+<tr><td>77.246.106.198</td><td>AVRecon C2 Server</td></tr>
+<tr><td>185.163.204.198</td><td>AVRecon C2 Server</td></tr>
+<tr><td>62.138.14.209</td><td>AVRecon C2 Server</td></tr>
+<tr><td>175.110.114.65</td><td>AVRecon C2 Server</td></tr>
+<tr><td>176.120.22.67</td><td>AVRecon C2 Server</td></tr>
+<tr><td>85.25.100.30</td><td>AVRecon C2 Server</td></tr>
+<tr><td>62.138.0.211</td><td>AVRecon C2 Server</td></tr>
+<tr><td>213.202.230.95</td><td>AVRecon C2 Server</td></tr>
+<tr><td>advstat.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>backdump.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>critlan.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>meterstrack.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>netjunk.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>plxz.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>startsun.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>zeroback2.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>zeroback3.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>zeroback4.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>evrc.space</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>r0ck.online</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>atable.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>cleandone.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>dzero.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>fpride.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>lups.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>regul.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>utcp.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>vdem.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>zeroback.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>zerophone.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>zorc.cc</td><td>AVRecon C2 Domain</td></tr>
+<tr><td>lumi/config.php</td><td>AVRecon C2 URI</td></tr>
+<tr><td>lumi/ping.php</td><td>AVRecon C2 URI</td></tr>
+<tr><td>lumi/pride.php</td><td>AVRecon C2 URI</td></tr>
+<tr><td>lumi/test.php</td><td>AVRecon C2 URI</td></tr>
+<tr><td>lumi/track.php</td><td>AVRecon C2 URI</td></tr>
+<tr><td>X-Proto-Cookies</td><td>AVRecon C2 HTTP Header</td></tr>
+<tr><td>X-Proto-UAgent</td><td>AVRecon C2 HTTP Header</td></tr>
+<tr><td>X-Proto-Version</td><td>AVRecon C2 HTTP Header</td></tr>
+<tr><td>X-Proto-System</td><td>AVRecon C2 HTTP Header</td></tr>
+<tr><td>X-Proto-Storage</td><td>AVRecon C2 HTTP Header</td></tr>
+<tr><td>X-Proto-Core</td><td>AVRecon C2 HTTP Header</td></tr>
+<tr><td>X-Proto-Jid</td><td>AVRecon C2 HTTP Header</td></tr>
+<tr><td>x</td><td>AVRecon Loader Filename</td></tr>
+<tr><td>dnssmasq</td><td>AVRecon Malware Filename</td></tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <script>
+        function filterTable() {
+            const query = document.getElementById('filterInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#iocTable tbody tr');
+            rows.forEach(r => {
+                r.style.display = r.textContent.toLowerCase().includes(query) ? '' : 'none';
+            });
+        }
+    </script>
+<script>
+// Universal Government Banner Accordion Toggle
+(function() {
+  function initGovBannerToggle() {
+    var banner = document.querySelector('.usa-banner');
+    if (!banner) return;
+    var content = banner.querySelector('.usa-banner__content, #gov-banner-default');
+    if (!content) return;
+
+    if (!banner._govInitDone) {
+      banner._govInitDone = true;
+      content.hidden = true;
+      content.style.display = 'none';
+    }
+
+    var toggleBtn = banner.querySelector('.usa-banner__button');
+
+    function toggleBanner(e) {
+      if (e) {
+        if (e.target.closest && e.target.closest('.usa-banner__content')) return;
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      var isHidden = content.hidden || content.style.display === 'none';
+      if (isHidden) {
+        content.hidden = false;
+        content.style.display = 'block';
+        content.style.position = 'relative';
+        content.style.left = 'auto';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        content.hidden = true;
+        content.style.display = 'none';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    var clickableTargets = banner.querySelectorAll('.usa-banner__button, .usa-banner__header-action, .usa-banner__button-text');
+    clickableTargets.forEach(function(el) {
+      el.style.cursor = 'pointer';
+      el.onclick = toggleBanner;
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGovBannerToggle);
+  } else {
+    initGovBannerToggle();
+  }
+})();
+</script>
+</body>
+</html>

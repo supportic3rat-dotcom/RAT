@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <title>QTFY IOC Files — Indicators of Compromise | FBI IC3 RAT</title>
+    <link rel="icon" type="image/jpeg" href="../../images/ic3ratlogo.jpeg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon-32.8aaa0.png">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../css/site.d8c3f.css">
+    <style>
+        :root { color-scheme: dark !important; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #030712 !important;
+            color: #f8fafc !important;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+        }
+        .ioc-header {
+            background: #0b1d3a;
+            border-bottom: 1px solid #1e293b;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .ioc-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+        .ioc-brand img {
+            height: 40px;
+            width: auto;
+        }
+        .ioc-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        .ioc-card {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+        .ioc-card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #1e293b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .ioc-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+        }
+        .ioc-subtitle {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin-top: 0.25rem;
+        }
+        .search-box {
+            padding: 0.5rem 0.85rem;
+            background: #030712;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.875rem;
+            width: 260px;
+        }
+        .ioc-table-wrapper {
+            overflow-x: auto;
+            max-height: 70vh;
+        }
+        table.ioc-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+        table.ioc-table th {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 0.85rem 1.25rem;
+            font-weight: 600;
+            border-bottom: 1px solid #334155;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        table.ioc-table td {
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid #1e293b;
+            color: #cbd5e1;
+            font-family: 'JetBrains Mono', monospace, sans-serif;
+            word-break: break-all;
+        }
+        table.ioc-table tr:hover td {
+            background: #1e293b55;
+            color: #ffffff;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            background: #1e293b;
+            color: #ffffff;
+            border: 1px solid #334155;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            background: #334155;
+        }
+    </style>
+    <script defer src="../../js/recovery-toast.js"></script>
+<style>
+/* ── US Government Banner & Dropdown ── */
+.usa-banner {
+  background-color: #ffffff !important;
+  color: #1b1b1b !important;
+  font-family: inherit;
+  font-size: 0.82rem;
+  border-bottom: 1px solid #e5e7eb;
+  position: relative;
+  z-index: 100;
+  width: 100%;
+}
+.usa-banner__header {
+  padding: 0.4rem 1.25rem;
+  background-color: #ffffff !important;
+}
+.usa-banner__inner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.usa-banner__header-flag {
+  height: 13px;
+  width: auto;
+  vertical-align: middle;
+}
+.usa-banner__header-text {
+  font-size: 0.78rem;
+  margin: 0;
+  display: inline;
+  color: #1b1b1b !important;
+}
+.usa-banner__header-action {
+  display: none;
+}
+.usa-banner__button {
+  background: none;
+  border: none;
+  padding: 0 0.25rem;
+  font-size: 0.78rem;
+  font-family: inherit;
+  color: #1b1b1b !important;
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.usa-banner__button::after {
+  content: '▼';
+  font-size: 0.6rem;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+.usa-banner__button[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+.usa-banner__button:hover {
+  background-color: #f0f0f0 !important;
+  color: #000000 !important;
+}
+.usa-banner__content {
+  background-color: #ffffff !important;
+  color: #1b1b1b !important;
+  padding: 1rem 1.25rem 1.25rem;
+  border-top: 1px solid #f0f0f0;
+}
+.usa-banner__content[hidden] {
+  display: none !important;
+}
+.usa-banner .grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.usa-banner__guidance {
+  flex: 1 1 300px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+.usa-banner__guidance p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #1b1b1b !important;
+}
+.usa-banner__guidance strong {
+  color: #1b1b1b !important;
+}
+.usa-banner__icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.usa-banner__lock-image,
+.usa-banner__lock-image path {
+  width: 11px;
+  height: 14px;
+  fill: #1b1b1b !important;
+  color: #1b1b1b !important;
+  vertical-align: middle;
+}
+</style>
+<style>
+/* ── US Government Banner & Dropdown (Strict White BG & Black Text) ── */
+.usa-banner,
+.usa-banner *,
+.usa-banner header,
+.usa-banner .usa-banner__header,
+.usa-banner .usa-banner__inner,
+.usa-banner .usa-banner__content,
+.usa-banner p,
+.usa-banner span,
+.usa-banner strong,
+.usa-banner button,
+.usa-banner .usa-banner__header-text,
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  position: relative !important;
+  z-index: 1000 !important;
+  width: 100% !important;
+}
+
+.usa-banner .usa-banner__header {
+  padding: 0.4rem 1.25rem !important;
+}
+
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+}
+
+.usa-banner .usa-banner__button:hover,
+.usa-banner .usa-banner__header-action:hover {
+  color: #000000 !important;
+  background-color: #f3f4f6 !important;
+}
+
+.usa-banner .usa-banner__content {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  padding: 1rem 1.25rem 1.25rem !important;
+  border-top: 1px solid #e5e7eb !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner .usa-banner__content[hidden] {
+  display: none !important;
+}
+
+.usa-banner .usa-banner__lock-image,
+.usa-banner .usa-banner__lock-image path {
+  fill: #1b1b1b !important;
+  color: #1b1b1b !important;
+}
+</style>
+</head>
+<body>
+    <header class="ioc-header">
+        <a href="../../index.html" class="ioc-brand">
+            <img src="../../images/ic3ratlogo.jpeg" alt="FBI IC3 RAT">
+            <span>FBI IC3 Threat Intelligence</span>
+        </a>
+        <a href="javascript:history.back()" class="btn">Back</a>
+    </header>
+    <main class="ioc-container">
+        <div class="ioc-card">
+            <div class="ioc-card-header">
+                <div>
+                    <h1 class="ioc-title">QTFY IOC Files</h1>
+                    <div class="ioc-subtitle">Official Threat Indicators of Compromise (IOC) • 45 Entries</div>
+                </div>
+                <input type="text" id="filterInput" class="search-box" placeholder="Filter indicators..." onkeyup="filterTable()">
+            </div>
+            <div class="ioc-table-wrapper">
+                <table class="ioc-table" id="iocTable">
+                    <thead>
+                        <tr><th>﻿type</th><th>name</th><th>sha256</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>binary</td><td>agent_linux_386</td><td>d810f1253ee4bee05ca96a70a9c293f2839fb00b2aa238861f7b89e3a66bd357</td></tr>
+<tr><td>binary</td><td>agent_linux_amd64</td><td>7a4c87677d7892b66c30c82ea72893bd29cfe793fade45222b4cf853b877d300</td></tr>
+<tr><td>binary</td><td>agent_linux_arm</td><td>c1381b35c21aec9e74e8d42b60c4733abd23fd012c75ab0e9101e37c9be62a7a</td></tr>
+<tr><td>binary</td><td>agent_linux_arm64</td><td>e939954618ec089485eff4de098f6c5ce4d672acfd03150f5f0b38bbecbba664</td></tr>
+<tr><td>binary</td><td>agent_linux_armhf</td><td>6decf77b1a3595374a15a014bbb9ac9774f67dca7df59ccf4b734a68d9e35224</td></tr>
+<tr><td>binary</td><td>agent_linux_mips</td><td>5329f26cc11cba660382f58f388d2dad50e10e2ba37d0d6002622c8061b211b2</td></tr>
+<tr><td>binary</td><td>agent_linux_mips64</td><td>69a20babb22ffb372733900cb2e6739598b316aecdbc0394ce8029717ee13089</td></tr>
+<tr><td>binary</td><td>agent_linux_mips64le</td><td>9759492bc73a1704d6d71c6f40ab5321a095f9ab2ae5ca069dd4f7b3a98235fa</td></tr>
+<tr><td>binary</td><td>agent_linux_mipsle</td><td>dd014653fce1fe5f19d1b0e1ad5f254118ca6d002e29c549ecb15029ed0a381e</td></tr>
+<tr><td>binary</td><td>agent_linux_powerpc</td><td>c7abdd66dae9f0e190361d7a39a73128e9d7dc3da338c02f3d93488786813eb3</td></tr>
+<tr><td>binary</td><td>agent_linux_riscv32</td><td>4a7a9354c5764a0977a004f3bf590db8c86ea747d170bf9a1541b8c7cfcf4009</td></tr>
+<tr><td>binary</td><td>agent_linux_riscv64</td><td>6547c0f20c7770bb228b9b0ac61a6d2e16e74afad37b62bcecc7e69b51354a87</td></tr>
+<tr><td>binary</td><td>agent_linux_s390x</td><td>12b1f2078fcdcf792e5482308acaea8cc617c58d51019edd4a381fef52329dec</td></tr>
+<tr><td>binary</td><td>c_client_386</td><td>27eb761a029d5ee4cee1d6a1ad3b60400b91723b6927cdc0032d97d8c9e636a3</td></tr>
+<tr><td>binary</td><td>c_client_amd64</td><td>32876e31b1ef1b300ab4cb65ce647b110b6b801bc4e46aad3e43d406b96a6f33</td></tr>
+<tr><td>binary</td><td>c_client_arm</td><td>00b0045e9e28b89946e7e839ac910f1f2e6f3c28937839aff3b0b41008c80188</td></tr>
+<tr><td>binary</td><td>c_client_arm64</td><td>ea89a969d7a4e4b9c3da24577fe2d633f74c4f25fd1494905063b40b57aeca31</td></tr>
+<tr><td>binary</td><td>c_client_mips</td><td>7bba7912b7fc01795b3a0503d0e546087990124a2256b083c1c5a498a205a721</td></tr>
+<tr><td>binary</td><td>c_client_mips64</td><td>26c9b561e431d033aa16f94580bfa7ace390a1c9c6834a0ee1a6b0a9a306485c</td></tr>
+<tr><td>binary</td><td>c_client_mips64le</td><td>bb1428134f6f587d63a3092ef125a7a2ac50fda3ee71b830bf725f20956b0d3f</td></tr>
+<tr><td>binary</td><td>c_client_mipsle</td><td>ef1b84fa1f3087415ba1e798b018f35c675de1032723579e38d81f79dcc37878</td></tr>
+<tr><td>binary</td><td>c_client_ppc64le</td><td>ab745ad10ffcbf65acdf171cd47d20aed581ac07304570d96caffacc6ece2651</td></tr>
+<tr><td>binary</td><td>c_client_riscv64</td><td>996b3aedb34426184ca4f8141daec29a0c5785b11e7eea47559f2e0ef1e6180a</td></tr>
+<tr><td>binary</td><td>c_client_s390x</td><td>ce8832b4681e63118c159f379de82f8c97adc62a81c19cae903d1ba0e5629cf1</td></tr>
+<tr><td>binary</td><td>client_linux_386</td><td>08dc78ae82d9c480420f7cfa797334c8976077a02df5f6b4cee3072ed4a197f9</td></tr>
+<tr><td>binary</td><td>client_linux_amd64</td><td>ba20494fe5a12955a408f076c3677bf8ae600c890554b9906049b8cd07206cfb</td></tr>
+<tr><td>binary</td><td>client_linux_arc700</td><td>5c0708b7a7a7ca00188b40df6b80f4875b2e430b2b0c38b68dd9428bfcb98d09</td></tr>
+<tr><td>binary</td><td>client_linux_arm</td><td>0d48039b416a236f6e0e0fd702b5a824e8c7118af597c81271c64bd6b0adfec2</td></tr>
+<tr><td>binary</td><td>client_linux_arm64</td><td>ad2fae2894432da7b82fec0d5d3a75b5ffa1b84a50ad67477b6063a1769a3846</td></tr>
+<tr><td>binary</td><td>client_linux_armhf</td><td>dbcd1588caae92b7525aac096b7ec8c543b5ab8c4c95dfb33051d42c351e19b3</td></tr>
+<tr><td>binary</td><td>client_linux_mips</td><td>86881181d7244a8e9d45f5fe1e2b7f4c3e8bd6cd1e6383c92693ee956c4d87fb</td></tr>
+<tr><td>binary</td><td>client_linux_mips64</td><td>dc0624c316667b89aa88afa716933235584a27d14b2a08606e43a657a95db991</td></tr>
+<tr><td>binary</td><td>client_linux_mips64le</td><td>239b9f5677b66d3dc69e003028d041c09440330dd367763e68c0a56454afd91a</td></tr>
+<tr><td>binary</td><td>client_linux_mipsle</td><td>b3b32e592a73d46566c51ed18c07155ad3d980142f1a4c32c4e9728208c02fce</td></tr>
+<tr><td>binary</td><td>client_linux_powerpc</td><td>2d29f9f75e40e5b58cb4379d44ff7b511620e8dea584ffaf4db6a7597ee23562</td></tr>
+<tr><td>binary</td><td>client_linux_riscv32</td><td>5653a062a37d8a650c9a603cee0e7744af128bad28be8916c9de9ac16f1a82e5</td></tr>
+<tr><td>binary</td><td>client_linux_riscv64</td><td>ed24ea239799e470c66d160eb7b097ab1d7627fc6c51236d6169da920f5b3b5c</td></tr>
+<tr><td>binary</td><td>client_linux_s390x</td><td>92e9c9c36d469d56fbeba052d3062b77cd869c6df8f10faafd184717c557a245</td></tr>
+<tr><td>script</td><td>a</td><td>c73bd1c498a147e71e345a99f5f85e3442243c2a7b7cb65f0d00a72acc0a87e7</td></tr>
+<tr><td>script</td><td>b</td><td>bea44e8cbf35c240c9cddc88284b6f8f94129e4e0a42a85e2603406980b83990</td></tr>
+<tr><td>script</td><td>c</td><td>a617e06c27d3514c57fd83711c75846d798e3ecefd5a0246b5ac9a191392e98a</td></tr>
+<tr><td>script</td><td>d</td><td>c337b92789987efe8ae0afcd56da948b38aa4b0e5859f2d51a61e2bc152c1feb</td></tr>
+<tr><td>script</td><td>e</td><td>5fb500afd83fb64f64a2789abc66f0a158d915167e1def6ba56d9543dd9de3d7</td></tr>
+<tr><td>script</td><td>f</td><td>c46944343b7e33c0f88ca9583b8145a4735d6e9780f9df1777b4c59887b56a35</td></tr>
+<tr><td>script</td><td>in.sh</td><td>0cf8ed7064d3d4827f841451c661d788d4cf7d067901e35a7a019f1c9d5ef656</td></tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <script>
+        function filterTable() {
+            const query = document.getElementById('filterInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#iocTable tbody tr');
+            rows.forEach(r => {
+                r.style.display = r.textContent.toLowerCase().includes(query) ? '' : 'none';
+            });
+        }
+    </script>
+<script>
+// Universal Government Banner Accordion Toggle
+(function() {
+  function initGovBannerToggle() {
+    var banner = document.querySelector('.usa-banner');
+    if (!banner) return;
+    var content = banner.querySelector('.usa-banner__content, #gov-banner-default');
+    if (!content) return;
+
+    if (!banner._govInitDone) {
+      banner._govInitDone = true;
+      content.hidden = true;
+      content.style.display = 'none';
+    }
+
+    var toggleBtn = banner.querySelector('.usa-banner__button');
+
+    function toggleBanner(e) {
+      if (e) {
+        if (e.target.closest && e.target.closest('.usa-banner__content')) return;
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      var isHidden = content.hidden || content.style.display === 'none';
+      if (isHidden) {
+        content.hidden = false;
+        content.style.display = 'block';
+        content.style.position = 'relative';
+        content.style.left = 'auto';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        content.hidden = true;
+        content.style.display = 'none';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    var clickableTargets = banner.querySelectorAll('.usa-banner__button, .usa-banner__header-action, .usa-banner__button-text');
+    clickableTargets.forEach(function(el) {
+      el.style.cursor = 'pointer';
+      el.onclick = toggleBanner;
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGovBannerToggle);
+  } else {
+    initGovBannerToggle();
+  }
+})();
+</script>
+</body>
+</html>

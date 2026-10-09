@@ -1,0 +1,77 @@
+﻿abbr.usa-hint--required {
+    text-decoration: none;
+}
+
+.val-error {
+    color: #f00;
+}
+
+    .val-error::before {
+        content: "\26A0  ";
+    }
+
+    .val-error:empty::before {
+        content: unset;
+    }
+
+button[type="submit"] {
+    margin-top: 1em;
+}
+
+.usa-label {
+    font-weight: bold;
+}
+
+fieldset[disabled] :is(label, textarea, legend) {
+    filter: opacity(70%) brightness(80%);
+}
+
+fieldset[disabled] :is(label, legend) .usa-hint--required {
+    display: none;
+}
+
+input[type="date"] {
+    width: 10rem;
+}
+
+input[type="tel"] {
+    width: 12rem;
+}
+
+input[type="number"] {
+    text-align: right;
+    width: 10rem;
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+    input[type='number']::-webkit-inner-spin-button,
+    input[type='number']::-webkit-outer-spin-button,
+    input[type='number']:hover::-webkit-inner-spin-button,
+    input[type='number']:hover::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+fieldset.noborder {
+    border: unset;
+    padding: unset;
+}
+
+:is(label, input, select).inline {
+    display: inline-block;
+}
+
+label.inline {
+    width: 12rem;
+}
+
+.noborder label.inline {
+    width: unset;
+    display: block;
+}
+
+.usa-alert--slim .usa-alert__body:has(#fileComplaint) span {
+    display: block;
+    margin-bottom: 0.5rem;
+}

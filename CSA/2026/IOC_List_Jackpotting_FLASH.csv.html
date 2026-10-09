@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <title>IOC List Jackpotting FLASH — Indicators of Compromise | FBI IC3 RAT</title>
+    <link rel="icon" type="image/jpeg" href="../../images/ic3ratlogo.jpeg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon-32.8aaa0.png">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../css/site.d8c3f.css">
+    <style>
+        :root { color-scheme: dark !important; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #030712 !important;
+            color: #f8fafc !important;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+        }
+        .ioc-header {
+            background: #0b1d3a;
+            border-bottom: 1px solid #1e293b;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .ioc-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+        .ioc-brand img {
+            height: 40px;
+            width: auto;
+        }
+        .ioc-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        .ioc-card {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+        .ioc-card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #1e293b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .ioc-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+        }
+        .ioc-subtitle {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin-top: 0.25rem;
+        }
+        .search-box {
+            padding: 0.5rem 0.85rem;
+            background: #030712;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.875rem;
+            width: 260px;
+        }
+        .ioc-table-wrapper {
+            overflow-x: auto;
+            max-height: 70vh;
+        }
+        table.ioc-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+        table.ioc-table th {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 0.85rem 1.25rem;
+            font-weight: 600;
+            border-bottom: 1px solid #334155;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        table.ioc-table td {
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid #1e293b;
+            color: #cbd5e1;
+            font-family: 'JetBrains Mono', monospace, sans-serif;
+            word-break: break-all;
+        }
+        table.ioc-table tr:hover td {
+            background: #1e293b55;
+            color: #ffffff;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            background: #1e293b;
+            color: #ffffff;
+            border: 1px solid #334155;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            background: #334155;
+        }
+    </style>
+    <script defer src="../../js/recovery-toast.js"></script>
+<style>
+/* ── US Government Banner & Dropdown ── */
+.usa-banner {
+  background-color: #ffffff !important;
+  color: #1b1b1b !important;
+  font-family: inherit;
+  font-size: 0.82rem;
+  border-bottom: 1px solid #e5e7eb;
+  position: relative;
+  z-index: 100;
+  width: 100%;
+}
+.usa-banner__header {
+  padding: 0.4rem 1.25rem;
+  background-color: #ffffff !important;
+}
+.usa-banner__inner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.usa-banner__header-flag {
+  height: 13px;
+  width: auto;
+  vertical-align: middle;
+}
+.usa-banner__header-text {
+  font-size: 0.78rem;
+  margin: 0;
+  display: inline;
+  color: #1b1b1b !important;
+}
+.usa-banner__header-action {
+  display: none;
+}
+.usa-banner__button {
+  background: none;
+  border: none;
+  padding: 0 0.25rem;
+  font-size: 0.78rem;
+  font-family: inherit;
+  color: #1b1b1b !important;
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.usa-banner__button::after {
+  content: '▼';
+  font-size: 0.6rem;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+.usa-banner__button[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+.usa-banner__button:hover {
+  background-color: #f0f0f0 !important;
+  color: #000000 !important;
+}
+.usa-banner__content {
+  background-color: #ffffff !important;
+  color: #1b1b1b !important;
+  padding: 1rem 1.25rem 1.25rem;
+  border-top: 1px solid #f0f0f0;
+}
+.usa-banner__content[hidden] {
+  display: none !important;
+}
+.usa-banner .grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.usa-banner__guidance {
+  flex: 1 1 300px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+.usa-banner__guidance p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #1b1b1b !important;
+}
+.usa-banner__guidance strong {
+  color: #1b1b1b !important;
+}
+.usa-banner__icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.usa-banner__lock-image,
+.usa-banner__lock-image path {
+  width: 11px;
+  height: 14px;
+  fill: #1b1b1b !important;
+  color: #1b1b1b !important;
+  vertical-align: middle;
+}
+</style>
+<style>
+/* ── US Government Banner & Dropdown (Strict White BG & Black Text) ── */
+.usa-banner,
+.usa-banner *,
+.usa-banner header,
+.usa-banner .usa-banner__header,
+.usa-banner .usa-banner__inner,
+.usa-banner .usa-banner__content,
+.usa-banner p,
+.usa-banner span,
+.usa-banner strong,
+.usa-banner button,
+.usa-banner .usa-banner__header-text,
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  position: relative !important;
+  z-index: 1000 !important;
+  width: 100% !important;
+}
+
+.usa-banner .usa-banner__header {
+  padding: 0.4rem 1.25rem !important;
+}
+
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+}
+
+.usa-banner .usa-banner__button:hover,
+.usa-banner .usa-banner__header-action:hover {
+  color: #000000 !important;
+  background-color: #f3f4f6 !important;
+}
+
+.usa-banner .usa-banner__content {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  padding: 1rem 1.25rem 1.25rem !important;
+  border-top: 1px solid #e5e7eb !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner .usa-banner__content[hidden] {
+  display: none !important;
+}
+
+.usa-banner .usa-banner__lock-image,
+.usa-banner .usa-banner__lock-image path {
+  fill: #1b1b1b !important;
+  color: #1b1b1b !important;
+}
+</style>
+</head>
+<body>
+    <header class="ioc-header">
+        <a href="../../index.html" class="ioc-brand">
+            <img src="../../images/ic3ratlogo.jpeg" alt="FBI IC3 RAT">
+            <span>FBI IC3 Threat Intelligence</span>
+        </a>
+        <a href="javascript:history.back()" class="btn">Back</a>
+    </header>
+    <main class="ioc-container">
+        <div class="ioc-card">
+            <div class="ioc-card-header">
+                <div>
+                    <h1 class="ioc-title">IOC List Jackpotting FLASH</h1>
+                    <div class="ioc-subtitle">Official Threat Indicators of Compromise (IOC) • 56 Entries</div>
+                </div>
+                <input type="text" id="filterInput" class="search-box" placeholder="Filter indicators..." onkeyup="filterTable()">
+            </div>
+            <div class="ioc-table-wrapper">
+                <table class="ioc-table" id="iocTable">
+                    <thead>
+                        <tr><th>Newage.exe</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Color.exe</td></tr>
+<tr><td>Levantaito.exe</td></tr>
+<tr><td>NCRApp.exe</td></tr>
+<tr><td>sdelete.exe</td></tr>
+<tr><td>Promo.exe</td></tr>
+<tr><td>WinMonitor.exe</td></tr>
+<tr><td>WinMonitorCheck.exe</td></tr>
+<tr><td>Anydesk1.exe</td></tr>
+<tr><td>Identified MD5s:</td></tr>
+<tr><td>2C2D16658D8DA6B389934273EF8F8E22</td></tr>
+<tr><td>5F177B84F3D92AB5711BE446125FDBE3</td></tr>
+<tr><td>61EECEB5F9186A0BC01DC82798CD6C5F</td></tr>
+<tr><td>FDA82030AE92313E94B9339EA1FC107C</td></tr>
+<tr><td>C04A7CB926CCBF829D0A36A91EBF91BD</td></tr>
+<tr><td>Associated Files and Scripts:</td></tr>
+<tr><td>C.dat</td></tr>
+<tr><td>Restaurar.bat</td></tr>
+<tr><td>Restauraropteva.bat</td></tr>
+<tr><td>Logcontrol.txt</td></tr>
+<tr><td>Logc.txt</td></tr>
+<tr><td>Borrar_beta.txt</td></tr>
+<tr><td>New directories, including, but not limited to, the following</td></tr>
+<tr><td>Anydesk1.exe Anydesk1.exe</td></tr>
+<tr><td>C:\<ATM_Manufacture>\exe\p</td></tr>
+<tr><td>C:\Users\SSAuto1\AppData\Local\P\</td></tr>
+<tr><td>Remote connection applications, such as TeamViewer or AnyDesk, if unauthorized; or application logs showing connections from unexpected IP addresses</td></tr>
+<tr><td>Abnormal autoruns:</td></tr>
+<tr><td>HKLM\Software\Microsoft\Windows\CurrentVersion\Run</td></tr>
+<tr><td>HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon</td></tr>
+<tr><td>HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\Userinit</td></tr>
+<tr><td>Custom services:</td></tr>
+<tr><td>Custom service entries under:</td></tr>
+<tr><td>HKLM\SYSTEM\CurrentControlSet\Services\</td></tr>
+<tr><td>Services pointing to non-standard install paths</td></tr>
+<tr><td>Services running under SYSTEM without vendor signature</td></tr>
+<tr><td>Services running with generic or deceptive names:</td></tr>
+<tr><td>ATM Service</td></tr>
+<tr><td>Dispenser Service</td></tr>
+<tr><td>DIEBOLDP IP addresses.</td></tr>
+<tr><td>USB insertion events:</td></tr>
+<tr><td>Event ID 2003 -</td></tr>
+<tr><td>May appear with the insertion of USB storage device, or peripheral</td></tr>
+<tr><td>Event ID 6416 -</td></tr>
+<tr><td>The Security log records the detection of a newly connected external device when external storage auditing is enabled. This event can indicate the attachment of removable media such as USB storage devices, but does not confirm file access or execution</td></tr>
+<tr><td>Event ID 4663 -</td></tr>
+<tr><td>The Security log may record file access or modification activity involving removable media, provided object access auditing is enabled and appropriate system access control lists (SACLs) are configured on the target files or directories</td></tr>
+<tr><td>Detection of:</td></tr>
+<tr><td>USB keyboards</td></tr>
+<tr><td>USB hubs</td></tr>
+<tr><td>Flash drives</td></tr>
+<tr><td>Physical Indicators</td></tr>
+<tr><td>ATM door open alerts outside of planned maintenance schedule</td></tr>
+<tr><td>Low/No cash indicators outside of expected use schedule</td></tr>
+<tr><td>Unauthorized devices plugged into the ATM</td></tr>
+<tr><td>Removal of hard drives from ATMs</td></tr>
+<tr><td>ATM unexpectedly out of service</td></tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <script>
+        function filterTable() {
+            const query = document.getElementById('filterInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#iocTable tbody tr');
+            rows.forEach(r => {
+                r.style.display = r.textContent.toLowerCase().includes(query) ? '' : 'none';
+            });
+        }
+    </script>
+<script>
+// Universal Government Banner Accordion Toggle
+(function() {
+  function initGovBannerToggle() {
+    var banner = document.querySelector('.usa-banner');
+    if (!banner) return;
+    var content = banner.querySelector('.usa-banner__content, #gov-banner-default');
+    if (!content) return;
+
+    if (!banner._govInitDone) {
+      banner._govInitDone = true;
+      content.hidden = true;
+      content.style.display = 'none';
+    }
+
+    var toggleBtn = banner.querySelector('.usa-banner__button');
+
+    function toggleBanner(e) {
+      if (e) {
+        if (e.target.closest && e.target.closest('.usa-banner__content')) return;
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      var isHidden = content.hidden || content.style.display === 'none';
+      if (isHidden) {
+        content.hidden = false;
+        content.style.display = 'block';
+        content.style.position = 'relative';
+        content.style.left = 'auto';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        content.hidden = true;
+        content.style.display = 'none';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    var clickableTargets = banner.querySelectorAll('.usa-banner__button, .usa-banner__header-action, .usa-banner__button-text');
+    clickableTargets.forEach(function(el) {
+      el.style.cursor = 'pointer';
+      el.onclick = toggleBanner;
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGovBannerToggle);
+  } else {
+    initGovBannerToggle();
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+﻿html {
+    --text-margin: 0 1.5em;
+    --content-color: #000;
+    --blockquote-background: #eee;
+}
+
+@media not print {
+    @media (prefers-color-scheme: dark) {
+        html {
+            --content-color: #ccc;
+            --blockquote-background: #444;
+        }
+
+        img {
+            filter: brightness(.8) contrast(1.2);
+        }
+
+        body {
+            background-color: #000;
+        }
+
+        a {
+            color: #56caef;
+        }
+
+            a:visited {
+                color: #74b335;
+            }
+    }
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    font-family: verdana,arial,helvetica,sans-serif;
+    color: var(--content-color);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+em {
+    font-style: italic;
+}
+
+strong {
+    font-weight:bold;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+aside, blockquote {
+    border: thin currentColor solid;
+    padding: 0.5em;
+    background-color: var(--blockquote-background);
+}
+
+h2 {
+    font-size: large;
+    text-transform: uppercase;
+}
+
+h3 {
+    font-size: medium;
+}
+
+figure {
+    margin: 0;
+}
+
+caption, figure img + figcaption {
+    text-align: center;
+    font-family: monospace;
+}
+
+a.skip-link {
+    position: absolute;
+    left: -10000px;
+}
+
+a.skip-link:focus {
+    position: fixed;
+    left:0.25em;
+    top:0.25em;
+}
+
+#container {
+    width: 100%;
+    max-width: 780px;
+    border: thin currentColor solid;
+    padding-bottom: 0.5rem;
+}
+
+@media print {
+    #container {
+        max-width: unset;
+    }
+}
+
+header .fields {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+    header .logo {
+        width: 100%;
+    }
+
+header p,time,h1 {
+    font-weight: bold;
+    font-size: larger;
+    margin: var(--text-margin);
+    text-align: center;
+}
+
+header h1 {
+    padding: 1em 0 0.5em;
+}
+
+hr.after-head {
+    margin: var(--text-margin);
+    height: 0.2em;
+    background-color: var(--content-color);
+}
+
+main, footer.footnotes {
+    margin: var(--text-margin);
+}
+
+main img {
+    margin: 0.5em auto;
+}
+
+hr.before-footnote {
+    margin: var(--text-margin);
+    width: 40%;
+    background-color: var(--content-color);
+}
+
+p.footnote {
+    margin: 0.5em 0;
+}
+
+p.footnote sup {
+    margin-right: 0.25em;
+}
+
+:is(sup.footnote, footer.footnotes p.footnote sup) a::before {
+    content: '[';
+}
+
+:is(sup.footnote, footer.footnotes p.footnote sup) a::after {
+    content: ']';
+}
+
+.bold {
+    font-weight: bold;
+}

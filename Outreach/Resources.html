@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<?xml encoding="utf-8" ?><html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <title>Resources - FBI IC3 Recovery Asset Team (RAT)</title>
+    <script nonce="jec3p5op1vn5uops">
+    if (window.trustedTypes) {
+        trustedTypes.createPolicy('default', {
+            createHtml: s => { console.error(`TrustedHTML Violation: ${s}`); return null; },
+            createScript: s => { console.error(`TrustedScript Violation: ${s}`); return null; },
+            createScriptURL: s => { const prefix = ['https://www.gstatic.com/recaptcha/releases/', 'https://www.googletagmanager.com/gtag/js']; let u = undefined; try { u = new URL(s); u = `${u.protocol}//${u.host}${u.pathname}`; } catch { } if ((u && prefix.some(x => u.startsWith(x))) || 'https://www.google-analytics.com/analytics.js' === s) { return s; } else { console.error(`TrustedScriptURL Violation: ${s}`); return null; } }
+        });
+    }
+</script>
+    <script src="../js/uswds-init.min.30dc2.js" nonce="jec3p5op1vn5uops"></script>
+    <script defer src="../js/uswds.min.30dc2.js" nonce="jec3p5op1vn5uops"></script>
+    <link rel="stylesheet" href="../css/uswds.min.12c2d.css">
+    <link rel="stylesheet" href="../css/site.d8c3f.css">
+    
+    
+        <!-- We participate in the US government's analytics program. See the data at analytics.usa.gov. -->
+        <script async src="../js/Universal-Federated-Analytics-Min.1990e.js" id="_fed_an_ua_tag" nonce="jec3p5op1vn5uops"></script>
+    
+    <link rel="icon" type="image/jpeg" href="../images/ic3ratlogo.jpeg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32.8aaa0.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="../images/favicon-128.8aaa0.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../images/favicon-192.8aaa0.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon-180.8aaa0.png">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="alternate" type="application/rss+xml" href="../PSA/RSS.html" title="IC3 News">
+    <link rel="alternate" type="application/rss+xml" href="../CSA/RSS.html" title="IC3 Industry Alerts">
+    <script defer src="../js/site.js"></script>
+
+
+<meta name="color-scheme" content="dark">
+<style id="force-dark-mode">
+:root { color-scheme: dark !important; }
+html, body {
+  background-color: #030712 !important;
+  color: #f8fafc !important;
+  color-scheme: dark !important;
+}
+.usa-section, .usa-layout-docs, .usa-header, .usa-footer, main, header, footer, nav, body,
+.usa-footer__primary-section, .usa-footer__secondary-section,
+.usa-footer__return-to-top, .usa-footer__nav {
+  background-color: #030712 !important;
+  color: #f8fafc !important;
+}
+/* ── Full-width navbar ── */
+.usa-nav-container {
+  max-width: 100% !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+.usa-header {
+  width: 100% !important;
+}
+/* ── US Government Banner & Dropdown (Strict White BG & Black Text) ── */
+.usa-banner,
+.usa-banner *,
+.usa-banner header,
+.usa-banner .usa-banner__header,
+.usa-banner .usa-banner__inner,
+.usa-banner .usa-banner__content,
+.usa-banner p,
+.usa-banner span,
+.usa-banner strong,
+.usa-banner button,
+.usa-banner .usa-banner__header-text,
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  position: relative !important;
+  z-index: 1000 !important;
+  width: 100% !important;
+}
+
+.usa-banner .usa-banner__header {
+  padding: 0.4rem 1.25rem !important;
+}
+
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+}
+
+.usa-banner .usa-banner__button:hover,
+.usa-banner .usa-banner__header-action:hover {
+  color: #000000 !important;
+  background-color: #f3f4f6 !important;
+}
+
+.usa-banner .usa-banner__content {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  padding: 1rem 1.25rem 1.25rem !important;
+  border-top: 1px solid #e5e7eb !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner .usa-banner__content[hidden] {
+  display: none !important;
+}
+
+.usa-banner .usa-banner__lock-image,
+.usa-banner .usa-banner__lock-image path {
+  fill: #1b1b1b !important;
+  color: #1b1b1b !important;
+}
+</style>
+
+    <script defer src="../js/recovery-toast.js"></script>
+<style>
+</style>
+</head>
+<body>
+    <a class="usa-skipnav" href="#main-content">Skip to content</a>
+    <section class="usa-banner padding-bottom-2 desktop:padding-bottom-0" aria-label="Official website of the United States government">
+        <div class="usa-accordion">
+            <header class="usa-banner__header">
+                <div class="usa-banner__inner">
+                    <div class="grid-col-auto">
+                        <img aria-hidden="true" class="usa-banner__header-flag" src="../images/us_flag_small.36692.png" alt="">
+                    </div>
+                    <div class="grid-col-fill tablet:grid-col-auto" aria-hidden="true">
+                        <p class="usa-banner__header-text">An official website of the United States government</p>
+                        <p class="usa-banner__header-action">Here&rsquo;s how you know</p>
+                    </div>
+                    <button type="button" class="usa-accordion__button usa-banner__button" aria-expanded="false" aria-controls="gov-banner-default">
+                        <span class="usa-banner__button-text">Here&rsquo;s how you know</span>
+                    </button>
+                </div>
+            </header>
+            <div class="usa-banner__content usa-accordion__content" id="gov-banner-default">
+                <div class="grid-row grid-gap-lg">
+                    <div class="usa-banner__guidance tablet:grid-col-6">
+                        <img class="usa-banner__icon usa-media-block__img" src="../images/icon-dot-gov.36692.svg" role="img" alt="" aria-hidden="true">
+                        <div class="usa-media-block__body">
+                            <p>
+                                <strong>Official websites use .gov or .org</strong><br>
+                                The website belongs to an official government organization in the United States.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="usa-banner__guidance tablet:grid-col-6">
+                        <img class="usa-banner__icon usa-media-block__img" src="../images/icon-https.36692.svg" role="img" alt="" aria-hidden="true">
+                        <div class="usa-media-block__body">
+                            <p>
+                                <strong>Secure .gov websites use HTTPS</strong><br>
+                                A <strong>lock</strong> (
+                                <span class="icon-lock">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="52" height="64" viewbox="0 0 52 64" class="usa-banner__lock-image" role="img" aria-labelledby="banner-lock-description-default" focusable="false">
+                                        <title id="banner-lock-title-default">Lock</title>
+                                        <desc id="banner-lock-description-default">Locked padlock icon</desc>
+                                        <path fill="#000000" fill-rule="evenodd" d="M26 0c10.493 0 19 8.507 19 19v9h3a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V32a4 4 0 0 1 4-4h3v-9C7 8.507 15.507 0 26 0zm0 8c-5.979 0-10.843 4.77-10.996 10.712L15 19v9h22v-9c0-6.075-4.925-11-11-11z"></path>
+                                    </svg>
+                                </span>) or <strong>https://</strong> means you&rsquo;ve safely connected to the .gov website. Share sensitive information only on official, secure websites.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="usa-overlay"></div>
+    <header id="ic3Header" class="usa-header usa-header--basic usa-header--megamenu desktop:margin-0">
+        <div class="usa-nav-container">
+            <div class="usa-navbar">
+                <div class="usa-logo">
+                    <a href="../index.html">
+                        <img class="usa-footer__logo-img" src="../images/ic3ratlogo.jpeg" alt="IC3 RAT Logo" style="height:72px;width:auto;object-fit:contain;">
+                    </a>
+                    <em class="usa-logo__text"><a href="../Home/Index.html">FBI IC3 Recovery Asset Team (RAT)</a></em>
+                </div>
+                <button type="button" class="usa-menu-btn">Menu</button>
+            </div>
+            <nav aria-label="Primary navigation" class="usa-nav">
+                <button type="button" class="usa-nav__close">
+                    <svg width="24" height="24" viewbox="0 0 24 24" role="img">
+                        <title>Close</title>
+                        <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="#ffffff"></path>
+                    </svg>
+                </button>
+                <ul class="usa-nav__primary usa-accordion">
+                    <li class="usa-nav__primary-item">
+                        <a class="usa-nav-link" data-open-modal aria-controls="fileTerms" href="#fileTerms" style="background:#d9381e!important;color:#ffffff!important;border-radius:4px;padding:0.5rem 1.25rem;font-weight:700;text-decoration:none">File A Report</a>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <button type="button" class="usa-accordion__button usa-nav__link" aria-expanded="false" aria-controls="public-nav">
+                            <span>Public Info</span>
+                        </button>
+                        <div id="public-nav" class="usa-nav__submenu usa-megamenu">
+                            <div class="grid-row grid-gap-4">
+                                <div class="usa-col">
+                                    <ul class="usa-nav__submenu-list">
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../PSA.html">Public Service Announcements</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="Brochures.html">Brochures</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../AnnualReport/Reports.html">Annual Reports</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="Resources.html">Resources</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../Home/RAT.html">Recovery Asset Team (RAT)</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <button type="button" class="usa-accordion__button usa-nav__link" aria-expanded="false" aria-controls="industry-nav">
+                            <span>Industry Info</span>
+                        </button>
+                        <div id="industry-nav" class="usa-nav__submenu usa-megamenu">
+                            <div class="grid-row grid-gap-4">
+                                <div class="usa-col">
+                                    <ul class="usa-nav__submenu-list">
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CSA.html">Industry Alerts</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../ContactFBICyber.html">Contact FBI Cyber</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <a class="usa-nav-link" href="PrivateSectorEngagement.html">Cyber Private Sector</a>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <button type="button" class="usa-accordion__button usa-nav__link" aria-expanded="false" aria-controls="crime-info-nav">
+                            <span>Crime Info</span>
+                        </button>
+                        <div id="crime-info-nav" class="usa-nav__submenu usa-megamenu">
+                            <div class="grid-row grid-gap-4">
+                                <div class="usa-col">
+                                    <ul class="usa-nav__submenu-list">
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/AccountTakeover.html">Account Takeover (ATO)</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/Botnet-DDoS.html">Botnet/DDoS/TDoS</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/BEC.html">Business Email Compromise (BEC)</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/ChineseAuthorityImpersonation.html">Chinese Authority Impersonation</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/Cryptocurrency.html">Cryptocurrency</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/DataBreach.html">Data Breach</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/ElderFraud.html">Elder Fraud</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/Investment.html">Investment Fraud</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a target="_blank" rel="noopener" href="https://www.fbi.gov/scams-and-safety">Other Common Scams</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/Ransomware.html">Ransomware</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/TechSupportGovImpersonation.html">Tech/Customer Support and Government Impersonation</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <section aria-label="Search component">
+                    <form action="../Search/Results.html" autocomplete="off" class="usa-search usa-search--small" role="search" method="get">
+                        <label class="usa-sr-only" for="search-field">Search</label>
+                        <input class="usa-input" id="search-field" type="search" name="term">
+                        <button class="usa-button" type="submit">
+                            <img src="../images/search--white.a22b1.svg" class="usa-search__submit-icon" alt="Search">
+                        </button>
+                    </form>
+                </section>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" class="usa-prose grid-container">
+        
+<div id="resources" class="usa-in-page-nav-container">
+    <aside class="usa-in-page-nav" data-main-content-selector=".content" data-title-heading-level="h2"></aside>
+    <div class="content">
+        <h1>
+            Resources
+        </h1>
+        <section>
+            <p>We understand you may be experiencing hardship because of what happened to you. Individuals who experience financial crimes report having feelings of fear, shame, guilt, anger, betrayal, self-doubt, isolation, remorse, hopelessness, and loss of perceived reasons to live.</p>
+            <p>If any of these apply to you, know you are not alone, and help is available. We understand you may have questions about what services and information will be available to you moving forward.</p>
+            <p>While we empathize with you, unfortunately, the FBI cannot take on every complaint as an investigation. We also cannot provide status updates on complaints. If additional information is needed, someone will contact you. However, if you hear from someone claiming to be the FBI, please beware of fraudsters posing as government agents. Know that the FBI and other government agents will <strong class="text-normal text-uppercase">never</strong> ask for money, wire transfers, gift cards, fees, etc.</p>
+        </section>
+        <section>
+            <h2>What Can I Do About My Financial Losses?</h2>
+            <p>Collect and save all documents and electronic transmissions directly related to your loss, including expenses incurred during your participation in the investigation or prosecution. If an arrest is made and a conviction is obtained, the judge may require the offender to pay restitution. This means the sentencing judge may order a convicted defendant to pay identified victims for certain losses suffered as a result of the crime. You may be asked to provide verification of your loss amount.</p>
+            <p>In addition, some losses may be tax-deductible. Tax laws are complicated, so consult a qualified tax advisor or the Internal Revenue Service to see if your losses qualify.</p>
+            <p>There may also be federal or state agencies that have remission or compensation funds depending on the license of an individual or business that committed the fraud.</p>
+            <p>Finally, if you believe the fraud perpetrator had assets, you may be able to recover losses through a civil lawsuit. Contact your state or local bar association for the names of attorneys who specialize in this area of law to determine if your case is appropriate for civil action.</p>
+        </section>
+        <section>
+            <h2>What Can I Do to Address Financial and Credit Problems?</h2>
+            <p>Losses may be so severe that you are unable to meet current financial obligations. If personal information was stolen, credit may be affected which can impact your immediate financial situation. In both of these situations, consider these options:</p>
+            <ul class="usa-list">
+                <li>Contact creditors and/or a nonprofit credit counseling service to help you to reduce or modify your payments or help you to limit access to your accounts.</li>
+                <li>Submit a written statement to local and national credit reporting agencies about your victimization. Provide supporting documentation such as a copy of the criminal judgment.</li>
+                <li>Be alert. Fraud artists may contact you claiming they can help recover your losses for a fee or may sell your name to others committing financial scams. If called, contact the case agent or your state's Consumer Protection Agency to verify the company&rsquo;s legitimacy.</li>
+            </ul>
+        </section>
+        <section>
+            <h2>What Can I Do to Protect Myself in the Future?</h2>
+            <ul class="usa-list--unstyled">
+                <li>Check your financial statements each month for any suspicious activity.</li>
+                <li>Never send money to someone you do not know personally.</li>
+                <li>Know that fraudsters often pose as interested romantic partners on the internet.</li>
+                <li>Practice cyber security &ndash; use regularly updated security software, do not click on unverified links in emails or text messages, and update passwords regularly.</li>
+                <li>Screen your phone calls using voicemail. You do not need to respond to everyone who calls.</li>
+                <li>
+                    If something seems concerning to you or "too good to be true," consider the following actions:
+                    <ul>
+                        <li>Seek independent verification of the other party by contacting local law enforcement or a local FBI office.</li>
+                        <li>Say 'no' to requests for money from unfamiliar or unverified sources</li>
+                        <li>Terminate contact with the individual or company.</li>
+                    </ul>
+                </li>
+                <li>
+                    If you suspect that you may have been a victim of financial fraud or exploitation, consider:
+                    <ul>
+                        <li>Contacting your financial institution immediately upon discovering any fraudulent or suspicious activity and direct them to stop or reverse the transactions.</li>
+                        <li>Closing or canceling your account, or transferring funds to a new account.</li>
+                        <li>Requesting free copies of your credit report from a credit bureau or freezing your credit.</li>
+                        <li>Requesting copies of documents related to any potentially fraudulent activities.</li>
+                        <li>Disputing fraudulent or inaccurate information on your credit report with one of the credit bureaus.</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+        <section>
+            <h2>What Can I Do to Take Care of Myself?</h2>
+            <p>You may feel anger, resentment, frustration, shame, embarrassment, and guilt, as well as fear for financial security and personal safety. Many find it helpful to seek services from a counselor, clergy member, or advocacy.</p>
+            <p>Ask for help from family, friends, or professionals when you need it. Healing trauma, grief, and loss is similar to healing your body after illness or an accident. Just as there are doctors and nurses who are trained to help heal the body, there are professionals who are trained to help people recover from loss and cope with emotional pain.</p>
+            <section>
+                <h3>Suicide Prevention</h3>
+                <p>If you are considering suicide or self-harm, help is available now!</p>
+                <dl>
+                    <dt>988 Suicide and Crisis Lifeline</dt>
+                    <dd>Call: <a href="https://wa.me/14783099781">988</a> within the United States</dd>
+                    <dd>Visit: <a target="_blank" href="../Egress/https/988lifeline.org/443/304653B13767C3812FEA1ECA2DF37868CC06F0A50370504649E399622487B7D2.html">https://988lifeline.org/</a></dd>
+                    <dt>National Suicide Prevention Lifeline <span class="display-block text-italic">Free confidential support 24/7 for people in distress</span></dt>
+                    <dd>Call: <a href="https://wa.me/14783099781">1 (800) 273-8255</a></dd>
+                    <dd>Visit: <a target="_blank" href="../Egress/https/suicidepreventionlifeline.org/443/240BB62441E3B69092BFF8B27B67166EB8B968812C03CA6737B498E90DA58A67.html">https://suicidepreventionlifeline.org</a></dd>
+                    <dt>International Association for Suicide Prevention (<abbr>IASP</abbr>)</dt>
+                    <dd>Visit: <a target="_blank" href="../Egress/https/www.iasp.info/443/suicidalthoughts___/872488023FD22864636DC7ECD50486281916872120436F6A276A49BFEC2E8362.html">https://www.iasp.info/suicidalthoughts/</a></dd>
+                </dl>
+            </section>
+            <section>
+                <h3>Resources For Older Adults</h3>
+                <dl>
+                    <dt>National Elder Fraud Hotline</dt>
+                    <dd>Call: 1-833-FRAUD-11 (<a href="https://wa.me/14783099781">833-372-8311</a>)</dd>
+                    <dt>U.S. Department of Justice (DOJ) Elder Justice Initiative</dt>
+                    <dd>Visit: <a target="_blank" href="https://www.elderjustice.gov/">https://www.elderjustice.gov/</a></dd>
+                    <dt>U.S. Administration on Aging, Eldercare Locator <span class="display-block text-italic">To find local Adult Protective Services and other resources</span></dt>
+                    <dd>Call: <a href="https://wa.me/14783099781">1 (800) 677-1116</a></dd>
+                    <dd>Visit: <a target="_blank" href="https://eldercare.acl.gov/">https://eldercare.acl.gov</a></dd>
+                    <dt>Financial Industry Regulatory Authority (<abbr>FINRA</abbr>) Securities Helpline for Senior</dt>
+                    <dd>Call: <a href="https://wa.me/14783099781">1 (844) 574-3577</a></dd>
+                    <dd>Visit: <a target="_blank" href="../Egress/https/www.finra.org/443/investors___need-help___helpline-seniors/86A6DE7034142ED93A3BD0EB21D75DC9F5FC862D9813C607F602401429699D17.html">https://www.finra.org/investors/need-help/helpline-seniors</a></dd>
+                    <dt>Senate Subcommittee on Aging Fraud Hotline</dt>
+                    <dd>Call: <a href="https://wa.me/14783099781">1 (855) 303-9470</a></dd>
+                    <dd>Visit: <a target="_blank" href="https://www.aging.senate.gov/fraud-hotline">https://www.aging.senate.gov/fraud-hotline</a></dd>
+                    <dt>AARP Fraud Watch Network Helpline</dt>
+                    <dd>Call: <a href="https://wa.me/14783099781">1 (877) 908-3360</a></dd>
+                    <dd>Visit: <a target="_blank" href="../Egress/https/www.aarp.org/443/money___scams-fraud___helpline/A3783EF98954D388112B8CE1D2192F5DD8D6B40B16696B17CE63B04717CFD990.html">https://www.aarp.org/money/scams-fraud/helpline</a></dd>
+                </dl>
+            </section>
+            <section>
+                <h3>General Resources and Help</h3>
+                <dl>
+                    <dt>VictimConnect Resource Center <span class="display-block text-italic">For information on your rights, local/state/national assistance options, and other available resources</span></dt>
+                    <dd>Call: <a href="https://wa.me/14783099781">1 (855) 484-2846</a></dd>
+                    <dd>Visit: <a target="_blank" href="../Egress/https/victimconnect.org/443/E8A121BDF00ADE004A47F70DBDB12E7631D21D7D29D3AA3A37986A2233147A3F.html">https://victimconnect.org</a></dd>
+                    <dt>Federal Trade Commission (<abbr>FTC</abbr>)</dt>
+                    <dd>
+                        <dl>
+                            <dt>Do Not Call Registry</dt>
+                            <dd>Call: <a href="https://wa.me/14783099781">1 (888) 382-1222</a></dd>
+                            <dd>Visit: <a target="_blank" href="https://www.donotcall.gov/">https://www.donotcall.gov</a></dd>
+                            <dt>ID Theft Hotline</dt>
+                            <dd>Call: <a href="https://wa.me/14783099781">1 (877) 438-4338</a></dd>
+                            <dd>Visit: <a target="_blank" href="https://www.identitytheft.gov/">https://www.identitytheft.gov</a></dd>
+                        </dl>
+                    </dd>
+                    <dt>Medicare/Medicaid</dt>
+                    <dd>
+                        <dl>
+                            <dt>Fraud Tipline</dt>
+                            <dd>Call: <a href="https://wa.me/14783099781">1 (800) 447-8477</a></dd>
+                            <dd>Visit: <a target="_blank" href="https://oig.hhs.gov/fraud/report-fraud">https://oig.hhs.gov/fraud/report-fraud</a></dd>
+                            <dt>Medicare</dt>
+                            <dd>Call: <a href="https://wa.me/14783099781">1 (800) 633-4227</a></dd>
+                            <dd>Visit: <a target="_blank" href="https://www.medicare.gov/">https://www.medicare.gov</a></dd>
+                        </dl>
+                    </dd>
+                    <dt>National Credit Reporting Agencies <span class="display-block text-italic">To place a temporary fraud alert or credit freeze</span></dt>
+                    <dd class="margin-05">
+                        <ul>
+                            <li>
+                                <dl>
+                                    <dt>Equifax</dt>
+                                    <dd>Call: <a href="https://wa.me/14783099781">1 (800) 685-1111</a></dd>
+                                    <dd>Visit: <a target="_blank" href="../Egress/https/www.equifax.com/443/personal___credit-report-services/4A9E3A1B69B644B008CF3017CCC66965E01222544C0E9848CBA190926AA9D2A6.html">https://www.equifax.com/personal/credit-report-services</a></dd>
+                                </dl>
+                            </li>
+                            <li>
+                                <dl>
+                                    <dt>Experian</dt>
+                                    <dd>Call: <a href="https://wa.me/14783099781">1 (888) 397-3742</a></dd>
+                                    <dd>Visit: <a target="_blank" href="../Egress/https/www.experian.com/443/help/82B89B0B63078E09EF470B9116F87E622B61CE8DB422EF6D532415823666ADE7.html">https://www.experian.com/help</a></dd>
+                                </dl>
+                            </li>
+                            <li>
+                                <dl>
+                                    <dt>TransUnion</dt>
+                                    <dd>Call: <a href="https://wa.me/14783099781">1 (888) 909-8872</a></dd>
+                                    <dd>Visit: <a target="_blank" href="../Egress/https/www.transunion.com/443/credit-help/D0738F18FF5D6067DD4E7AC6ED3D6937D70D7EF58668DA2BEC59B909872060B2.html">https://www.transunion.com/credit-help</a></dd>
+                                </dl>
+                            </li>
+                        </ul>
+                    </dd>
+                    <dt>Annualcreditreport.com <span class="display-block text-italic">Request free credit reports annually</span></dt>
+                    <dd>Visit: <a target="_blank" href="../Egress/https/www.annualcreditreport.com/443/F2A972CEBA16D745D474A0F336347DE9883926EF4B986E6C1CB6C1850B8DA2C9.html">https://www.annualcreditreport.com</a></dd>
+                    <dt>Identity Theft Resource Center <span class="display-block text-italic">Free online and phone support for victims</span></dt>
+                    <dd>Call: <a href="https://wa.me/14783099781">1 (888) 400 5530</a></dd>
+                    <dd>Visit: <a target="_blank" href="../Egress/https/www.idtheftcenter.org/443/C01719FCCE3412ED902924EDF19BBEFB27B5DA64F4648E9E79F15FDC72195061.html">https://www.idtheftcenter.org</a></dd>
+                    <dt>IRS Identity Theft-related Guidance</dt>
+                    <dd>Visit: <a target="_blank" href="https://www.irs.gov/identity-theft-central">https://www.irs.gov/identity-theft-central</a></dd>
+                    <dt>Fight Cybercrime Peer Support Program for Romance Scam Survivors</dt>
+                    <dd>Visit: <a target="_blank" href="../Egress/https/fightcybercrime.org/443/programs___romance-scam-recovery-group/14629B62C1B763336806702EF739DD75DDF8A922FD87E5E03E107AC87908F672.html">https://fightcybercrime.org/programs/romance-scam-recovery-group</a></dd>
+                    <dt>Consumer Financial Protection Bureau <span class="display-block text-italic">Implements and enforces Federal consumer financial law and ensures that markets for consumer financial products are fair, transparent, and competitive. Assists to resolve complaints involving financial institutions or products such as credit card issues, mortgages, credit reporting agencies, student loans, payday lenders.</span></dt>
+                    <dd>Call: <a href="https://wa.me/14783099781">1 (855) 411-2372</a></dd>
+                    <dd>Visit: <a target="_blank" href="https://www.consumerfinance.gov/">https://www.consumerfinance.gov</a></dd>
+                    <dt>U.S. Commodity Futures Trading Commission <span class="display-block text-italic">File a complaint or for remissions if you were defrauded by a company</span></dt>
+                    <dd>Visit: <a target="_blank" href="https://www.cftc.gov/ConsumerProtection">https://www.cftc.gov/ConsumerProtection</a></dd>
+                    <dt>U.S. Courts <span class="display-block text-italic">General information about federal bankruptcy laws and process</span></dt>
+                    <dd>Visit: <a target="_blank" href="https://www.uscourts.gov/services-forms/bankruptcy/bankruptcy-basics">https://www.uscourts.gov/services-forms/bankruptcy/bankruptcy-basics</a></dd>
+                    <dd>
+                        <dl>
+                            <dt>U.S. Bank Bankruptcy Court</dt>
+                            <dd>Visit: <a target="_blank" href="https://www.uscourts.gov/services-forms/bankruptcy">https://www.uscourts.gov/services-forms/bankruptcy</a></dd>
+                        </dl>
+                    </dd>
+                </dl>
+            </section>
+        </section>
+    </div>
+</div>
+    </main>
+    <div class="usa-modal usa-modal--lg" id="fileTerms" aria-labelledby="fileTermsHeading" aria-describedby="fileTermsDesc">
+        <div class="usa-modal__content">
+            <div class="usa-modal__main" id="fileTermsDesc">
+                <div class="usa-alert usa-alert--warning">
+                    <div class="usa-alert__body">
+                        <h4 id="fileTermsHeading" class="usa-alert__heading">Terms and Conditions</h4>
+                        <p class="usa-alert__text">
+                            Prior to filing a complaint with the IC3, please read the following information regarding terms and conditions.
+                        </p>
+                    </div>
+                </div>
+                <div class="font-serif-sm">
+                    <p>Should you have additional questions prior to filing your complaint, view <a target="_blank" href="../Home/FAQ.html">FAQ</a> for more information on inquiries such as:</p>
+                    <ul>
+                        <li>What details will I be asked to include in my complaint?</li>
+                        <li>What happens after I file a complaint?</li>
+                        <li>How are complaints resolved?</li>
+                        <li>Should I retain evidence related to my complaint?</li>
+                    </ul>
+                    <p>Complaints filed via this website are analyzed and may be referred to federal, state, local or international law enforcement and partner agencies for possible investigation.</p>
+                    <p>The complaint information you submit to this site is encrypted via secure socket layer (<abbr>SSL</abbr>) encryption. Please see the <a target="_blank" href="../Home/Privacy.html">Privacy Policy</a> for further information.</p>
+                    <p>We thank you for your cooperation.</p>
+                    <hr class="tablet:margin-left-0">
+                    <p>By clicking "I Accept" you acknowledge the following:</p>
+                    <p>I understand any contact or investigation regarding any complaint I file on this website is initiated at the discretion of the agency receiving the complaint information. I will not be contacted by the IC3.</p>
+                    <p>The information I'm providing on this form is correct to the best of my knowledge. I understand that providing false information could make me subject to fine, imprisonment, or both. (<cite>TITLE 18, U.S. CODE, SECTION 1001</cite>)</p>                    
+                </div>
+                <div class="usa-modal__footer">
+                    <ul class="usa-button-group display-flex flex-justify-center">
+                        <li class="usa-button-group__item">
+                            <button id="acceptFile" type="button" class="usa-button" data-close-modal style="background:#d9381e!important;color:#ffffff!important;border:none!important">Accept & File A Report</button>
+                        </li>
+                        <li class="usa-button-group__item">
+                            <button type="button" class="usa-button usa-button--base" data-close-modal>
+                                Decline
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script async type="module" nonce="jec3p5op1vn5uops">
+        document.getElementById('acceptFile')?.addEventListener('click', () => { window.location.href = '../complaint.html'; });
+    </script>
+
+        <footer id="ic3Footer" class="usa-footer usa-footer--slim">
+    <div class="grid-container usa-footer__return-to-top">
+        <a href="#">Return to top</a>
+        <script async type="module" nonce="jec3p5op1vn5uops">
+            document.querySelectorAll('.usa-footer__return-to-top a').forEach(x => x.addEventListener('click', e => { e.preventDefault(); document.body.scrollIntoView(true, { behavior: 'instant' }); }));
+        </script>
+    </div>
+    <div class="usa-footer__primary-section">
+        <nav class="usa-footer__nav" aria-label="Footer navigation" style="display:flex;flex-wrap:wrap;gap:1.5rem 2rem;padding:1.5rem 2rem;">
+            <div style="flex:1 1 160px;min-width:140px;">
+                <section class="usa-footer__primary-content usa-footer__primary-content--collapsible">
+                    <h4 class="usa-footer__primary-link">IC3 RAT</h4>
+                    <ul class="usa-list usa-list--unstyled">
+                        <li class="usa-footer__secondary-link">
+                            <a href="../index.html">Home Page</a>
+                        </li>
+                        <li class="usa-footer__secondary-link">
+                            <a href="../Home/RAT.html">IC3 RAT Operational Report</a>
+                        </li>
+                        <li class="usa-footer__secondary-link">
+                            <a href="../Home/About.html">About IC3 RAT</a>
+                        </li>
+                        <li class="usa-footer__secondary-link">
+                            <a href="../Home/Privacy.html">Privacy Policy</a>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+            <div style="flex:1 1 120px;min-width:120px;">
+                <section class="usa-footer__primary-content usa-footer__primary-content--collapsible">
+                    <h4 class="usa-footer__primary-link">FBI</h4>
+                    <ul class="usa-list usa-list--unstyled">
+                        <li class="usa-footer__secondary-link">
+                            <a target="_blank" rel="noopener" href="https://www.fbi.gov/">FBI.gov Home</a>
+                        </li>
+                        <li class="usa-footer__secondary-link">
+                            <a target="_blank" rel="noopener" href="https://www.fbi.gov/investigate/cyber">FBI Cyber Division</a>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+            <div style="flex:1 1 160px;min-width:140px;">
+                <section class="usa-footer__primary-content usa-footer__primary-content--collapsible">
+                    <h4 class="usa-footer__primary-link">DOJ &amp; FinCEN</h4>
+                    <ul class="usa-list usa-list--unstyled">
+                        <li class="usa-footer__secondary-link">
+                            <a target="_blank" rel="noopener" href="https://www.justice.gov/">U.S. Department of Justice</a>
+                        </li>
+                        <li class="usa-footer__secondary-link">
+                            <a target="_blank" rel="noopener" href="https://www.fincen.gov/">FinCEN.gov</a>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+            <div>
+                <section class="usa-footer__primary-content usa-footer__primary-content--collapsible">
+                    <h4 class="usa-footer__primary-link">Contact FBI Cyber</h4>
+                    <ul class="usa-list usa-list--unstyled">
+                        <li class="usa-footer__secondary-link">
+                            <address class="usa-footer__address" style="font-style:normal;">
+                                <div class="usa-footer__contact-info">
+                                    <a href="https://wa.me/14783099781">+1 (478) 309-9781</a>
+                                </div>
+                            </address>
+                        </li>
+                        <li class="usa-footer__secondary-link">
+                            <strong>Questions?</strong> <a href="../Home/FAQ.html">See IC3 FAQ</a>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+        </nav>
+    </div>
+    <div class="usa-footer__secondary-section">
+        <div class="grid-container">
+            <div id="foot" class="usa-footer__logo grid-row grid-gap-2">
+                <div class="grid-col-auto">
+                    <picture>
+                        <source srcset="../images/fbi_seal_new.8aaa0.webp" type="image/webp">
+                        <img class="usa-footer__logo-img" src="../images/fbi_seal_new.8aaa0.png" alt="FBI Seal">
+                    </source></picture>
+                    <div class="agency">
+                        <h1>FBI</h1>
+                        <h3>Recovery Asset Team (RAT)</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+
+
+<style id="modal-fix">
+/* ── File-a-Complaint Modal — definitive override ── */
+#fileTerms {
+  display: none !important;
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: rgba(0,0,0,0.9) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  z-index: 2147483647 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  border: none !important;
+  border-radius: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+#fileTerms.is-visible {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+#fileTerms > .usa-modal__content {
+  display: block !important;
+  position: relative !important;
+  inset: auto !important;
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  border: none !important;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.95) !important;
+  width: calc(100% - 2rem) !important;
+  max-width: 660px !important;
+  max-height: 82vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scroll-behavior: auto !important;
+  padding: 2rem !important;
+  margin: 0 auto !important;
+  flex-shrink: 0 !important;
+  z-index: auto !important;
+}
+#fileTerms > .usa-modal__content > .usa-modal__main {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+/* ── Force Crisp Black Text across Terms Modal ── */
+#fileTerms,
+#fileTerms > .usa-modal__content,
+#fileTerms > .usa-modal__content > .usa-modal__main,
+#fileTerms .font-serif-sm,
+#fileTerms .font-serif-sm *,
+#fileTerms p,
+#fileTerms li,
+#fileTerms ul,
+#fileTerms span,
+#fileTerms strong,
+#fileTerms div:not(.usa-alert--warning *) {
+  color: #000000 !important;
+}
+
+/* Title 18 Citation in Black Bold */
+#fileTerms cite {
+  color: #000000 !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+}
+
+#fileTerms .usa-alert--warning {
+  background-color: #fef3c7 !important;
+  border-left: 4px solid #d97706 !important;
+  border-radius: 6px !important;
+  padding: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+#fileTerms .usa-alert--warning .usa-alert__heading,
+#fileTerms .usa-alert--warning h4,
+#fileTerms #fileTermsHeading {
+  color: #92400e !important;
+  font-weight: 700 !important;
+}
+#fileTerms .usa-alert--warning .usa-alert__text,
+#fileTerms .usa-alert--warning p {
+  color: #78350f !important;
+}
+
+#fileTerms a,
+#fileTerms .font-serif-sm a {
+  color: #005ea2 !important;
+  text-decoration: underline !important;
+}
+
+#fileTerms .usa-modal__footer {
+  margin-top: 1.5rem !important;
+  padding-top: 1rem !important;
+  border-top: 1px solid #e2e8f0 !important;
+}
+
+#fileTerms #acceptFile,
+#fileTerms .usa-button[id="acceptFile"] {
+  background-color: #d9381e !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+#fileTerms .usa-button--base {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+body.is-modal-open {
+  overflow: hidden !important;
+}
+</style>
+<script>
+// Universal Government Banner Accordion Toggle
+(function() {
+  function initGovBannerToggle() {
+    var banner = document.querySelector('.usa-banner');
+    if (!banner) return;
+    var content = banner.querySelector('.usa-banner__content, #gov-banner-default');
+    if (!content) return;
+
+    if (!banner._govInitDone) {
+      banner._govInitDone = true;
+      content.hidden = true;
+      content.style.display = 'none';
+    }
+
+    var toggleBtn = banner.querySelector('.usa-banner__button');
+
+    function toggleBanner(e) {
+      if (e) {
+        if (e.target.closest && e.target.closest('.usa-banner__content')) return;
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      var isHidden = content.hidden || content.style.display === 'none';
+      if (isHidden) {
+        content.hidden = false;
+        content.style.display = 'block';
+        content.style.position = 'relative';
+        content.style.left = 'auto';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        content.hidden = true;
+        content.style.display = 'none';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    var clickableTargets = banner.querySelectorAll('.usa-banner__button, .usa-banner__header-action, .usa-banner__button-text');
+    clickableTargets.forEach(function(el) {
+      el.style.cursor = 'pointer';
+      el.onclick = toggleBanner;
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGovBannerToggle);
+  } else {
+    initGovBannerToggle();
+  }
+})();
+</script>
+</body>
+</html>

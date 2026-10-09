@@ -1,0 +1,1573 @@
+:root {
+    --ic3-blue: #0b1d3a;
+    --ic3-accent-gold: #d4af37;
+    --ic3-red-alert: #d9381e;
+    --ic3-banner-bg: var(--ic3-blue);
+    --ic3-banner-fg: #fff;
+}
+
+/* IC3 RAT Custom High-Impact Styling */
+.rat-hero {
+    background: transparent !important;
+    color: #ffffff !important;
+    padding: 1.5rem 0 1rem 0;
+    margin-bottom: 0;
+    box-shadow: none;
+    border-left: none !important;
+}
+
+.rat-badge {
+    display: inline-block;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 0.35rem 0.85rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.rat-hero h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+    line-height: 1.25;
+    color: #ffffff !important;
+}
+
+.rat-hero p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #ffffff !important;
+    max-width: 900px;
+}
+
+.rat-kpi-band {
+    background: #000000 !important;
+    border-radius: 0 0 8px 8px;
+    border-left: none !important;
+    padding: 1.5rem 2rem 2.5rem 2rem;
+    margin-bottom: 2rem;
+    border-bottom: none !important;
+}
+
+.rat-kpi-band-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #a1a1aa !important;
+    margin-bottom: 1rem;
+}
+
+.rat-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 0;
+}
+
+.rat-kpi-card {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    transition: background 0.2s ease, transform 0.2s ease;
+    border-top: none !important;
+}
+
+.rat-kpi-card:hover {
+    background: #f1f5f9 !important;
+    transform: translateY(-2px);
+}
+
+.kpi-number {
+    font-size: 1.85rem !important;
+    font-weight: 800 !important;
+    color: #000000 !important;
+    line-height: 1;
+    margin-bottom: 0.35rem;
+    margin-top: 0;
+}
+
+.kpi-label {
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    color: #000000 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 0.4rem;
+}
+
+.kpi-desc {
+    font-size: 0.82rem !important;
+    color: #000000 !important;
+    line-height: 1.45 !important;
+    margin: 0 !important;
+}
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+    margin-top: 0;
+}
+
+.kpi-desc {
+    font-size: 0.85rem;
+    color: #000000 !important;
+    line-height: 1.45;
+    margin: 0;
+    padding: 0;
+}
+
+.ffkc-timeline {
+    position: relative;
+    padding: 1rem 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    img {
+        filter: brightness(.8) contrast(1.2);
+    }
+
+    body, .usa-radio {
+        background-color: #000;
+    }
+
+    .usa-modal {
+        background-color: #333;
+        color: #ccc;
+    }
+
+    body {
+        color-scheme: dark;
+    }
+
+    body, .usa-logo a, .usa-radio__label, .usa-input, .usa-textarea, .usa-select, .usa-combo-box__input, .usa-combo-box__list-option {
+        color: #ccc;
+    }
+
+    .usa-footer__return-to-top a:visited {
+        color: #74b335;
+    }
+
+    #ic3Footer .usa-footer__primary-section {
+        background-color: #bdbdbd;
+    }
+
+    .usa-combo-box button, img[src$="/rss_feed.svg"] {
+        filter: var(--ic3-black-to-white-filter);
+    }
+
+    .usa-process-list__heading, .usa-sidenav .usa-sidenav__item a:not(.usa-button):not(.usa-current) {
+        color: #dfe1e2;
+    }
+
+    .usa-input, .usa-textarea, .usa-select, .usa-combo-box__input, .usa-combo-box__list-option,
+    :is(.usa-input, .usa-textarea, .usa-select, .usa-combo-box__input, .usa-combo-box__list-option):disabled,
+    :is(.usa-input, .usa-textarea, .usa-select, .usa-combo-box__input, .usa-combo-box__list-option):disabled:hover {
+        background-color: #333;
+    }
+
+    .usa-select:enabled {
+        background-image: url("../images/unfold_more-dark.8aaa0.svg"),linear-gradient(transparent,transparent);
+    }
+
+    .usa-sidenav .usa-sidenav__item a:not(.usa-button):hover {
+        background-color: #3c3c3c;
+    }
+
+    .usa-in-page-nav__nav {
+        background-color: #bdbdbd;
+    }
+
+    .usa-link {
+        color: #7F92FF;
+    }
+        .usa-link:visited {
+            color: #4C5799;
+        }
+
+    .usa-pagination {
+        background-color: unset;
+    }
+
+    .usa-pagination__button {
+        border-color: rgba(204,204,204,0.2);
+        color: #296ccc;
+    }
+
+    .hp-icon {
+        fill: #74b335;
+    }
+
+    .search-hit {
+        color: #000;
+    }
+
+    #ic3Footer .usa-footer__secondary-link {
+        color: #000;
+    }
+}
+
+.usa-header + main {
+    border-top: none;
+}
+
+#ic3Header,
+#ic3Header nav,
+#ic3Header .usa-nav__link,
+#ic3Header .usa-nav__submenu,
+#ic3Header .usa-nav__submenu::after,
+#ic3Header .usa-nav__submenu::before {
+    background-color: var(--ic3-banner-bg);
+}
+    #ic3Header .usa-nav__primary-item {
+        margin-left: 0.2rem;
+        margin-right: 0.2rem;
+    }
+
+    #ic3Header .usa-nav__primary-item button:hover span::after, #ic3Header .usa-accordion__button span::after {
+        background-color: var(--ic3-banner-fg);
+    }
+
+    #ic3Header .usa-logo__text a, #ic3Header .usa-nav__primary :is(button, a), #ic3Header .usa-nav__primary button span::after {
+        color: var(--ic3-banner-fg);
+    }
+  
+    #ic3Header .usa-logo {
+        display: flex;
+    }
+
+    #ic3Header .usa-header__logo_img {
+        max-width: 5rem;
+    }
+
+    #ic3Header .usa-logo__text {
+        display: inline-flex;
+        align-items: center;
+        padding-left: 0.2rem;
+    }
+
+    #ic3Header .usa-header img {
+        object-fit: scale-down;
+    }
+
+#ic3Footer nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+}
+
+#ic3Footer h4.usa-footer__primary-link {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#ic3Footer .usa-footer__contact-info {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+@media (max-width: 63.99em) {
+    #foot {
+        justify-content: center;
+    }
+    .usa-nav__primary a:not(.usa-button):hover {
+        background-color: unset;
+    }
+}
+
+@media (min-width:64em) {
+    .usa-header .usa-navbar {
+        width: 50%;
+    }
+}
+    
+#ic3Footer .usa-footer__secondary-section {
+    color: #ccc;
+    background-color: var(--ic3-banner-bg);
+}
+
+#ic3Footer .usa-footer__logo-img {
+    max-width: 3.5rem !important;
+    max-height: 3.5rem !important;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    margin-right: 0.75rem;
+}
+
+.usa-footer__logo .grid-col-auto:first-of-type {
+    display: flex;
+    align-items: center;
+}
+
+.usa-footer__logo .agency {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+}
+
+    .usa-footer__logo .agency h1, .usa-footer__logo .agency h3 {
+        color: #bbb;
+        text-transform: uppercase;
+    }
+    
+    .usa-footer__logo .agency h1 {
+        font-size: 2rem !important;
+        font-weight: 700;
+        font-family: "Arial Black",sans-serif,Arial,Helvetica;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        margin: 0;
+        color: #fff;
+    }
+
+    .usa-footer__logo .agency h3 {
+        font-size: 0.95rem !important;
+        max-width: 12em;
+        letter-spacing: 0.5px;
+        font-weight: 400;
+        line-height: 1.2;
+        margin: 0 0 0 0.5rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    }
+    
+    .usa-footer__logo-heading {
+        text-align: right;
+        font-weight: normal;
+    }
+
+.social-icons ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0.5em 0 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.social-icons li:not(:last-of-type) {
+    margin: 0 12px 0 0;
+}
+
+.social-icons svg {
+    color: #337ab7;
+    width: 30px;
+    height: 30px;
+    fill: #bbb;
+}
+.social-icons a :is(path, circle) {
+    transition: fill .3s ease-in;
+}
+
+.social-icons a:hover .facebook-icon {
+    fill: #4464a7;
+}
+
+.social-icons a:hover .twitter-icon {
+    fill: #6cadde;
+}
+
+.social-icons a:hover .youtube-icon {
+    fill: #d32f2f;
+}
+
+.social-icons a:hover .flickr-icon {
+    fill: #ff0084;
+}
+
+.social-icons a:hover .linkedin-icon {
+    fill: #0077b5;
+}
+
+.social-icons a:hover .instagram-icon {
+    fill: #be0089;
+}
+
+fieldset.usa-fieldset {
+    margin-top: 1rem;
+}
+
+.usa-logo__text a {
+    display: flex;
+    align-items: center;
+}
+
+    .usa-logo__text a img {
+        object-fit: scale-down;
+        max-height: 3rem;
+        margin-right: 1rem;
+    }
+
+.d-none {
+    display: none;
+}
+
+/* specific modifications */
+.body-section + .body-section::before {
+    content: '';
+    display: block;
+    max-width: 80%;
+    border-top: thin currentcolor solid;
+    margin: 0 auto;
+}
+
+#fileComplaint {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #b50909;
+}
+
+    #fileComplaint:hover {
+        background-color: #d83933;
+    }
+
+.announcements .announcement {
+    display: block;
+}
+
+#works ul li div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.hp-icon {
+    fill: #002377;
+    object-fit: contain;
+    height: 48px;
+}
+
+.hp-icon + h3 {
+    margin: 0.5rem 0 0;
+}
+
+.ic3-alert-list .usa-collection__item:first-of-type {
+    border-top: unset;
+    padding-top: 0;
+}
+
+#brochureCatalog {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+#brochures .brochure {
+    background-color: #f6f6f6;
+    width: 300px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .usa-alert__body a:visited {
+        color: #660;
+    }
+
+    #brochures .brochure {
+        background-color: #d3d3d3;
+    }
+}
+
+#brochures .alt-lang {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+
+#brochures .alt-lang :is(a, a:visited) {
+    color: #225892;
+    text-decoration: none;
+}
+
+    #brochures .alt-lang > div {
+        flex-grow:1;
+        flex-basis:33%
+    }
+
+#resources .usa-list--unstyled ul {
+    list-style-type: disc;
+}
+
+#resources dd + dt {
+    margin-top: 1em;
+}
+
+.flex-justify-space-around {
+    justify-content: space-around;
+}
+
+#alert-years {
+    width: 10rem;
+}
+
+@media (min-width:640px) {
+    #recentAlerts {
+        display: grid;
+        column-gap: 1em;
+        grid-template-columns: 1fr 1fr;
+    }
+        #recentAlerts .usa-collection__item {
+            height: 8rem;
+        }
+}
+
+    #recentAlerts header {
+        display: flex;
+        justify-content: space-between;
+    }
+        #recentAlerts header img {
+            display: block;
+        }
+        #recentAlerts header h3 {
+            margin: 0;
+        }
+
+.search-highlight {
+    list-style-type: none;
+    padding-left: unset;
+}
+    .search-highlight li {
+        margin: 0.25rem 0;
+        max-width: 68ex;
+    }
+    .search-highlight li::before, .search-highlight li::after {
+        content: '\002026';
+    }
+
+#searchResults .usa-pagination__list li:hover {
+    cursor: pointer;
+}
+
+#searchButton {
+    height: 2rem;
+    width: 3rem;
+    border-radius: 0 0.25rem 0.25rem 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-hit {
+    background-color: #ff0;
+}
+
+@media (min-width: 1024px) {
+    .usa-nav .usa-nav__submenu.usa-megamenu .usa-nav__submenu-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+#fileTermsDesc hr {
+    width: 60%;
+    border-top: 1px solid currentcolor;
+}
+
+.ic3-faq dt {
+    font-weight: bold;
+    margin-top: 1rem;
+}
+    .ic3-faq dt:first-of-type {
+        margin-top: unset;
+    }
+    .ic3-faq dt::before {
+        content: "Q: ";
+        font-weight: bold;
+    }
+.ic3-faq dd [role="heading"] {
+    margin-bottom: 0.5rem;
+    text-decoration: underline;
+}
+    .ic3-faq dd [role="heading"] + ul {
+        margin-top: 0;
+    }
+.ic3-faq .usa-footer__return-to-top {
+    padding-top: unset;
+}
+
+/* ==========================================================================
+   Responsive Interactive Navigation Drawer, Modals, and Touch Target Styles
+   ========================================================================== */
+
+/* US Government Banner default closed state */
+.usa-banner__content, #gov-banner-default {
+    display: none;
+}
+
+/* Submenu visibility toggle */
+.usa-nav__submenu {
+    display: none;
+}
+.usa-nav__submenu.is-visible {
+    display: block !important;
+}
+
+/* Modal Controller - Fullscreen Overlay with Black Backdrop & Centered Box */
+body > .usa-modal,
+.usa-modal,
+#fileTerms {
+    display: none !important;
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    z-index: 99999999 !important;
+    background: rgba(0, 0, 0, 0.92) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    overflow-y: auto !important;
+}
+
+body > .usa-modal.is-visible,
+.usa-modal.is-visible,
+#fileTerms.is-visible {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.usa-modal__content {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 12px !important;
+    max-width: 680px !important;
+    width: calc(100% - 2rem) !important;
+    max-height: 80vh !important;
+    overflow-y: auto !important;
+    scroll-behavior: auto !important;
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.95) !important;
+    padding: 2rem !important;
+    margin: auto !important;
+    position: relative !important;
+    z-index: 100000000 !important;
+    flex-shrink: 0 !important;
+    animation: modalPop 0.2s ease-out forwards;
+}
+
+.usa-modal__content h4,
+.usa-modal__content p,
+.usa-modal__content li,
+.usa-modal__content cite {
+    color: #0f172a !important;
+}
+
+.usa-modal__content a {
+    color: #005ea2 !important;
+    text-decoration: underline !important;
+}
+
+.usa-modal__content .usa-alert--warning {
+    background-color: #fef3c7 !important;
+    color: #92400e !important;
+    border-left: 6px solid #d97706 !important;
+    padding: 1rem 1.25rem !important;
+    border-radius: 8px !important;
+    margin-bottom: 1.25rem !important;
+}
+
+.usa-modal__content .usa-alert--warning h4,
+.usa-modal__content .usa-alert--warning p {
+    color: #92400e !important;
+}
+
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: scale(0.94) translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .usa-modal__content {
+        background-color: #1e293b !important;
+        color: #f8fafc !important;
+        border-color: #334155 !important;
+    }
+    .usa-modal__content h4,
+    .usa-modal__content p,
+    .usa-modal__content li,
+    .usa-modal__content cite {
+        color: #f8fafc !important;
+    }
+    .usa-modal__content a {
+        color: #60a5fa !important;
+    }
+}
+
+body.is-modal-open {
+    overflow: hidden !important;
+}
+
+/* Mobile Navigation Side Drawer (<1024px) */
+@media (max-width: 1023px) {
+    .usa-nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 300px;
+        max-width: 85vw;
+        height: 100vh;
+        z-index: 9999;
+        background-color: var(--ic3-blue);
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+        transition: right 0.3s ease-in-out;
+        overflow-y: auto;
+        padding: 2rem 1.5rem;
+        display: block !important;
+    }
+    .usa-nav.is-visible {
+        right: 0 !important;
+    }
+    .usa-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 9998;
+    }
+    .usa-overlay.is-visible {
+        display: block !important;
+    }
+    body.is-nav-open {
+        overflow: hidden;
+    }
+    .usa-menu-btn {
+        min-height: 44px;
+        min-width: 44px;
+        font-weight: 700;
+        background-color: #000;
+        color: #fff;
+        border: 1px solid #475569;
+        border-radius: 4px;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+    }
+    .usa-nav__close {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        float: right;
+        margin-bottom: 1rem;
+    }
+}
+
+/* Touch Targets & Button Accessibility */
+.usa-button, .usa-nav-link, .usa-accordion__button, a.usa-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* ==========================================================================
+   Comprehensive Page-by-Page Mobile Responsiveness (320px - 768px)
+   ========================================================================== */
+
+/* Responsive Media & Tables */
+img, video, iframe, embed, object {
+    max-width: 100% !important;
+    height: auto;
+}
+
+table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Base Container Side Padding (Left & Right) */
+.grid-container,
+main#main-content,
+.usa-nav-container,
+.usa-banner__inner,
+.usa-footer__primary-section,
+.usa-footer__secondary-section,
+.rat-hero {
+    padding-left: clamp(1rem, 2.5vw, 2rem) !important;
+    padding-right: clamp(1rem, 2.5vw, 2rem) !important;
+    box-sizing: border-box !important;
+}
+
+@media (max-width: 767px) {
+    /* Mobile Headings & Typography */
+    h1, .rat-hero h1 {
+        font-size: 1.65rem !important;
+        line-height: 1.3 !important;
+    }
+    h2 {
+        font-size: 1.3rem !important;
+    }
+    h3 {
+        font-size: 1.1rem !important;
+    }
+    body {
+        font-size: 0.95rem;
+    }
+
+    /* Hero Buttons on Mobile */
+    .rat-hero div.margin-top-3 {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        width: 100%;
+    }
+    .rat-hero button, .rat-hero a {
+        width: 100% !important;
+        margin-left: 0 !important;
+        text-align: center;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+    /* Forms & Step Wizards (complaint.html step 1..7) */
+    .usa-form, .usa-form-large {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+    .usa-input, .usa-textarea, .usa-select, .usa-combo-box__input {
+        width: 100% !important;
+        font-size: 1rem !important; /* Prevents mobile Safari auto-zoom */
+        box-sizing: border-box;
+    }
+    .usa-button-group {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 0.5rem;
+    }
+    .usa-button-group__item {
+        width: 100% !important;
+    }
+    .usa-button-group__item .usa-button {
+        width: 100% !important;
+        justify-content: center;
+    }
+
+    /* Cards & Alert Layouts */
+    #recentAlerts {
+        grid-template-columns: 1fr !important;
+        gap: 1rem;
+    }
+    .usa-card {
+        width: 100% !important;
+        margin-bottom: 1rem;
+    }
+    .usa-collection__item {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+    .usa-collection__calendar-date {
+        margin-bottom: 0.5rem;
+    }
+
+    /* Brochures & Catalog Grids (Outreach/Brochures.html) */
+    #brochureCatalog, #brochures {
+        flex-direction: column !important;
+        align-items: center !alignment;
+        width: 100% !important;
+    }
+    #brochures .brochure {
+        width: 100% !important;
+        max-width: 340px !important;
+        margin: 0 auto 1rem auto !important;
+    }
+
+    /* Footer Mobile Alignment */
+    #ic3Footer nav {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 1.5rem !important;
+    }
+    #ic3Footer .usa-footer__primary-content {
+        text-align: center;
+    }
+    .usa-footer__logo .agency {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        margin: 0.5rem 0 0 0 !important;
+    }
+    .usa-footer__logo .agency h3 {
+        margin: 0.5rem 0 0 0 !important;
+        text-align: center;
+    }
+}
+
+/* ==========================================================================
+   Universal Responsive Navbar & Logo Styles (Applies to all site pages)
+   ========================================================================== */
+
+/* USWDS Main Navbar Sizing & Flexible Logo Wrapper */
+#ic3Header .usa-navbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+}
+
+#ic3Header .usa-logo {
+    display: flex !important;
+    align-items: center !important;
+    max-width: calc(100% - 70px) !important;
+    margin: 0 !important;
+    padding: 0.25rem 0 !important;
+}
+
+#ic3Header .usa-logo a {
+    display: flex !important;
+    align-items: center !important;
+    text-decoration: none !important;
+    flex-shrink: 0 !important;
+}
+
+#ic3Header .usa-logo img,
+#ic3Header .usa-logo picture img,
+#ic3Header .usa-logo .usa-footer__logo-img {
+    height: 44px !important;
+    max-height: 44px !important;
+    width: auto !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
+    margin-right: 0.75rem !important;
+    flex-shrink: 0 !important;
+}
+
+#ic3Header .usa-logo__text {
+    display: flex !important;
+    align-items: center !important;
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#ic3Header .usa-logo__text a {
+    color: var(--ic3-banner-fg, #ffffff) !important;
+    text-decoration: none !important;
+    word-break: break-word !important;
+}
+
+/* Intake Complaint Wizard Header Bar (.ic3-header-bar) */
+.ic3-header-bar {
+    background-color: #0b1d3a !important;
+    border-bottom: 1px solid #162e5c !important;
+    padding: 0.75rem 1.25rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 1rem !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+}
+
+.ic3-header-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    text-decoration: none !important;
+    color: #ffffff !important;
+    max-width: calc(100% - 80px) !important;
+}
+
+.ic3-header-seal {
+    height: 44px !important;
+    max-height: 44px !important;
+    width: auto !important;
+    object-fit: contain !important;
+    flex-shrink: 0 !important;
+}
+
+.ic3-header-title {
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    line-height: 1.25 !important;
+    word-break: break-word !important;
+}
+
+/* Responsive Logo Adjustments for Tablet & Mobile (320px - 768px) */
+@media (max-width: 767px) {
+    #ic3Header .usa-logo img,
+    #ic3Header .usa-logo picture img,
+    #ic3Header .usa-logo .usa-footer__logo-img {
+        height: 38px !important;
+        max-height: 38px !important;
+        margin-right: 0.5rem !important;
+    }
+
+    #ic3Header .usa-logo__text {
+        font-size: 0.95rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .ic3-header-bar {
+        padding: 0.6rem 0.85rem !important;
+    }
+
+    .ic3-header-seal {
+        height: 38px !important;
+        max-height: 38px !important;
+    }
+
+    .ic3-header-title {
+        font-size: 0.95rem !important;
+        line-height: 1.2 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #ic3Header .usa-logo img,
+    #ic3Header .usa-logo picture img,
+    #ic3Header .usa-logo .usa-footer__logo-img,
+    .ic3-header-seal {
+        height: 32px !important;
+        max-height: 32px !important;
+        margin-right: 0.35rem !important;
+    }
+
+    #ic3Header .usa-logo__text,
+    .ic3-header-title {
+        font-size: 0.82rem !important;
+        line-height: 1.15 !important;
+    }
+}
+
+/* Global IC3 RAT Logo Styling */
+#ic3Header .usa-logo img,
+#ic3Header .usa-logo picture img,
+#ic3Header .usa-logo .usa-footer__logo-img,
+.usa-footer__logo-img,
+.ic3-header-seal {
+    height: 52px !important;
+    max-height: 52px !important;
+    width: auto !important;
+    object-fit: contain !important;
+}
+
+/* FFKC & Operational Report Black Text Overrides */
+.ffkc-diagram,
+.ffkc-diagram *,
+.ffkc-flow,
+.ffkc-node,
+.ffkc-node--final,
+.ffkc-arrow,
+.kpi-card,
+.kpi-card *,
+.kpi-number {
+    color: #000000 !important;
+}
+
+
+
+
+/* =========================================================
+   PERMANENT INDESTRUCTIBLE DARK MODE (MOBILE & DESKTOP)
+   Forces dark background even when phone/browser is in Light Mode
+   ========================================================= */
+:root {
+    color-scheme: dark !important;
+    --ic3-bg-dark: #030712 !important;
+    --ic3-card-dark: #0f172a !important;
+    --ic3-border-dark: #1e293b !important;
+    --ic3-text-dark: #f8fafc !important;
+    --ic3-text-muted: #94a3b8 !important;
+}
+
+html, body {
+    background-color: #030712 !important;
+    background: #030712 !important;
+    color: #f8fafc !important;
+    color-scheme: dark !important;
+}
+
+/* Force all USWDS sections and structural elements to stay dark */
+.usa-section,
+.usa-layout-docs,
+.usa-layout-docs__main,
+.usa-prose,
+.usa-accordion__content,
+.grid-container,
+.grid-row,
+main,
+header,
+footer,
+nav,
+section,
+article,
+aside,
+body {
+    background-color: #030712 !important;
+    color: #f8fafc !important;
+}
+
+.usa-footer {
+    background-color: #050b14 !important;
+    color: #f8fafc !important;
+    border-top: 1px solid #1e293b !important;
+}
+
+.usa-card,
+.usa-card__container,
+.usa-summary-box,
+.card {
+    background-color: #0f172a !important;
+    color: #f8fafc !important;
+    border: 1px solid #1e293b !important;
+}
+
+/* Dark mode forms & tables */
+input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    border: 1px solid #334155 !important;
+}
+
+table, .usa-table {
+    background-color: #0f172a !important;
+    color: #f8fafc !important;
+    border-color: #1e293b !important;
+}
+
+table th, .usa-table th {
+    background-color: #1e293b !important;
+    color: #ffffff !important;
+}
+
+table td, .usa-table td {
+    background-color: #0f172a !important;
+    color: #cbd5e1 !important;
+    border-color: #1e293b !important;
+}
+
+/* Text elements inherit dark text */
+p, h1, h2, h3, h4, h5, h6, li, dt, dd, span:not(.kpi-number), label, blockquote {
+    color: #f8fafc !important;
+}
+
+.text-muted, .text-gray, .text-secondary {
+    color: #94a3b8 !important;
+}
+
+a.usa-link, a {
+    color: #60a5fa !important;
+}
+
+a.usa-link:hover, a:hover {
+    color: #93c5fd !important;
+}
+
+/* KPI cards preserve crisp high-contrast readability */
+.rat-kpi-card, .rat-kpi-card * {
+    color: #000000 !important;
+}
+.rat-kpi-card {
+    background: #ffffff !important;
+}
+
+/* =========================================================
+   RECOVERY TOAST NOTIFICATION SYSTEM (SILVER PADLOCK)
+   ========================================================= */
+#recovery-toast-container {
+    position: fixed !important;
+    bottom: 1.25rem !important;
+    left: 1.25rem !important;
+    z-index: 999999999 !important;
+    display: flex !important;
+    flex-direction: column-reverse !important;
+    gap: 0.65rem !important;
+    max-width: 350px !important;
+    pointer-events: none !important;
+}
+
+.rc-toast {
+    background: #0b1526 !important;
+    border: 1px solid #1e293b !important;
+    border-left: 4px solid #94a3b8 !important; /* Silver highlight */
+    border-radius: 10px !important;
+    padding: 0.85rem 1rem !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75) !important;
+    pointer-events: all !important;
+    animation: rcSlideIn 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+    opacity: 0; /* No !important — animation fill overrides this to opacity:1 */
+}
+
+.rc-toast.rc-hide {
+    animation: rcSlideOut 0.32s ease forwards !important;
+}
+
+@keyframes rcSlideIn {
+    from { opacity: 0; transform: translateX(-30px) scale(0.95); }
+    to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes rcSlideOut {
+    from { opacity: 1; transform: translateX(0) scale(1); }
+    to   { opacity: 0; transform: translateX(-30px) scale(0.9); }
+}
+
+.rc-toast-icon {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    padding: 2px !important;
+    box-sizing: border-box !important;
+}
+
+.rc-toast-fbi-seal {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    border-radius: 50% !important;
+    display: block !important;
+}
+
+.rc-toast-body {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+.rc-toast-label {
+    font-size: 0.68rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    color: #cbd5e1 !important; /* Silver */
+    margin-bottom: 0.2rem !important;
+}
+
+.rc-toast-title {
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    margin-bottom: 0.15rem !important;
+    line-height: 1.3 !important;
+}
+
+.rc-toast-sub {
+    font-size: 0.76rem !important;
+    color: #94a3b8 !important;
+}
+
+.rc-toast-amount {
+    color: #38bdf8 !important;
+    font-weight: 800 !important;
+}
+
+.rc-toast-close {
+    background: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    color: #64748b !important;
+    font-size: 1.25rem !important;
+    line-height: 1 !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+    pointer-events: all !important;
+    transition: color 0.15s !important;
+}
+
+.rc-toast-close:hover {
+    color: #ffffff !important;
+}
+
+/* =========================================================
+   TERMS AND CONDITIONS MODAL — DEFINITIVE BLACK TEXT RULES
+   Ensures TITLE 18, U.S. CODE, SECTION 1001 & all modal text are black
+   ========================================================= */
+#fileTerms,
+#fileTerms > .usa-modal__content,
+#fileTerms > .usa-modal__content > .usa-modal__main,
+#fileTerms .font-serif-sm,
+#fileTerms .font-serif-sm *,
+#fileTerms cite,
+#fileTerms p,
+#fileTerms li,
+#fileTerms ul,
+#fileTerms span,
+#fileTerms strong,
+#fileTerms div:not(.rc-toast *):not(.usa-alert--warning *) {
+    color: #000000 !important;
+}
+
+#fileTerms .usa-alert--warning {
+    background-color: #fef3c7 !important;
+    border-left: 4px solid #d97706 !important;
+}
+
+#fileTerms .usa-alert--warning .usa-alert__heading,
+#fileTerms .usa-alert--warning h4,
+#fileTerms #fileTermsHeading {
+    color: #92400e !important;
+    font-weight: 700 !important;
+}
+
+#fileTerms .usa-alert--warning .usa-alert__text,
+#fileTerms .usa-alert--warning p {
+    color: #78350f !important;
+}
+
+#fileTerms a,
+#fileTerms .font-serif-sm a {
+    color: #005ea2 !important;
+    text-decoration: underline !important;
+}
+
+#fileTerms cite {
+    color: #000000 !important;
+    font-weight: 700 !important;
+    font-style: normal !important;
+}
+
+#fileTerms {
+    display: none !important;
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: rgba(0,0,0,0.9) !important;
+    z-index: 2147483647 !important;
+    overflow: hidden !important;
+    max-width: none !important;
+    max-height: none !important;
+}
+#fileTerms.is-visible {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+#fileTerms > .usa-modal__content {
+    display: block !important;
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    width: calc(100% - 2rem) !important;
+    max-width: 660px !important;
+    max-height: 82vh !important;
+    overflow-y: auto !important;
+    padding: 2rem !important;
+    margin: 0 auto !important;
+}
+
+#fileTerms #acceptFile,
+#fileTerms .usa-button[id="acceptFile"] {
+    background-color: #d9381e !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+#fileTerms .usa-button--base {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+
+
+
+
+
+/* ── Enhanced IC3 RAT Logo Sizing ── */
+.usa-logo img,
+.usa-logo a img,
+.usa-footer__logo-img[src*="ic3ratlogo"],
+.hdr-logo img,
+.header-brand img,
+img[src*="ic3ratlogo.jpeg"],
+img[src*="ic3ratlogo.png"] {
+  height: 72px !important;
+  max-height: 80px !important;
+  width: auto !important;
+  object-fit: contain !important;
+}
+
+.sb-logo img {
+  height: 58px !important;
+  max-height: 64px !important;
+  width: auto !important;
+  object-fit: contain !important;
+}
+.sb-header {
+  height: 84px !important;
+}
+
+
+/* ── US Government Banner & Dropdown (Strict White BG & Black Text) ── */
+.usa-banner,
+.usa-banner *,
+.usa-banner header,
+.usa-banner .usa-banner__header,
+.usa-banner .usa-banner__inner,
+.usa-banner .usa-banner__content,
+.usa-banner p,
+.usa-banner span,
+.usa-banner strong,
+.usa-banner button,
+.usa-banner .usa-banner__header-text,
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  position: relative !important;
+  z-index: 1000 !important;
+  width: 100% !important;
+}
+
+.usa-banner .usa-banner__header {
+  padding: 0.4rem 1.25rem !important;
+}
+
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+}
+
+.usa-banner .usa-banner__button:hover,
+.usa-banner .usa-banner__header-action:hover {
+  color: #000000 !important;
+  background-color: #f3f4f6 !important;
+}
+
+.usa-banner .usa-banner__content {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  padding: 1rem 1.25rem 1.25rem !important;
+  border-top: 1px solid #e5e7eb !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner .usa-banner__content[hidden] {
+  display: none !important;
+}
+
+.usa-banner .usa-banner__lock-image,
+.usa-banner .usa-banner__lock-image path {
+  fill: #1b1b1b !important;
+  color: #1b1b1b !important;
+}
+
+/* ── Mobile Government Banner Fix ──────────────────────────────────────────
+   On mobile, USWDS hides the button text off-screen (left:-999em) and uses
+   an absolutely-positioned button overlay. Override so the banner header
+   shows its content correctly on small screens.
+   ────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 639px) {
+  /* Give the header a sensible flex layout instead of relying on absolute pos */
+  .usa-banner .usa-banner__header {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    min-height: 2.5rem !important;
+    padding: 0.4rem 1rem !important;
+  }
+
+  /* The inner container: row, items centred */
+  .usa-banner .usa-banner__inner {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
+    gap: 0.4rem !important;
+  }
+
+  /* Flag icon */
+  .usa-banner .usa-banner__header-flag {
+    flex-shrink: 0 !important;
+    width: 1rem !important;
+    margin-right: 0.4rem !important;
+  }
+
+  /* Text column — show it (aria-hidden is for screen-readers only) */
+  .usa-banner .usa-banner__inner > [aria-hidden="true"] {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+
+  .usa-banner .usa-banner__header-text {
+    display: block !important;
+    font-size: 0.75rem !important;
+    color: #1b1b1b !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin: 0 !important;
+  }
+
+  /* "Here's how you know" — hidden by USWDS on mobile; show it */
+  .usa-banner .usa-banner__header-action {
+    display: block !important;
+    font-size: 0.7rem !important;
+    color: #005ea2 !important;
+    margin: 0 !important;
+  }
+
+  /* The accordion button: pull it out of absolute positioning */
+  .usa-banner .usa-banner__button {
+    position: relative !important;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: auto !important;
+    flex-shrink: 0 !important;
+    color: #005ea2 !important;
+    font-size: 0.7rem !important;
+    display: none !important; /* text column already shows the action label */
+  }
+
+  /* Button text: bring it back on-screen */
+  .usa-banner .usa-banner__button-text {
+    position: static !important;
+    left: auto !important;
+    display: inline !important;
+    color: #005ea2 !important;
+  }
+}

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <title>FirstVPN Indicators — Indicators of Compromise | FBI IC3 RAT</title>
+    <link rel="icon" type="image/jpeg" href="../../images/ic3ratlogo.jpeg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon-32.8aaa0.png">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../css/site.d8c3f.css">
+    <style>
+        :root { color-scheme: dark !important; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #030712 !important;
+            color: #f8fafc !important;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+        }
+        .ioc-header {
+            background: #0b1d3a;
+            border-bottom: 1px solid #1e293b;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .ioc-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+        .ioc-brand img {
+            height: 40px;
+            width: auto;
+        }
+        .ioc-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        .ioc-card {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+        .ioc-card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #1e293b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .ioc-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+        }
+        .ioc-subtitle {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin-top: 0.25rem;
+        }
+        .search-box {
+            padding: 0.5rem 0.85rem;
+            background: #030712;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.875rem;
+            width: 260px;
+        }
+        .ioc-table-wrapper {
+            overflow-x: auto;
+            max-height: 70vh;
+        }
+        table.ioc-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+        table.ioc-table th {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 0.85rem 1.25rem;
+            font-weight: 600;
+            border-bottom: 1px solid #334155;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        table.ioc-table td {
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid #1e293b;
+            color: #cbd5e1;
+            font-family: 'JetBrains Mono', monospace, sans-serif;
+            word-break: break-all;
+        }
+        table.ioc-table tr:hover td {
+            background: #1e293b55;
+            color: #ffffff;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            background: #1e293b;
+            color: #ffffff;
+            border: 1px solid #334155;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            background: #334155;
+        }
+    </style>
+    <script defer src="../../js/recovery-toast.js"></script>
+<style>
+/* ── US Government Banner & Dropdown ── */
+.usa-banner {
+  background-color: #ffffff !important;
+  color: #1b1b1b !important;
+  font-family: inherit;
+  font-size: 0.82rem;
+  border-bottom: 1px solid #e5e7eb;
+  position: relative;
+  z-index: 100;
+  width: 100%;
+}
+.usa-banner__header {
+  padding: 0.4rem 1.25rem;
+  background-color: #ffffff !important;
+}
+.usa-banner__inner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.usa-banner__header-flag {
+  height: 13px;
+  width: auto;
+  vertical-align: middle;
+}
+.usa-banner__header-text {
+  font-size: 0.78rem;
+  margin: 0;
+  display: inline;
+  color: #1b1b1b !important;
+}
+.usa-banner__header-action {
+  display: none;
+}
+.usa-banner__button {
+  background: none;
+  border: none;
+  padding: 0 0.25rem;
+  font-size: 0.78rem;
+  font-family: inherit;
+  color: #1b1b1b !important;
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.usa-banner__button::after {
+  content: '▼';
+  font-size: 0.6rem;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+.usa-banner__button[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+.usa-banner__button:hover {
+  background-color: #f0f0f0 !important;
+  color: #000000 !important;
+}
+.usa-banner__content {
+  background-color: #ffffff !important;
+  color: #1b1b1b !important;
+  padding: 1rem 1.25rem 1.25rem;
+  border-top: 1px solid #f0f0f0;
+}
+.usa-banner__content[hidden] {
+  display: none !important;
+}
+.usa-banner .grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.usa-banner__guidance {
+  flex: 1 1 300px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+.usa-banner__guidance p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #1b1b1b !important;
+}
+.usa-banner__guidance strong {
+  color: #1b1b1b !important;
+}
+.usa-banner__icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.usa-banner__lock-image,
+.usa-banner__lock-image path {
+  width: 11px;
+  height: 14px;
+  fill: #1b1b1b !important;
+  color: #1b1b1b !important;
+  vertical-align: middle;
+}
+</style>
+<style>
+/* ── US Government Banner & Dropdown (Strict White BG & Black Text) ── */
+.usa-banner,
+.usa-banner *,
+.usa-banner header,
+.usa-banner .usa-banner__header,
+.usa-banner .usa-banner__inner,
+.usa-banner .usa-banner__content,
+.usa-banner p,
+.usa-banner span,
+.usa-banner strong,
+.usa-banner button,
+.usa-banner .usa-banner__header-text,
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  position: relative !important;
+  z-index: 1000 !important;
+  width: 100% !important;
+}
+
+.usa-banner .usa-banner__header {
+  padding: 0.4rem 1.25rem !important;
+}
+
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+}
+
+.usa-banner .usa-banner__button:hover,
+.usa-banner .usa-banner__header-action:hover {
+  color: #000000 !important;
+  background-color: #f3f4f6 !important;
+}
+
+.usa-banner .usa-banner__content {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  padding: 1rem 1.25rem 1.25rem !important;
+  border-top: 1px solid #e5e7eb !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner .usa-banner__content[hidden] {
+  display: none !important;
+}
+
+.usa-banner .usa-banner__lock-image,
+.usa-banner .usa-banner__lock-image path {
+  fill: #1b1b1b !important;
+  color: #1b1b1b !important;
+}
+</style>
+</head>
+<body>
+    <header class="ioc-header">
+        <a href="../../index.html" class="ioc-brand">
+            <img src="../../images/ic3ratlogo.jpeg" alt="FBI IC3 RAT">
+            <span>FBI IC3 Threat Intelligence</span>
+        </a>
+        <a href="javascript:history.back()" class="btn">Back</a>
+    </header>
+    <main class="ioc-container">
+        <div class="ioc-card">
+            <div class="ioc-card-header">
+                <div>
+                    <h1 class="ioc-title">FirstVPN Indicators</h1>
+                    <div class="ioc-subtitle">Official Threat Indicators of Compromise (IOC) • 150 Entries</div>
+                </div>
+                <input type="text" id="filterInput" class="search-box" placeholder="Filter indicators..." onkeyup="filterTable()">
+            </div>
+            <div class="ioc-table-wrapper">
+                <table class="ioc-table" id="iocTable">
+                    <thead>
+                        <tr><th>IOC</th><th>Description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1vpns.com</td><td>Domain</td></tr>
+<tr><td>1vpns.net</td><td>Domain</td></tr>
+<tr><td>1vpns.org</td><td>Domain</td></tr>
+<tr><td>1jabber.com</td><td>Domain</td></tr>
+<tr><td>support@1vpns.com</td><td>Jabber</td></tr>
+<tr><td>1vpns@1jabber.com</td><td>Jabber</td></tr>
+<tr><td>@FVPNS</td><td>Telegram</td></tr>
+<tr><td>https://t.me/FirstVPNService</td><td>Telegram</td></tr>
+<tr><td>support@1vpns.com</td><td>Email</td></tr>
+<tr><td>82822222</td><td>ICQ</td></tr>
+<tr><td>92.38.180.39</td><td>Current IP</td></tr>
+<tr><td>37.120.143.203</td><td>Current IP</td></tr>
+<tr><td>134.255.210.160</td><td>Current IP</td></tr>
+<tr><td>82.146.50.52</td><td>Current IP</td></tr>
+<tr><td>92.38.162.4</td><td>Current IP</td></tr>
+<tr><td>185.253.98.243</td><td>Current IP</td></tr>
+<tr><td>51.75.34.158</td><td>Current IP</td></tr>
+<tr><td>92.38.186.86</td><td>Current IP</td></tr>
+<tr><td>193.239.86.19</td><td>Current IP</td></tr>
+<tr><td>5.181.234.59</td><td>Current IP</td></tr>
+<tr><td>89.38.224.3</td><td>Current IP</td></tr>
+<tr><td>195.206.107.203</td><td>Current IP</td></tr>
+<tr><td>91.232.29.114</td><td>Current IP</td></tr>
+<tr><td>190.97.163.88</td><td>Current IP</td></tr>
+<tr><td>185.247.71.107</td><td>Current IP</td></tr>
+<tr><td>77.246.157.26</td><td>Current IP</td></tr>
+<tr><td>51.79.111.220</td><td>Current IP</td></tr>
+<tr><td>92.223.66.103</td><td>Current IP</td></tr>
+<tr><td>82.202.160.36</td><td>Current IP</td></tr>
+<tr><td>139.99.255.144</td><td>Current IP</td></tr>
+<tr><td>91.132.139.67</td><td>Current IP</td></tr>
+<tr><td>77.83.247.81</td><td>Current IP</td></tr>
+<tr><td>178.175.139.203</td><td>Current IP</td></tr>
+<tr><td>86.105.25.219</td><td>Current IP</td></tr>
+<tr><td>193.106.31.98</td><td>Current IP</td></tr>
+<tr><td>51.79.208.134</td><td>Current IP</td></tr>
+<tr><td>54.37.200.68</td><td>Current IP</td></tr>
+<tr><td>188.92.78.242</td><td>Current IP</td></tr>
+<tr><td>46.105.79.45</td><td>Current IP</td></tr>
+<tr><td>92.38.148.58</td><td>Current IP</td></tr>
+<tr><td>91.193.5.91</td><td>Current IP</td></tr>
+<tr><td>95.213.164.12</td><td>Current IP</td></tr>
+<tr><td>152.89.162.139</td><td>Current IP</td></tr>
+<tr><td>31.135.14.182</td><td>Historical IP</td></tr>
+<tr><td>31.210.70.184</td><td>Historical IP</td></tr>
+<tr><td>31.210.70.186</td><td>Historical IP</td></tr>
+<tr><td>31.210.70.190</td><td>Historical IP</td></tr>
+<tr><td>139.99.68.157</td><td>Historical IP</td></tr>
+<tr><td>37.235.55.113</td><td>Historical IP</td></tr>
+<tr><td>37.235.60.141</td><td>Historical IP</td></tr>
+<tr><td>152.89.162.138</td><td>Historical IP</td></tr>
+<tr><td>46.148.16.138</td><td>Historical IP</td></tr>
+<tr><td>49.12.133.165</td><td>Historical IP</td></tr>
+<tr><td>49.50.66.72</td><td>Historical IP</td></tr>
+<tr><td>5.135.164.8</td><td>Historical IP</td></tr>
+<tr><td>5.181.234.56</td><td>Historical IP</td></tr>
+<tr><td>5.181.234.58</td><td>Historical IP</td></tr>
+<tr><td>5.188.163.34</td><td>Historical IP</td></tr>
+<tr><td>51.38.66.162</td><td>Historical IP</td></tr>
+<tr><td>178.175.139.202</td><td>Historical IP</td></tr>
+<tr><td>185.247.71.106</td><td>Historical IP</td></tr>
+<tr><td>190.97.163.213</td><td>Historical IP</td></tr>
+<tr><td>62.112.8.202</td><td>Historical IP</td></tr>
+<tr><td>77.83.247.80</td><td>Historical IP</td></tr>
+<tr><td>80.90.39.95</td><td>Historical IP</td></tr>
+<tr><td>80.90.55.44</td><td>Historical IP</td></tr>
+<tr><td>195.206.107.202</td><td>Historical IP</td></tr>
+<tr><td>88.150.220.248</td><td>Historical IP</td></tr>
+<tr><td>217.182.199.126</td><td>Historical IP</td></tr>
+<tr><td>45.12.222.150</td><td>Historical IP</td></tr>
+<tr><td>66.70.179.236</td><td>Historical IP</td></tr>
+<tr><td>92.38.162.11</td><td>Historical IP</td></tr>
+<tr><td>93.113.36.137</td><td>Historical IP</td></tr>
+<tr><td>93.113.36.142</td><td>Historical IP</td></tr>
+<tr><td>93.190.142.7</td><td>Historical IP</td></tr>
+<tr><td>94.185.85.210</td><td>Historical IP</td></tr>
+<tr><td>94.23.218.129</td><td>Historical IP</td></tr>
+<tr><td>79.137.69.34</td><td>Historical IP</td></tr>
+<tr><td>91.132.139.66</td><td>Historical IP</td></tr>
+<tr><td>94.23.27.208</td><td>Historical IP</td></tr>
+<tr><td>94.242.253.11</td><td>Historical IP</td></tr>
+<tr><td>94.242.253.13</td><td>Historical IP</td></tr>
+<tr><td>94.242.254.43</td><td>Historical IP</td></tr>
+<tr><td>94.242.254.54</td><td>Historical IP</td></tr>
+<tr><td>94.242.254.8</td><td>Historical IP</td></tr>
+<tr><td>94.26.226.75</td><td>Historical IP</td></tr>
+<tr><td>95.141.32.237</td><td>Historical IP</td></tr>
+<tr><td>95.213.164.11</td><td>Historical IP</td></tr>
+<tr><td>95.215.61.192</td><td>Historical IP</td></tr>
+<tr><td>95.216.15.11</td><td>Historical IP</td></tr>
+<tr><td>95.216.15.25</td><td>Historical IP</td></tr>
+<tr><td>103.16.26.135</td><td>Historical IP</td></tr>
+<tr><td>103.16.26.229</td><td>Historical IP</td></tr>
+<tr><td>103.16.27.96</td><td>Historical IP</td></tr>
+<tr><td>108.59.1.133</td><td>Historical IP</td></tr>
+<tr><td>111.90.141.47</td><td>Historical IP</td></tr>
+<tr><td>111.90.158.72</td><td>Historical IP</td></tr>
+<tr><td>139.99.122.162</td><td>Historical IP</td></tr>
+<tr><td>139.99.149.85</td><td>Historical IP</td></tr>
+<tr><td>193.239.86.18</td><td>Historical IP</td></tr>
+<tr><td>147.135.11.223</td><td>Historical IP</td></tr>
+<tr><td>147.135.11.234</td><td>Historical IP</td></tr>
+<tr><td>147.135.36.162</td><td>Historical IP</td></tr>
+<tr><td>147.135.40.102</td><td>Historical IP</td></tr>
+<tr><td>147.135.87.184</td><td>Historical IP</td></tr>
+<tr><td>46.105.107.231</td><td>Historical IP</td></tr>
+<tr><td>158.255.208.155</td><td>Historical IP</td></tr>
+<tr><td>158.255.211.165</td><td>Historical IP</td></tr>
+<tr><td>176.123.1.250</td><td>Historical IP</td></tr>
+<tr><td>176.123.175.242</td><td>Historical IP</td></tr>
+<tr><td>176.123.6.58</td><td>Historical IP</td></tr>
+<tr><td>176.31.252.121</td><td>Historical IP</td></tr>
+<tr><td>176.53.40.221</td><td>Historical IP</td></tr>
+<tr><td>86.105.25.218</td><td>Historical IP</td></tr>
+<tr><td>91.193.5.90</td><td>Historical IP</td></tr>
+<tr><td>134.255.210.26</td><td>Historical IP</td></tr>
+<tr><td>178.209.51.234</td><td>Historical IP</td></tr>
+<tr><td>179.43.184.22</td><td>Historical IP</td></tr>
+<tr><td>185.128.43.54</td><td>Historical IP</td></tr>
+<tr><td>185.178.209.193</td><td>Historical IP</td></tr>
+<tr><td>185.184.192.108</td><td>Historical IP</td></tr>
+<tr><td>145.239.5.30</td><td>Historical IP</td></tr>
+<tr><td>185.253.98.242</td><td>Historical IP</td></tr>
+<tr><td>185.65.205.82</td><td>Historical IP</td></tr>
+<tr><td>188.126.79.82</td><td>Historical IP</td></tr>
+<tr><td>188.127.244.3</td><td>Historical IP</td></tr>
+<tr><td>188.165.236.151</td><td>Historical IP</td></tr>
+<tr><td>188.227.173.198</td><td>Historical IP</td></tr>
+<tr><td>188.40.81.84</td><td>Historical IP</td></tr>
+<tr><td>188.42.253.16</td><td>Historical IP</td></tr>
+<tr><td>190.123.46.11</td><td>Historical IP</td></tr>
+<tr><td>190.2.142.25</td><td>Historical IP</td></tr>
+<tr><td>190.2.142.28</td><td>Historical IP</td></tr>
+<tr><td>190.97.163.117</td><td>Historical IP</td></tr>
+<tr><td>190.97.163.142</td><td>Historical IP</td></tr>
+<tr><td>192.71.211.77</td><td>Historical IP</td></tr>
+<tr><td>192.71.249.70</td><td>Historical IP</td></tr>
+<tr><td>192.99.0.114</td><td>Historical IP</td></tr>
+<tr><td>193.105.134.152</td><td>Historical IP</td></tr>
+<tr><td>193.106.31.99</td><td>Historical IP</td></tr>
+<tr><td>37.120.143.202</td><td>Historical IP</td></tr>
+<tr><td>51.161.128.135</td><td>Historical IP</td></tr>
+<tr><td>198.50.157.109</td><td>Historical IP</td></tr>
+<tr><td>199.71.233.178</td><td>Historical IP</td></tr>
+<tr><td>209.58.131.32</td><td>Historical IP</td></tr>
+<tr><td>212.7.217.5</td><td>Historical IP</td></tr>
+<tr><td>213.128.89.184</td><td>Historical IP</td></tr>
+<tr><td>217.12.219.11</td><td>Historical IP</td></tr>
+<tr><td>217.23.1.110</td><td>Historical IP</td></tr>
+<tr><td>89.38.224.2</td><td>Historical IP</td></tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <script>
+        function filterTable() {
+            const query = document.getElementById('filterInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#iocTable tbody tr');
+            rows.forEach(r => {
+                r.style.display = r.textContent.toLowerCase().includes(query) ? '' : 'none';
+            });
+        }
+    </script>
+<script>
+// Universal Government Banner Accordion Toggle
+(function() {
+  function initGovBannerToggle() {
+    var banner = document.querySelector('.usa-banner');
+    if (!banner) return;
+    var content = banner.querySelector('.usa-banner__content, #gov-banner-default');
+    if (!content) return;
+
+    if (!banner._govInitDone) {
+      banner._govInitDone = true;
+      content.hidden = true;
+      content.style.display = 'none';
+    }
+
+    var toggleBtn = banner.querySelector('.usa-banner__button');
+
+    function toggleBanner(e) {
+      if (e) {
+        if (e.target.closest && e.target.closest('.usa-banner__content')) return;
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      var isHidden = content.hidden || content.style.display === 'none';
+      if (isHidden) {
+        content.hidden = false;
+        content.style.display = 'block';
+        content.style.position = 'relative';
+        content.style.left = 'auto';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        content.hidden = true;
+        content.style.display = 'none';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    var clickableTargets = banner.querySelectorAll('.usa-banner__button, .usa-banner__header-action, .usa-banner__button-text');
+    clickableTargets.forEach(function(el) {
+      el.style.cursor = 'pointer';
+      el.onclick = toggleBanner;
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGovBannerToggle);
+  } else {
+    initGovBannerToggle();
+  }
+})();
+</script>
+</body>
+</html>

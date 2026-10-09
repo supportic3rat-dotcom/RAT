@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="refresh" content="0;url=complaint_form.html">
+  <title>Redirecting to Claim Form...</title>
+  <script>window.location.href = "complaint_form.html";</script>
+
+<meta name="color-scheme" content="dark">
+<style id="force-dark-mode">
+:root { color-scheme: dark !important; }
+html, body {
+  background-color: #030712 !important;
+  color: #f8fafc !important;
+  color-scheme: dark !important;
+}
+.usa-section, .usa-layout-docs, .usa-header, .usa-footer, main, header, footer, nav, body {
+  background-color: #030712 !important;
+  color: #f8fafc !important;
+}
+/* ── US Government Banner & Dropdown (Strict White BG & Black Text) ── */
+.usa-banner,
+.usa-banner *,
+.usa-banner header,
+.usa-banner .usa-banner__header,
+.usa-banner .usa-banner__inner,
+.usa-banner .usa-banner__content,
+.usa-banner p,
+.usa-banner span,
+.usa-banner strong,
+.usa-banner button,
+.usa-banner .usa-banner__header-text,
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  position: relative !important;
+  z-index: 1000 !important;
+  width: 100% !important;
+}
+
+.usa-banner .usa-banner__header {
+  padding: 0.4rem 1.25rem !important;
+}
+
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+}
+
+.usa-banner .usa-banner__button:hover,
+.usa-banner .usa-banner__header-action:hover {
+  color: #000000 !important;
+  background-color: #f3f4f6 !important;
+}
+
+.usa-banner .usa-banner__content {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  padding: 1rem 1.25rem 1.25rem !important;
+  border-top: 1px solid #e5e7eb !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner .usa-banner__content[hidden] {
+  display: none !important;
+}
+
+.usa-banner .usa-banner__lock-image,
+.usa-banner .usa-banner__lock-image path {
+  fill: #1b1b1b !important;
+  color: #1b1b1b !important;
+}
+</style>
+
+    <link rel="icon" type="image/jpeg" href="../images/ic3ratlogo.jpeg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32.8aaa0.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="../images/favicon-128.8aaa0.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../images/favicon-192.8aaa0.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon-180.8aaa0.png">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <script defer src="../js/recovery-toast.js"></script>
+<style>
+</style>
+
+    <script src="../js/uswds-init.min.30dc2.js"></script>
+    <script defer src="../js/uswds.min.30dc2.js"></script>
+    <link rel="stylesheet" href="../css/uswds.min.12c2d.css">
+    <link rel="stylesheet" href="../css/site.d8c3f.css">
+    <script defer src="../js/site.js"></script>
+    
+<style>
+/* ── Full-width navbar ── */
+.usa-nav-container {
+  max-width: 100% !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+.usa-header {
+  width: 100% !important;
+}
+</style>
+
+<style id="modal-fix">
+/* ── File-a-Complaint Modal — definitive override ── */
+#fileTerms {
+  display: none !important;
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: rgba(0,0,0,0.9) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  z-index: 2147483647 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  border: none !important;
+  border-radius: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+#fileTerms.is-visible {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+#fileTerms > .usa-modal__content {
+  display: block !important;
+  position: relative !important;
+  inset: auto !important;
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  border: none !important;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.95) !important;
+  width: calc(100% - 2rem) !important;
+  max-width: 660px !important;
+  max-height: 82vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scroll-behavior: auto !important;
+  padding: 2rem !important;
+  margin: 0 auto !important;
+  flex-shrink: 0 !important;
+  z-index: auto !important;
+}
+#fileTerms > .usa-modal__content > .usa-modal__main {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+/* ── Force Crisp Black Text across Terms Modal ── */
+#fileTerms,
+#fileTerms > .usa-modal__content,
+#fileTerms > .usa-modal__content > .usa-modal__main,
+#fileTerms .font-serif-sm,
+#fileTerms .font-serif-sm *,
+#fileTerms p,
+#fileTerms li,
+#fileTerms ul,
+#fileTerms span,
+#fileTerms strong,
+#fileTerms div:not(.usa-alert--warning *) {
+  color: #000000 !important;
+}
+
+#fileTerms cite {
+  color: #000000 !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+}
+
+#fileTerms .usa-alert--warning {
+  background-color: #fef3c7 !important;
+  border-left: 4px solid #d97706 !important;
+  border-radius: 6px !important;
+  padding: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+#fileTerms .usa-alert--warning .usa-alert__heading,
+#fileTerms .usa-alert--warning h4,
+#fileTerms #fileTermsHeading {
+  color: #92400e !important;
+  font-weight: 700 !important;
+}
+#fileTerms .usa-alert--warning .usa-alert__text,
+#fileTerms .usa-alert--warning p {
+  color: #78350f !important;
+}
+
+#fileTerms a,
+#fileTerms .font-serif-sm a {
+  color: #005ea2 !important;
+  text-decoration: underline !important;
+}
+
+#fileTerms .usa-modal__footer {
+  margin-top: 1.5rem !important;
+  padding-top: 1rem !important;
+  border-top: 1px solid #e2e8f0 !important;
+}
+
+#fileTerms #acceptFile,
+#fileTerms .usa-button[id="acceptFile"] {
+  background-color: #d9381e !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+#fileTerms .usa-button--base {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+body.is-modal-open {
+  overflow: hidden !important;
+}
+</style>
+
+</head>
+<body style="background:#05101e;color:#fff;font-family:sans-serif;padding:2rem;text-align:center;">
+    <section class="usa-banner padding-bottom-2 desktop:padding-bottom-0" aria-label="Official website of the United States government">
+        <div class="usa-accordion">
+            <header class="usa-banner__header">
+                <div class="usa-banner__inner">
+                    <div class="grid-col-auto">
+                        <img aria-hidden="true" class="usa-banner__header-flag" src="../images/us_flag_small.36692.png" alt="U.S. Flag">
+                    </div>
+                    <div class="grid-col-fill tablet:grid-col-auto" aria-hidden="true">
+                        <p class="usa-banner__header-text">An official website of the United States government</p>
+                        <p class="usa-banner__header-action">Here&rsquo;s how you know</p>
+                    </div>
+                    <button type="button" class="usa-accordion__button usa-banner__button" aria-expanded="false" aria-controls="gov-banner-default">
+                        <span class="usa-banner__button-text">Here&rsquo;s how you know</span>
+                    </button>
+                </div>
+            </header>
+            <div class="usa-banner__content usa-accordion__content" id="gov-banner-default" hidden style="display:none;">
+                <div class="grid-row grid-gap-lg">
+                    <div class="usa-banner__guidance tablet:grid-col-6">
+                        <img class="usa-banner__icon usa-media-block__img" src="../images/icon-dot-gov.36692.svg" role="img" alt="" aria-hidden="true">
+                        <div class="usa-media-block__body">
+                            <p>
+                                <strong>Official websites use .gov or .org</strong><br>
+                                The website belongs to an official government organization in the United States.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="usa-banner__guidance tablet:grid-col-6">
+                        <img class="usa-banner__icon usa-media-block__img" src="../images/icon-https.36692.svg" role="img" alt="" aria-hidden="true">
+                        <div class="usa-media-block__body">
+                            <p>
+                                <strong>Secure .gov websites use HTTPS</strong><br>
+                                A <strong>lock</strong> (
+                                <span class="icon-lock">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="52" height="64" viewbox="0 0 52 64" class="usa-banner__lock-image" role="img" aria-labelledby="banner-lock-description-default" focusable="false">
+                                        <title id="banner-lock-title-default">Lock</title>
+                                        <desc id="banner-lock-description-default">Locked padlock icon</desc>
+                                        <path fill="#000000" fill-rule="evenodd" d="M26 0c10.493 0 19 8.507 19 19v9h3a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V32a4 4 0 0 1 4-4h3v-9C7 8.507 15.507 0 26 0zm0 8c-6.075 0-11 4.925-11 11v9h22v-9c0-6.075-4.925-11-11-11z"></path>
+                                    </svg>
+                                </span>) or <strong>https://</strong> means you’ve safely connected to the .gov website. Share sensitive information only on official, secure websites.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  <div class="usa-overlay"></div>
+    <header id="ic3Header" class="usa-header usa-header--basic usa-header--megamenu desktop:margin-0">
+        <div class="usa-nav-container">
+            <div class="usa-navbar">
+                <div class="usa-logo">
+                    <a href="index.html">
+                        <img class="usa-footer__logo-img" src="../images/ic3ratlogo.jpeg" alt="IC3 RAT Logo" style="height:72px;width:auto;object-fit:contain;">
+                    </a>
+                    <em class="usa-logo__text"><a href="index.html">FBI IC3 Recovery Asset Team (RAT)</a></em>
+                </div>
+                <button type="button" class="usa-menu-btn">Menu</button>
+            </div>
+            <nav aria-label="Primary navigation" class="usa-nav">
+                <button type="button" class="usa-nav__close">
+                    <svg width="24" height="24" viewbox="0 0 24 24" role="img">
+                        <title>Close</title>
+                        <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="#ffffff"></path>
+                    </svg>
+                </button>
+                <ul class="usa-nav__primary usa-accordion">
+                    <li class="usa-nav__primary-item">
+                        <a class="usa-nav-link" data-open-modal aria-controls="fileTerms" href="#fileTerms" style="background:#d9381e!important;color:#ffffff!important;border-radius:4px;padding:0.5rem 1.25rem;font-weight:700;text-decoration:none">File A Report</a>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <button type="button" class="usa-accordion__button usa-nav__link" aria-expanded="false" aria-controls="public-nav">
+                            <span>Public Info</span>
+                        </button>
+                        <div id="public-nav" class="usa-nav__submenu usa-megamenu">
+                            <div class="grid-row grid-gap-4">
+                                <div class="usa-col">
+                                    <ul class="usa-nav__submenu-list">
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../Home/RAT.html">IC3 RAT Operational Report</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../PSA.html">Public Service Announcements</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../Outreach/Brochures.html">Brochures</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../AnnualReport/Reports.html">Annual Reports</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../Outreach/Resources.html">Resources</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <button type="button" class="usa-accordion__button usa-nav__link" aria-expanded="false" aria-controls="industry-nav">
+                            <span>Industry Info</span>
+                        </button>
+                        <div id="industry-nav" class="usa-nav__submenu usa-megamenu">
+                            <div class="grid-row grid-gap-4">
+                                <div class="usa-col">
+                                    <ul class="usa-nav__submenu-list">
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CSA.html">Industry Alerts</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../ContactFBICyber.html">Contact FBI Cyber Task Force</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <a class="usa-nav-link" href="../Outreach/PrivateSectorEngagement.html">Cyber Private Sector</a>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <button type="button" class="usa-accordion__button usa-nav__link" aria-expanded="false" aria-controls="crime-info-nav">
+                            <span>Crime Info</span>
+                        </button>
+                        <div id="crime-info-nav" class="usa-nav__submenu usa-megamenu">
+                            <div class="grid-row grid-gap-4">
+                                <div class="usa-col">
+                                    <ul class="usa-nav__submenu-list">
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/BEC.html">Business Email Compromise (BEC)</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/AccountTakeover.html">Account Takeover (ATO)</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/Botnet-DDoS.html">Botnet/DDoS/TDoS</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/ChineseAuthorityImpersonation.html">Chinese Authority Impersonation</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/Cryptocurrency.html">Cryptocurrency</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/DataBreach.html">Data Breach</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/ElderFraud.html">Elder Fraud</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/Investment.html">Investment Fraud</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a target="_blank" rel="noopener" href="https://www.fbi.gov/scams-and-safety">Other Common Scams</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/Ransomware.html">Ransomware</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../CrimeInfo/TechSupportGovImpersonation.html">Tech/Customer Support and Government Impersonation</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <a class="usa-nav-link" href="../login.html" style="font-weight:700;">Client Login</a>
+                    </li>
+                </ul>
+                <section aria-label="Search component">
+                    <form action="../Search/Results.html" autocomplete="off" class="usa-search usa-search--small" role="search" method="get">
+                        <label class="usa-sr-only" for="search-field">Search</label>
+                        <input class="usa-input" id="search-field" type="search" name="term">
+                        <button class="usa-button" type="submit">
+                            <img src="images/search--white.a22b1.svg" class="usa-search__submit-icon" alt="Search">
+                        </button>
+                    </form>
+                </section>
+            </nav>
+        </div>
+    </header>
+<p>Redirecting to Start Your Claim form...</p>
+  <a href="complaint_form.html" style="color:#3b82f6;">Click here if you are not redirected automatically.</a>
+<script>
+// Universal Government Banner Accordion Toggle
+(function() {
+  function initGovBannerToggle() {
+    var banner = document.querySelector('.usa-banner');
+    if (!banner) return;
+    var content = banner.querySelector('.usa-banner__content, #gov-banner-default');
+    if (!content) return;
+
+    if (!banner._govInitDone) {
+      banner._govInitDone = true;
+      content.hidden = true;
+      content.style.display = 'none';
+    }
+
+    var toggleBtn = banner.querySelector('.usa-banner__button');
+
+    function toggleBanner(e) {
+      if (e) {
+        if (e.target.closest && e.target.closest('.usa-banner__content')) return;
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      var isHidden = content.hidden || content.style.display === 'none';
+      if (isHidden) {
+        content.hidden = false;
+        content.style.display = 'block';
+        content.style.position = 'relative';
+        content.style.left = 'auto';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        content.hidden = true;
+        content.style.display = 'none';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    var clickableTargets = banner.querySelectorAll('.usa-banner__button, .usa-banner__header-action, .usa-banner__button-text');
+    clickableTargets.forEach(function(el) {
+      el.style.cursor = 'pointer';
+      el.onclick = toggleBanner;
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGovBannerToggle);
+  } else {
+    initGovBannerToggle();
+  }
+})();
+</script>
+
+    <!-- Terms Modal -->
+    <div class="usa-modal usa-modal--lg" id="fileTerms" aria-labelledby="fileTermsHeading" aria-describedby="fileTermsDesc">
+        <div class="usa-modal__content">
+            <div class="usa-modal__main" id="fileTermsDesc">
+                <div class="usa-alert usa-alert--warning">
+                    <div class="usa-alert__body">
+                        <h4 id="fileTermsHeading" class="usa-alert__heading">Terms and Conditions for RAT Interventions</h4>
+                        <p class="usa-alert__text">
+                            Prior to filing a complaint with the IC3 Recovery Asset Team, please read the following terms regarding emergency wire recalls.
+                        </p>
+                    </div>
+                </div>
+                <div class="font-serif-sm">
+                    <p>Should you have questions prior to filing your complaint, view <a target="_blank" href="../Home/FAQ.html">FAQ</a> for information regarding:</p>
+                    <ul>
+                        <li>What wire transfer details are required for FFKC activation?</li>
+                        <li>How the RAT coordinates with sending &amp; receiving bank AML departments.</li>
+                        <li>How asset restitution and legal forfeiture proceedings are handled.</li>
+                    </ul>
+                    <p>Complaints submitted to IC3 RAT are analyzed in near real-time and referred to FBI Field Offices, USAOs, and bank AML compliance teams.</p>
+                    <p>The information submitted is encrypted via SSL encryption.</p>
+                    <hr class="tablet:margin-left-0">
+                    <p>By clicking "I Accept" you acknowledge that providing false information could make you subject to fine, imprisonment, or both. (<cite>TITLE 18, U.S. CODE, SECTION 1001</cite>)</p>                    
+                </div>
+                <div class="usa-modal__footer">
+                    <ul class="usa-button-group display-flex flex-justify-center">
+                        <li class="usa-button-group__item">
+                            <button id="acceptFile" type="button" class="usa-button" data-close-modal style="background:#d9381e!important;color:#ffffff!important;border:none!important;"Accept & File A Report</button>
+                        </li>
+                        <li class="usa-button-group__item">
+                            <button type="button" class="usa-button usa-button--base" data-close-modal>
+                                Decline
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script async type="module">
+        document.getElementById("acceptFile")?.addEventListener("click", () => { window.location.href = "../complaint.html"; });
+    </script>
+
+</body>
+</html>

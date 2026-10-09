@@ -1,0 +1,543 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Crime Complaint Center (IC3) | Kali365 Phishing-as-a-Service Kit Hijacks Microsoft 365 Access Tokens</title>
+    <script nonce="c3c1vxicxwelwgg0">
+    if (window.trustedTypes) {
+        trustedTypes.createPolicy('default', {
+            createHtml: s => { console.error(`TrustedHTML Violation: ${s}`); return null; },
+            createScript: s => { console.error(`TrustedScript Violation: ${s}`); return null; },
+            createScriptURL: s => { const prefix = ['https://www.gstatic.com/recaptcha/releases/', 'https://www.googletagmanager.com/gtag/js']; let u = undefined; try { u = new URL(s); u = `${u.protocol}//${u.host}${u.pathname}`; } catch { } if ((u && prefix.some(x => u.startsWith(x))) || 'https://www.google-analytics.com/analytics.js' === s) { return s; } else { console.error(`TrustedScriptURL Violation: ${s}`); return null; } }
+        });
+    }
+</script>
+    <link rel="stylesheet" href="../../css/psa3.d8c3f.css">
+    <!-- We participate in the US government's analytics program. See the data at analytics.usa.gov. -->
+    <script async src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=DOJ" id="_fed_an_ua_tag" nonce="c3c1vxicxwelwgg0"></script>
+    <script defer src="../../js/site.js"></script>
+
+<meta name="color-scheme" content="dark">
+<style id="force-dark-mode">
+:root { color-scheme: dark !important; }
+html, body {
+  background-color: #030712 !important;
+  color: #f8fafc !important;
+  color-scheme: dark !important;
+}
+.usa-section, .usa-layout-docs, .usa-header, .usa-footer, main, header, footer, nav, body,
+.usa-footer__primary-section, .usa-footer__secondary-section,
+.usa-footer__return-to-top, .usa-footer__nav {
+  background-color: #030712 !important;
+  color: #f8fafc !important;
+}
+/* ── Full-width navbar ── */
+.usa-nav-container {
+  max-width: 100% !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+.usa-header {
+  width: 100% !important;
+}
+/* ── US Government Banner & Dropdown (Strict White BG & Black Text) ── */
+.usa-banner,
+.usa-banner *,
+.usa-banner header,
+.usa-banner .usa-banner__header,
+.usa-banner .usa-banner__inner,
+.usa-banner .usa-banner__content,
+.usa-banner p,
+.usa-banner span,
+.usa-banner strong,
+.usa-banner button,
+.usa-banner .usa-banner__header-text,
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  position: relative !important;
+  z-index: 1000 !important;
+  width: 100% !important;
+}
+
+.usa-banner .usa-banner__header {
+  padding: 0.4rem 1.25rem !important;
+}
+
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+}
+
+.usa-banner .usa-banner__button:hover,
+.usa-banner .usa-banner__header-action:hover {
+  color: #000000 !important;
+  background-color: #f3f4f6 !important;
+}
+
+.usa-banner .usa-banner__content {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  padding: 1rem 1.25rem 1.25rem !important;
+  border-top: 1px solid #e5e7eb !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner .usa-banner__content[hidden] {
+  display: none !important;
+}
+
+.usa-banner .usa-banner__lock-image,
+.usa-banner .usa-banner__lock-image path {
+  fill: #1b1b1b !important;
+  color: #1b1b1b !important;
+}
+</style>
+
+    <link rel="icon" type="image/jpeg" href="../../images/ic3ratlogo.jpeg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon-32.8aaa0.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="../../images/favicon-128.8aaa0.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../../images/favicon-192.8aaa0.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../images/favicon-180.8aaa0.png">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <script defer src="../../js/recovery-toast.js"></script>
+    <link rel="stylesheet" href="../../css/uswds.min.12c2d.css">
+    <link rel="stylesheet" href="../../css/site.d8c3f.css">
+<style id="psa-chrome-layout">
+body {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+}
+#container {
+  margin-left: auto;
+  margin-right: auto;
+  align-self: center;
+}
+#ic3Header, #ic3Footer, .usa-banner, .usa-overlay {
+  width: 100%;
+}
+#ic3Header img, #ic3Footer img, .usa-banner img {
+  filter: none !important;
+}
+#ic3Header .usa-logo img {
+  display: inline-block !important;
+}
+</style>
+<style>
+</style>
+</head>
+<body>
+    <section class="usa-banner padding-bottom-2 desktop:padding-bottom-0" aria-label="Official website of the United States government">
+        <div class="usa-accordion">
+            <header class="usa-banner__header">
+                <div class="usa-banner__inner">
+                    <div class="grid-col-auto">
+                        <img aria-hidden="true" class="usa-banner__header-flag" src="../../images/us_flag_small.36692.png" alt="">
+                    </div>
+                    <div class="grid-col-fill tablet:grid-col-auto" aria-hidden="true">
+                        <p class="usa-banner__header-text">An official website of the United States government</p>
+                        <p class="usa-banner__header-action">Here&rsquo;s how you know</p>
+                    </div>
+                    <button type="button" class="usa-accordion__button usa-banner__button" aria-expanded="false" aria-controls="gov-banner-default">
+                        <span class="usa-banner__button-text">Here&rsquo;s how you know</span>
+                    </button>
+                </div>
+            </header>
+            <div class="usa-banner__content usa-accordion__content" id="gov-banner-default">
+                <div class="grid-row grid-gap-lg">
+                    <div class="usa-banner__guidance tablet:grid-col-6">
+                        <img class="usa-banner__icon usa-media-block__img" src="../../images/icon-dot-gov.36692.svg" role="img" alt="" aria-hidden="true">
+                        <div class="usa-media-block__body">
+                            <p>
+                                <strong>Official websites use .gov or .org</strong><br>
+                                The website belongs to an official government organization in the United States.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="usa-banner__guidance tablet:grid-col-6">
+                        <img class="usa-banner__icon usa-media-block__img" src="../../images/icon-https.36692.svg" role="img" alt="" aria-hidden="true">
+                        <div class="usa-media-block__body">
+                            <p>
+                                <strong>Secure .gov websites use HTTPS</strong><br>
+                                A <strong>lock</strong> (
+                                <span class="icon-lock">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="52" height="64" viewbox="0 0 52 64" class="usa-banner__lock-image" role="img" aria-labelledby="banner-lock-title-default banner-lock-description-default" focusable="false">
+                                        <title id="banner-lock-title-default">Lock</title>
+                                        <desc id="banner-lock-description-default">Locked padlock icon</desc>
+                                        <path fill="#000000" fill-rule="evenodd" d="M26 0c10.493 0 19 8.507 19 19v9h3a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V32a4 4 0 0 1 4-4h3v-9C7 8.507 15.507 0 26 0zm0 8c-5.979 0-10.843 4.77-10.996 10.712L15 19v9h22v-9c0-6.075-4.925-11-11-11z"></path>
+                                    </svg>
+                                </span>
+                                ) or <strong>https://</strong> means you&rsquo;ve safely connected to the .gov website. Share sensitive information only on official, secure websites.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <a class="usa-skipnav" href="#main-content">Skip to content</a>
+    <div class="usa-overlay"></div>
+    <header id="ic3Header" class="usa-header usa-header--basic usa-header--megamenu desktop:margin-0">
+        <div class="usa-nav-container">
+            <div class="usa-navbar">
+                <div class="usa-logo">
+                    <a href="../../index.html">
+                        <img class="usa-footer__logo-img" src="../../images/ic3ratlogo.jpeg" alt="IC3 RAT Logo" style="height:72px;width:auto;object-fit:contain;">
+                    </a>
+                    <em class="usa-logo__text"><a href="../../Home/Index.html">FBI IC3 Recovery Asset Team (RAT)</a></em>
+                </div>
+                <button type="button" class="usa-menu-btn">Menu</button>
+            </div>
+            <nav aria-label="Primary navigation" class="usa-nav">
+                <button type="button" class="usa-nav__close">
+                    <svg width="24" height="24" viewbox="0 0 24 24" role="img">
+                        <title>Close</title>
+                        <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="#ffffff"></path>
+                    </svg>
+                </button>
+                <ul class="usa-nav__primary usa-accordion">
+                    <li class="usa-nav__primary-item">
+                        <a class="usa-nav-link" data-open-modal aria-controls="fileTerms" href="#fileTerms" style="background:#d9381e!important;color:#ffffff!important;border-radius:4px;padding:0.5rem 1.25rem;font-weight:700;text-decoration:none;"File A Report</a>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <button type="button" class="usa-accordion__button usa-nav__link" aria-expanded="false" aria-controls="public-nav">
+                            <span>Public Info</span>
+                        </button>
+                        <div id="public-nav" class="usa-nav__submenu usa-megamenu">
+                            <div class="grid-row grid-gap-4">
+                                <div class="usa-col">
+                                    <ul class="usa-nav__submenu-list">
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../PSA.html">Public Service Announcements</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../Outreach/Brochures.html">Brochures</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../AnnualReport/Reports.html">Annual Reports</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../Outreach/Resources.html">Resources</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../Home/RAT.html">Recovery Asset Team (RAT)</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <button type="button" class="usa-accordion__button usa-nav__link" aria-expanded="false" aria-controls="industry-nav">
+                            <span>Industry Info</span>
+                        </button>
+                        <div id="industry-nav" class="usa-nav__submenu usa-megamenu">
+                            <div class="grid-row grid-gap-4">
+                                <div class="usa-col">
+                                    <ul class="usa-nav__submenu-list">
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../CSA.html">Industry Alerts</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../ContactFBICyber.html">Contact FBI Cyber</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <a class="usa-nav-link" href="../../Outreach/PrivateSectorEngagement.html">Cyber Private Sector</a>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <button type="button" class="usa-accordion__button usa-nav__link" aria-expanded="false" aria-controls="crime-info-nav">
+                            <span>Crime Info</span>
+                        </button>
+                        <div id="crime-info-nav" class="usa-nav__submenu usa-megamenu">
+                            <div class="grid-row grid-gap-4">
+                                <div class="usa-col">
+                                    <ul class="usa-nav__submenu-list">
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../CrimeInfo/AccountTakeover.html">Account Takeover (ATO)</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../CrimeInfo/Botnet-DDoS.html">Botnet/DDoS/TDoS</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../CrimeInfo/BEC.html">Business Email Compromise (BEC)</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../CrimeInfo/ChineseAuthorityImpersonation.html">Chinese Authority Impersonation</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../CrimeInfo/Cryptocurrency.html">Cryptocurrency</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../CrimeInfo/DataBreach.html">Data Breach</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../CrimeInfo/ElderFraud.html">Elder Fraud</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../CrimeInfo/Investment.html">Investment Fraud</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a target="_blank" rel="noopener" href="https://www.fbi.gov/scams-and-safety">Other Common Scams</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../CrimeInfo/Ransomware.html">Ransomware</a>
+                                        </li>
+                                        <li class="usa-nav__submenu-item">
+                                            <a href="../../CrimeInfo/TechSupportGovImpersonation.html">Tech/Customer Support and Government Impersonation</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <a class="usa-nav-link" href="../../login.html" style="font-weight:700;">Client Login</a>
+                    </li>
+                </ul>
+                <section aria-label="Search component">
+                    <form action="../../Search/Results.html" autocomplete="off" class="usa-search usa-search--small" role="search" method="get">
+                        <label class="usa-sr-only" for="search-field">Search</label>
+                        <input class="usa-input" id="search-field" type="search" name="term">
+                        <button class="usa-button" type="submit">
+                            <img src="../../images/search--white.a22b1.svg" class="usa-search__submit-icon" alt="Search">
+                        </button>
+                    </form>
+                </section>
+            </nav>
+        </div>
+    </header>
+
+    <div id="container">
+        <a class="skip-link" href="#main">Skip to main</a>
+        <header>
+            <picture>
+                <source srcset="/img/PSABanner3.webp" type="image/webp">
+                <img class="logo" src="/img/PSABanner3.png" alt="FBI/IC3 Public Service Announcement">
+            </picture>
+            <div class="fields">
+                <div>Alert Number: I-052126-PSA | <time datetime="2026-05-21T14:00:00.000-04:00">21 May 2026</time></div>
+                <h1>Kali365 Phishing-as-a-Service Kit Hijacks Microsoft 365 Access Tokens</h1>
+                <hr>
+            </div>
+        </header>
+        <main>
+            <style nonce="c3c1vxicxwelwgg0">
+    main :is(ul, ol) li + li { margin-top: 0.5rem; }
+    main abbr[title] { text-decoration: unset; }
+    main aside.disclaimer { font-size: 90%; margin-bottom: 0.5rem; border: unset; background-color: unset; padding: unset; }
+    main span.disclaimer { text-transform: uppercase; }
+</style>
+
+<p>The Federal Bureau of Investigation (<abbr>FBI</abbr>) is issuing this Public Service Announcement (<abbr>PSA</abbr>) to warn the public about an emerging Phishing<sup id="ref1"><a aria-label="footnote" href="#fn1">1</a></sup>-as-a-Service<sup id="ref2"><a aria-label="footnote" href="#fn2">2</a></sup> (<abbr title="Phishing-as-a-Service">PhaaS</abbr>) platform called Kali365, first seen in April 2026. Kali365 has primarily been distributed via Telegram, enabling cyber threat actors to obtain Microsoft 365 access tokens and bypass multi-factor authentication<sup id="ref3"><a aria-label="footnote" href="#fn3">3</a></sup> (<abbr>MFA</abbr>) protocols without intercepting the user's credentials.</p>
+<p>Through the Kali365 platform subscription, cyber threat actors can capture "OAuth" tokens and gain persistent access to targeted individuals/entities' Microsoft 365 environments. Kali365 lowers the barrier of entry, providing less-technical attackers access to AI-generated phishing lures, automated campaign templates, real-time targeted individual/entity tracking dashboards, and OAuth token capture capabilities.</p>
+<section>
+    <h2>How the Scam Works</h2>
+    <ol>
+        <li><strong>Lure</strong>: An attacker sends a phishing email impersonating trusted cloud productivity and document-sharing services. This phishing email contains a device code with instructions to visit a legitimate Microsoft verification page and enter the code.</li>
+        <li><strong>Authorization</strong>: The targeted individuals/entities navigate to the real Microsoft page and pastes in the device code, unknowingly authorizing the attacker's device to access their account.</li>
+        <li><strong>Token Theft</strong>: The attacker captures OAuth access and refresh tokens, granting them access to the targeted individuals/entities' Microsoft 365 account.</li>
+        <li><strong>Persistence</strong>: The attacker can now access Microsoft 365 services such as Outlook, Teams, and OneDrive without needing a password or completing any additional MFA challenges.</li>
+    </ol>
+</section>
+<section>
+    <h2>Tips to Protect Yourself</h2>
+    <p>Restricting device code flow to limit or block device authentication codes can help prevent or limit this style of attack.</p>
+    <ul>
+        <li>Create a conditional access policy to block device code flow for all users, with limited exceptions for required business processes.</li>
+        <li>Audit existing device code flow usage to identify legitimate dependencies before creating a conditional access policy.</li>
+        <li>Block authentication transfer policies to prevent users from transferring authentication from computers to mobile devices.</li>
+        <li>If you cannot completely restrict device code flow usage, exclude emergency access accounts to prevent lockouts.</li>
+    </ul>
+</section>
+<section>
+    <h2>Report It</h2>
+    <p>If you or someone you know has been impacted by the Kali365 Phishing kit, file a complaint with the Internet Crime Complaint Center (<abbr>IC3</abbr>) at <a target="_blank" href="https://www.ic3.gov/">www.ic3.gov</a>. Be sure to include any available information, such as:</p>
+    <ul>
+        <li>Any phishing emails (email header, body)</li>
+        <li>Suspicious logins (time, IP address, location)</li>
+        <li>Any unauthorized devices or active sessions added to the account</li>
+    </ul>
+</section>
+<p>Please see the Cybersecurity & Infrastructure Security Agency's (<abbr>CISA</abbr>) <a target="_blank" href="https://www.cisa.gov/sites/default/files/2025-03/Phishing%20Guidance%20-%20Stopping%20the%20Attack%20Cycle%20at%20Phase%20One%20508.pdf">Phishing Guidance: Stopping the Attack Cycle at Phase One, which provides best practices and mitigations to protect against phishing techniques.</a></p>
+<aside class="disclaimer">
+    <p><span class="disclaimer">Disclaimer:</span> The information in this document is being provided "as is" for informational purposes only. The FBI does not endorse any commercial entity, product, company, or service, including any entities, products, or services linked within this document. Any reference to specific commercial entities, products, processes, or services by service mark, trademark, manufacturer, or otherwise, does not constitute or imply endorsement, recommendation, or favoring by FBI.</p>
+</aside>
+
+        </main>
+            <hr class="before-footnote">
+            <footer class="footnotes">
+                
+    <p id="fn1"><sup>1</sup><dfn>Phishing</dfn> is a form of social engineering in which cyber threat actors use email or malicious websites to solicit information.<a title="Jump back to footnote 1 in the text" href="#ref1">↩</a></p>
+    <p id="fn2"><sup>2</sup><dfn>Phishing-as-a-service</dfn> (PhaaS) is a model utilized by cyber threat actors to provide access to phishing kits in exchange for a one-time fee or subscription.<a title="Jump back to footnote 2 in the text" href="#ref2">↩</a></p>
+    <p id="fn3"><sup>3</sup><dfn>Multi-factor authentication</dfn> is a system that uses more than one factor &mdash; such as biometrics, security questions, or a key card to authenticate a user.<a title="Jump back to footnote 3 in the text" href="#ref3">↩</a></p>
+
+            </footer>
+    </div>
+
+
+
+    <div class="usa-modal usa-modal--lg" id="fileTerms" aria-labelledby="fileTermsHeading" aria-describedby="fileTermsDesc" aria-hidden="true">
+        <div class="usa-modal__content">
+            <div class="usa-modal__main" id="fileTermsDesc">
+                <div class="usa-alert usa-alert--warning">
+                    <div class="usa-alert__body">
+                        <h4 id="fileTermsHeading" class="usa-alert__heading">Terms and Conditions</h4>
+                        <p class="usa-alert__text">
+                            Prior to filing a complaint with the IC3, please read the following information regarding terms and conditions.
+                        </p>
+                    </div>
+                </div>
+                <div class="font-serif-sm">
+                    <p>Should you have additional questions prior to filing your complaint, view <a target="_blank" href="../../Home/FAQ.html">FAQ</a> for more information.</p>
+                    <p>Complaints filed via this website are analyzed and may be referred to federal, state, local or international law enforcement and partner agencies for possible investigation.</p>
+                    <p>The complaint information you submit to this site is encrypted via secure socket layer (<abbr>SSL</abbr>) encryption. Please see the <a target="_blank" href="../../Home/Privacy.html">Privacy Policy</a> for further information.</p>
+                    <p>By clicking "I Accept" you acknowledge the following:</p>
+                    <p>The information I'm providing on this form is correct to the best of my knowledge. I understand that providing false information could make me subject to fine, imprisonment, or both. (<cite>TITLE 18, U.S. CODE, SECTION 1001</cite>)</p>
+                </div>
+                <div class="usa-modal__footer">
+                    <ul class="usa-button-group display-flex flex-justify-center">
+                        <li class="usa-button-group__item">
+                            <button id="acceptFile" type="button" class="usa-button" data-close-modal>Accept &amp; File A Report</button>
+                        </li>
+                        <li class="usa-button-group__item">
+                            <button type="button" class="usa-button usa-button--base" data-close-modal>Decline</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer id="ic3Footer" class="usa-footer usa-footer--slim">
+    <div class="grid-container usa-footer__return-to-top">
+        <a href="#">Return to top</a>
+    </div>
+    <div class="usa-footer__primary-section">
+        <nav class="usa-footer__nav" aria-label="Footer navigation" style="display:flex;flex-wrap:wrap;gap:1.5rem 2rem;padding:1.5rem 2rem;">
+            <div style="flex:1 1 160px;min-width:140px;">
+                <section class="usa-footer__primary-content usa-footer__primary-content--collapsible">
+                    <h4 class="usa-footer__primary-link">IC3 RAT</h4>
+                    <ul class="usa-list usa-list--unstyled">
+                        <li class="usa-footer__secondary-link"><a href="../../index.html">Home Page</a></li>
+                        <li class="usa-footer__secondary-link"><a href="../../Home/RAT.html">IC3 RAT Operational Report</a></li>
+                        <li class="usa-footer__secondary-link"><a href="../../Home/About.html">About IC3 RAT</a></li>
+                        <li class="usa-footer__secondary-link"><a href="../../Home/Privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </section>
+            </div>
+            <div style="flex:1 1 120px;min-width:120px;">
+                <section class="usa-footer__primary-content usa-footer__primary-content--collapsible">
+                    <h4 class="usa-footer__primary-link">FBI</h4>
+                    <ul class="usa-list usa-list--unstyled">
+                        <li class="usa-footer__secondary-link"><a target="_blank" rel="noopener" href="https://www.fbi.gov/">FBI.gov Home</a></li>
+                        <li class="usa-footer__secondary-link"><a target="_blank" rel="noopener" href="https://www.fbi.gov/investigate/cyber">FBI Cyber Division</a></li>
+                    </ul>
+                </section>
+            </div>
+            <div>
+                <section class="usa-footer__primary-content usa-footer__primary-content--collapsible">
+                    <h4 class="usa-footer__primary-link">Contact FBI Cyber</h4>
+                    <ul class="usa-list usa-list--unstyled">
+                        <li class="usa-footer__secondary-link">
+                            <address class="usa-footer__address" style="font-style:normal;">
+                                <div class="usa-footer__contact-info">
+                                    <a href="https://wa.me/14783099781">+1 (478) 309-9781</a>
+                                </div>
+                            </address>
+                        </li>
+                        <li class="usa-footer__secondary-link"><strong>Questions?</strong> <a href="../../Home/FAQ.html">See IC3 FAQ</a></li>
+                    </ul>
+                </section>
+            </div>
+        </nav>
+    </div>
+    <div class="usa-footer__secondary-section">
+        <div class="grid-container">
+            <div id="foot" class="usa-footer__logo grid-row grid-gap-2">
+                <div class="grid-col-auto">
+                    <picture>
+                        <source srcset="../../images/fbi_seal_new.8aaa0.webp" type="image/webp">
+                        <img class="usa-footer__logo-img" src="../../images/fbi_seal_new.8aaa0.png" alt="FBI Seal">
+                    </picture>
+                    <div class="agency">
+                        <h1>FBI</h1>
+                        <h3>Recovery Asset Team (RAT)</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script>
+// Universal Government Banner Accordion Toggle
+(function() {
+  function initGovBannerToggle() {
+    var banner = document.querySelector('.usa-banner');
+    if (!banner) return;
+    var content = banner.querySelector('.usa-banner__content, #gov-banner-default');
+    if (!content) return;
+
+    if (!banner._govInitDone) {
+      banner._govInitDone = true;
+      content.hidden = true;
+      content.style.display = 'none';
+    }
+
+    var toggleBtn = banner.querySelector('.usa-banner__button');
+
+    function toggleBanner(e) {
+      if (e) {
+        if (e.target.closest && e.target.closest('.usa-banner__content')) return;
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      var isHidden = content.hidden || content.style.display === 'none';
+      if (isHidden) {
+        content.hidden = false;
+        content.style.display = 'block';
+        content.style.position = 'relative';
+        content.style.left = 'auto';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        content.hidden = true;
+        content.style.display = 'none';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    var clickableTargets = banner.querySelectorAll('.usa-banner__button, .usa-banner__header-action, .usa-banner__button-text');
+    clickableTargets.forEach(function(el) {
+      el.style.cursor = 'pointer';
+      el.onclick = toggleBanner;
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGovBannerToggle);
+  } else {
+    initGovBannerToggle();
+  }
+})();
+</script>
+</body>
+</html>

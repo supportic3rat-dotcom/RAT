@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<?xml encoding="utf-8" ?><html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <title>Search Results - Internet Crime Complaint Center (IC3)</title>
+    <script src="../js/uswds-init.min.30dc2.js"></script>
+    <script defer src="../js/uswds.min.30dc2.js"></script>
+    <link rel="stylesheet" href="../css/uswds.min.12c2d.css">
+    <link rel="stylesheet" href="../css/site.d8c3f.css">
+    <link rel="icon" type="image/jpeg" href="../images/ic3ratlogo.jpeg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32.8aaa0.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="../images/favicon-128.8aaa0.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../images/favicon-192.8aaa0.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon-180.8aaa0.png">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <style>
+        .search-result { border-bottom: 1px solid #dfe1e2; padding: 1.5rem 0; }
+        .search-result:last-child { border-bottom: none; }
+        .search-result h3 { margin-bottom: 0.25rem; }
+        .search-result .path { color: #71767a; font-size: 0.85rem; margin-bottom: 0.5rem; }
+        .search-result .snippet { color: #3d4551; }
+        .search-result mark { background: #faf3d1; padding: 0 2px; }
+        #search-status { margin: 1rem 0; color: #71767a; }
+        #no-results { display: none; margin: 2rem 0; }
+    </style>
+    <script defer src="../js/site.js"></script>
+
+<meta name="color-scheme" content="dark">
+<style id="force-dark-mode">
+:root { color-scheme: dark !important; }
+html, body {
+  background-color: #030712 !important;
+  color: #f8fafc !important;
+  color-scheme: dark !important;
+}
+.usa-section, .usa-layout-docs, .usa-header, .usa-footer, main, header, footer, nav, body,
+.usa-footer__primary-section, .usa-footer__secondary-section,
+.usa-footer__return-to-top, .usa-footer__nav {
+  background-color: #030712 !important;
+  color: #f8fafc !important;
+}
+/* ── Full-width navbar ── */
+.usa-nav-container {
+  max-width: 100% !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+.usa-header {
+  width: 100% !important;
+}
+/* ── US Government Banner & Dropdown (Strict White BG & Black Text) ── */
+.usa-banner,
+.usa-banner *,
+.usa-banner header,
+.usa-banner .usa-banner__header,
+.usa-banner .usa-banner__inner,
+.usa-banner .usa-banner__content,
+.usa-banner p,
+.usa-banner span,
+.usa-banner strong,
+.usa-banner button,
+.usa-banner .usa-banner__header-text,
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  position: relative !important;
+  z-index: 1000 !important;
+  width: 100% !important;
+}
+
+.usa-banner .usa-banner__header {
+  padding: 0.4rem 1.25rem !important;
+}
+
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+}
+
+.usa-banner .usa-banner__button:hover,
+.usa-banner .usa-banner__header-action:hover {
+  color: #000000 !important;
+  background-color: #f3f4f6 !important;
+}
+
+.usa-banner .usa-banner__content {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  padding: 1rem 1.25rem 1.25rem !important;
+  border-top: 1px solid #e5e7eb !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner .usa-banner__content[hidden] {
+  display: none !important;
+}
+
+.usa-banner .usa-banner__lock-image,
+.usa-banner .usa-banner__lock-image path {
+  fill: #1b1b1b !important;
+  color: #1b1b1b !important;
+}
+</style>
+
+    <script defer src="../js/recovery-toast.js"></script>
+<style>
+</style>
+</head>
+<body>
+    <a class="usa-skipnav" href="#main-content">Skip to content</a>
+    <section class="usa-banner padding-bottom-2 desktop:padding-bottom-0" aria-label="Official website of the United States government">
+        <div class="usa-accordion">
+            <header class="usa-banner__header">
+                <div class="usa-banner__inner">
+                    <div class="grid-col-auto">
+                        <img aria-hidden="true" class="usa-banner__header-flag" src="../images/us_flag_small.36692.png" alt="">
+                    </div>
+                    <div class="grid-col-fill tablet:grid-col-auto" aria-hidden="true">
+                        <p class="usa-banner__header-text">An official website of the United States government</p>
+                        <p class="usa-banner__header-action">Here&rsquo;s how you know</p>
+                    </div>
+                    <button type="button" class="usa-accordion__button usa-banner__button" aria-expanded="false" aria-controls="gov-banner-default">
+                        <span class="usa-banner__button-text">Here&rsquo;s how you know</span>
+                    </button>
+                </div>
+            </header>
+        </div>
+    </section>
+    <div class="usa-overlay"></div>
+    <header id="ic3Header" class="usa-header usa-header--basic usa-header--megamenu desktop:margin-0">
+        <div class="usa-nav-container">
+            <div class="usa-navbar">
+                <div class="usa-logo">
+                    <a href="../index.html">
+                        <img class="usa-footer__logo-img" src="../images/ic3ratlogo.jpeg" alt="IC3 RAT Logo" style="height:72px;width:auto;object-fit:contain;">
+                    </a>
+                    <em class="usa-logo__text"><a href="../Home/Index.html">Internet Crime Complaint Center (IC3)</a></em>
+                </div>
+                <button type="button" class="usa-menu-btn">Menu</button>
+            </div>
+            <nav aria-label="Primary navigation" class="usa-nav">
+                <button type="button" class="usa-nav__close">
+                    <svg width="24" height="24" viewbox="0 0 24 24" role="img">
+                        <title>Close</title>
+                        <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="#ffffff"></path>
+                    </svg>
+                </button>
+                <ul class="usa-nav__primary usa-accordion">
+                    <li class="usa-nav__primary-item">
+                        <a class="usa-nav-link" href="../index.html#fileTerms">File A Complaint</a>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <a class="usa-nav-link" href="../PSA.html">Public Info</a>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <a class="usa-nav-link" href="../CSA.html">Industry Info</a>
+                    </li>
+                    <li class="usa-nav__primary-item">
+                        <a class="usa-nav-link" href="../login.html" style="font-weight:700;">Client Login</a>
+                    </li>
+                </ul>
+                <section aria-label="Search component">
+                    <form id="search-form" action="Results.html" autocomplete="off" class="usa-search usa-search--small" role="search" method="get">
+                        <label class="usa-sr-only" for="search-field">Search</label>
+                        <input class="usa-input" id="search-field" type="search" name="term">
+                        <button class="usa-button" type="submit">
+                            <img src="../images/search--white.a22b1.svg" class="usa-search__submit-icon" alt="Search">
+                        </button>
+                    </form>
+                </section>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" class="usa-prose grid-container">
+        <h1>Search Results</h1>
+        <div id="search-status"></div>
+        <div id="results-container"></div>
+        <div id="no-results">
+            <p>No results found for your search. Please try different keywords.</p>
+        </div>
+    </main>
+
+    <footer id="ic3Footer" class="usa-footer usa-footer--slim">
+        <div class="grid-container usa-footer__return-to-top">
+            <a href="#">Return to top</a>
+        </div>
+        <div class="usa-footer__secondary-section">
+            <div class="grid-container">
+                <div id="foot" class="usa-footer__logo grid-row grid-gap-2">
+                    <div class="grid-col-auto">
+                        <picture>
+                            <source srcset="../images/fbi_seal_new.8aaa0.webp" type="image/webp">
+                            <img class="usa-footer__logo-img" src="../images/fbi_seal_new.8aaa0.png" alt="FBI Seal">
+                        </source></picture>
+                        <div class="agency">
+                            <h1>FBI</h1>
+                            <h3>Federal Bureau of Investigation</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // ── Minimal full-text search engine ──────────────────────────────────────
+    (async function() {
+        const statusEl = document.getElementById('search-status');
+        const resultsEl = document.getElementById('results-container');
+        const noResultsEl = document.getElementById('no-results');
+
+        // Get query from URL params
+        const params = new URLSearchParams(window.location.search);
+        const query = (params.get('term') || '').trim();
+
+        // Pre-fill search field
+        const field = document.getElementById('search-field');
+        if (field) field.value = query;
+
+        if (!query) {
+            statusEl.textContent = 'Enter a search term above.';
+            return;
+        }
+
+        statusEl.textContent = 'Searching…';
+
+        // Load index
+        let docs;
+        try {
+            const resp = await fetch('../search_index.json');
+            docs = await resp.json();
+        } catch (e) {
+            statusEl.textContent = 'Search index unavailable.';
+            return;
+        }
+
+        // Score docs
+        const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+
+        function score(doc) {
+            let s = 0;
+            const titleLower = doc.title.toLowerCase();
+            const bodyLower = doc.body.toLowerCase();
+            for (const t of terms) {
+                // Title hits worth 5x
+                let idx = 0;
+                while ((idx = titleLower.indexOf(t, idx)) !== -1) { s += 5; idx++; }
+                idx = 0;
+                while ((idx = bodyLower.indexOf(t, idx)) !== -1) { s += 1; idx++; }
+            }
+            return s;
+        }
+
+        function highlight(text, terms) {
+            let result = text;
+            for (const t of terms) {
+                const re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+                result = result.replace(re, '<mark>$1</mark>');
+            }
+            return result;
+        }
+
+        function snippet(body, terms) {
+            const lower = body.toLowerCase();
+            let best = 0;
+            for (const t of terms) {
+                const idx = lower.indexOf(t);
+                if (idx > 0) { best = idx; break; }
+            }
+            const start = Math.max(0, best - 80);
+            const raw = body.substring(start, start + 300);
+            return (start > 0 ? '…' : '') + highlight(raw, terms) + '…';
+        }
+
+        const scored = docs
+            .map(d => ({ doc: d, score: score(d) }))
+            .filter(x => x.score > 0)
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 30);
+
+        if (scored.length === 0) {
+            statusEl.textContent = `No results for "${query}".`;
+            noResultsEl.style.display = 'block';
+            return;
+        }
+
+        statusEl.textContent = `${scored.length} result${scored.length !== 1 ? 's' : ''} for "${query}"`;
+
+        resultsEl.innerHTML = scored.map(({ doc }) => {
+            // Compute relative path from Search/Results.html to the doc
+            const href = '../' + doc.path;
+            return `<div class="search-result">
+                <h3><a href="#">${highlight(doc.title, terms)}</a></h3>
+                <div class="path">${doc.path}</div>
+                <div class="snippet">${snippet(doc.body, terms)}</div>
+            </div>`;
+        }).join('');
+    })();
+    </script>
+
+
+
+<script>
+// Universal Government Banner Accordion Toggle
+(function() {
+  function initGovBannerToggle() {
+    var banner = document.querySelector('.usa-banner');
+    if (!banner) return;
+    var content = banner.querySelector('.usa-banner__content, #gov-banner-default');
+    if (!content) return;
+
+    if (!banner._govInitDone) {
+      banner._govInitDone = true;
+      content.hidden = true;
+      content.style.display = 'none';
+    }
+
+    var toggleBtn = banner.querySelector('.usa-banner__button');
+
+    function toggleBanner(e) {
+      if (e) {
+        if (e.target.closest && e.target.closest('.usa-banner__content')) return;
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      var isHidden = content.hidden || content.style.display === 'none';
+      if (isHidden) {
+        content.hidden = false;
+        content.style.display = 'block';
+        content.style.position = 'relative';
+        content.style.left = 'auto';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        content.hidden = true;
+        content.style.display = 'none';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    var clickableTargets = banner.querySelectorAll('.usa-banner__button, .usa-banner__header-action, .usa-banner__button-text');
+    clickableTargets.forEach(function(el) {
+      el.style.cursor = 'pointer';
+      el.onclick = toggleBanner;
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGovBannerToggle);
+  } else {
+    initGovBannerToggle();
+  }
+})();
+</script>
+</body>
+</html>

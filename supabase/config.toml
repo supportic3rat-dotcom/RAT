@@ -1,0 +1,16 @@
+project_id = "YOUR_PROJECT_REF"
+
+[functions.submit-complaint]
+verify_jwt = false
+
+[functions.push-subscribe]
+verify_jwt = false
+
+[functions.push-notify]
+verify_jwt = false
+
+[functions.admin-auth]
+verify_jwt = false
+
+[functions.admin-moderation]
+verify_jwt = false

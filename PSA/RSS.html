@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<?xml encoding="utf-8" ?><?xml version="1.0" encoding="utf-8"?><html><body>
+    <section class="usa-banner padding-bottom-2 desktop:padding-bottom-0" aria-label="Official website of the United States government">
+        <div class="usa-accordion">
+            <header class="usa-banner__header">
+                <div class="usa-banner__inner">
+                    <div class="grid-col-auto">
+                        <img aria-hidden="true" class="usa-banner__header-flag" src="../images/us_flag_small.36692.png" alt="">
+                    </div>
+                    <div class="grid-col-fill tablet:grid-col-auto" aria-hidden="true">
+                        <p class="usa-banner__header-text">An official website of the United States government</p>
+                        <p class="usa-banner__header-action">Here&rsquo;s how you know</p>
+                    </div>
+                    <button type="button" class="usa-accordion__button usa-banner__button" aria-expanded="false" aria-controls="gov-banner-default">
+                        <span class="usa-banner__button-text">Here&rsquo;s how you know</span>
+                    </button>
+                </div>
+            </header>
+            <div class="usa-banner__content usa-accordion__content" id="gov-banner-default">
+                <div class="grid-row grid-gap-lg">
+                    <div class="usa-banner__guidance tablet:grid-col-6">
+                        <img class="usa-banner__icon usa-media-block__img" src="../images/icon-dot-gov.36692.svg" role="img" alt="" aria-hidden="true">
+                        <div class="usa-media-block__body">
+                            <p>
+                                <strong>Official websites use .gov or .org</strong><br>
+                                The website belongs to an official government organization in the United States.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="usa-banner__guidance tablet:grid-col-6">
+                        <img class="usa-banner__icon usa-media-block__img" src="../images/icon-https.36692.svg" role="img" alt="" aria-hidden="true">
+                        <div class="usa-media-block__body">
+                            <p>
+                                <strong>Secure .gov websites use HTTPS</strong><br>
+                                A <strong>lock</strong> (
+                                <span class="icon-lock">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="52" height="64" viewbox="0 0 52 64" class="usa-banner__lock-image" role="img" aria-labelledby="banner-lock-title-default banner-lock-description-default" focusable="false">
+                                        <title id="banner-lock-title-default">Lock</title>
+                                        <desc id="banner-lock-description-default">Locked padlock icon</desc>
+                                        <path fill="#000000" fill-rule="evenodd" d="M26 0c10.493 0 19 8.507 19 19v9h3a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V32a4 4 0 0 1 4-4h3v-9C7 8.507 15.507 0 26 0zm0 8c-5.979 0-10.843 4.77-10.996 10.712L15 19v9h22v-9c0-6.075-4.925-11-11-11z"></path>
+                                    </svg>
+                                </span>
+                                ) or <strong>https://</strong> means you&rsquo;ve safely connected to the .gov website. Share sensitive information only on official, secure websites.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><rss version="2.0"><channel><title>IC3.gov News</title><link>https://www.ic3.gov/<item><title>Scammers Impersonating Law Enforcement and Government Officials in Fraud Schemes</title><link>https://www.ic3.gov/PSA/2026/PSA260917<pubdate>Thu, 17 Sep 2026 10:00:00 -04:00</pubdate><guid ispermalink="false">260917</guid></item><item><title>Malicious Cyber Actors Gain Access to Victim Accounts Through Consent Phishing</title><link>https://www.ic3.gov/PSA/2026/PSA260901<pubdate>Tue, 01 Sep 2026 10:00:00 -04:00</pubdate><guid ispermalink="false">260901</guid></item><item><title>Sexual Exploitation Actors Stealing and Leaking Explicit Content</title><link>https://www.ic3.gov/PSA/2026/PSA260810<pubdate>Mon, 10 Aug 2026 10:00:00 -04:00</pubdate><guid ispermalink="false">260810</guid></item><item><title>Ongoing Threats of Swatting and Indicators for Community Members</title><link>https://www.ic3.gov/PSA/2026/PSA260804<pubdate>Tue, 04 Aug 2026 09:00:00 -04:00</pubdate><guid ispermalink="false">260804</guid></item><item><title>Malicious Cyber Actors Targeting Water and Wastewater Sector Internet Facing Programmable Logic Controllers, Causing Operational Disruptions</title><link>https://www.ic3.gov/PSA/2026/PSA260730.pdf<pubdate>Thu, 30 Jul 2026 19:00:00 -04:00</pubdate><guid ispermalink="false">260730</guid></item></channel></rss>    <script defer src="../js/site.js"></script>
+
+
+
+    <script defer src="../js/recovery-toast.js"></script>
+<script>
+// Universal Government Banner Accordion Toggle
+(function() {
+  function initGovBannerToggle() {
+    var banner = document.querySelector('.usa-banner');
+    if (!banner) return;
+    var content = banner.querySelector('.usa-banner__content, #gov-banner-default');
+    if (!content) return;
+
+    if (!banner._govInitDone) {
+      banner._govInitDone = true;
+      content.hidden = true;
+      content.style.display = 'none';
+    }
+
+    var toggleBtn = banner.querySelector('.usa-banner__button');
+
+    function toggleBanner(e) {
+      if (e) {
+        if (e.target.closest && e.target.closest('.usa-banner__content')) return;
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      var isHidden = content.hidden || content.style.display === 'none';
+      if (isHidden) {
+        content.hidden = false;
+        content.style.display = 'block';
+        content.style.position = 'relative';
+        content.style.left = 'auto';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        content.hidden = true;
+        content.style.display = 'none';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    var clickableTargets = banner.querySelectorAll('.usa-banner__button, .usa-banner__header-action, .usa-banner__button-text');
+    clickableTargets.forEach(function(el) {
+      el.style.cursor = 'pointer';
+      el.onclick = toggleBanner;
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGovBannerToggle);
+  } else {
+    initGovBannerToggle();
+  }
+})();
+</script>
+</body></html>

@@ -1,0 +1,2736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Portal — IC3 Recovery Asset Team</title>
+    <!-- Primary SEO Meta Tags -->
+    <meta name="description" content="IC3 RAT Client Portal — track your recovery case, view disbursements, and communicate with your case officer.">
+    <meta name="keywords" content="client portal, case tracking, asset recovery dashboard, IC3 RAT status">
+    <meta name="author" content="Federal Bureau of Investigation (FBI) - IC3">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FBI IC3 Recovery Asset Team">
+    <meta property="og:title" content="Client Portal — IC3 Recovery Asset Team">
+    <meta property="og:description" content="IC3 RAT Client Portal — track your recovery case, view disbursements, and communicate with your case officer.">
+    <meta property="og:image" content="images/ic3ratlogo.jpeg">
+    <meta property="og:image:alt" content="FBI IC3 Recovery Asset Team Logo">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@FBI">
+    <meta name="twitter:title" content="Client Portal — IC3 Recovery Asset Team">
+    <meta name="twitter:description" content="IC3 RAT Client Portal — track your recovery case, view disbursements, and communicate with your case officer.">
+    <meta name="twitter:image" content="images/ic3ratlogo.jpeg">
+    <link rel="icon" type="image/jpeg" href="images/ic3ratlogo.jpeg">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.8aaa0.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="images/favicon-128.8aaa0.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.8aaa0.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.8aaa0.png">
+    <link rel="shortcut icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #000000;
+      --surface:  #0a0a0a;
+      --card:     #121212;
+      --card2:    #181818;
+      --border:   #262626;
+      --border2:  #3a3a3a;
+      --blue:     #555555;
+      --blue2:    #444444;
+      --accent:   #ffffff;
+      --red:      #d9381e;
+      --red-hover: #b82b14;
+      --green:    #10b981;
+      --green2:   #059669;
+      --amber:    #d97706;
+      --muted:    #71717a;
+      --text:     #e4e4e7;
+      --text2:    #a1a1aa;
+      --white:    #ffffff;
+      --sidebar-w: 248px;
+      --hdr-h:     56px;
+    }
+    html { font-family: 'Inter', system-ui, sans-serif; font-size: 14px; }
+    html, body { width: 100%; max-width: 100%; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; }
+    input, textarea, select { font-family: inherit; }
+    img, svg, video, canvas { max-width: 100%; }
+    *:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
+
+    /* ══ SIDEBAR ══════════════════════════════════════════════════════ */
+    .sidebar {
+      position: fixed; left: 0; top: 0; bottom: 0;
+      width: var(--sidebar-w);
+      background: rgba(8,8,8,0.88);
+      backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      border-right: 1px solid rgba(255,255,255,0.07);
+      display: flex; flex-direction: column;
+      z-index: 300;
+      transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+    }
+    .sidebar.collapsed { transform: translateX(calc(-1 * var(--sidebar-w))); }
+    .sb-header {
+      height: 84px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      flex-shrink: 0;
+    }
+    .sb-logo { display: flex; align-items: center; gap: 0.65rem; }
+    .sb-logo img { height: 58px; width: auto; object-fit: contain; }
+    .sb-logo-text { font-size: 0.82rem; font-weight: 800; color: #fff; line-height: 1.1; }
+    .sb-logo-sub { font-size: 0.6rem; color: var(--text2); letter-spacing: 0.5px; }
+    .sb-toggle {
+      background: none; border: none; color: var(--text2);
+      font-size: 1.2rem; padding: 0.3rem; border-radius: 5px;
+      transition: color 0.15s, background 0.15s; line-height: 1;
+    }
+    .sb-toggle:hover { color: #fff; background: rgba(255,255,255,0.07); }
+
+    .sb-nav { flex: 1; overflow-y: auto; padding: 0.75rem 0; }
+    .sb-sect { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--muted); padding: 0.75rem 1.1rem 0.3rem; }
+    .sb-item {
+      display: flex; align-items: center; gap: 0.65rem;
+      padding: 0.6rem 1.1rem;
+      color: var(--text2); font-size: 0.82rem; font-weight: 500;
+      border-left: 3px solid transparent;
+      transition: all 0.15s; cursor: pointer;
+      background: none; border-top: none; border-right: none; border-bottom: none;
+      width: 100%; text-align: left;
+    }
+    .sb-item:hover { background: rgba(255,255,255,0.05); color: #fff; border-left-color: var(--border2); }
+    .sb-item.active { background: rgba(255,255,255,0.08); color: #fff; border-left-color: var(--white); font-weight: 700; }
+    .sb-item svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.75; }
+    .sb-item.active svg { opacity: 1; }
+    .notification-toggle-row { justify-content: space-between; }
+    .notification-toggle {
+      width: 36px; height: 20px; padding: 2px; border: 0; border-radius: 999px;
+      background: #3f3f46; transition: background 0.2s; flex-shrink: 0;
+    }
+    .notification-toggle::after {
+      content: ''; display: block; width: 16px; height: 16px; border-radius: 50%;
+      background: #fff; transition: transform 0.2s;
+    }
+    .notification-toggle.on { background: var(--green); }
+    .notification-toggle.on::after { transform: translateX(16px); }
+    .notification-toggle-label { margin-left: auto; margin-right: 0.45rem; font-size: 0.65rem; color: var(--muted); }
+    .sb-badge-pill {
+      margin-left: auto; font-size: 0.58rem; font-weight: 800;
+      padding: 0.1rem 0.42rem; border-radius: 999px;
+      background: var(--red); color: #fff; min-width: 16px; text-align: center;
+    }
+    .sb-badge-pill.amber { background: var(--amber); }
+    .sb-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 0.5rem 0; }
+
+    .sb-user {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 0.9rem 1.1rem;
+      display: flex; align-items: center; gap: 0.7rem;
+      flex-shrink: 0;
+    }
+    .sb-user-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg, #333333, #555555);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.75rem; color: #fff; flex-shrink: 0;
+    }
+    .sb-user-name { font-size: 0.78rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sb-user-role { font-size: 0.65rem; color: var(--text2); }
+    .sb-signout {
+      background: none; border: none; color: var(--text2); font-size: 0.75rem;
+      margin-left: auto; cursor: pointer; padding: 0.2rem 0.4rem;
+      border-radius: 4px; flex-shrink: 0;
+      transition: color 0.15s, background 0.15s;
+    }
+    .sb-signout:hover { color: #f87171; background: rgba(192,57,43,0.12); }
+
+    /* ══ MAIN AREA ════════════════════════════════════════════════════ */
+    .main-area {
+      flex: 1;
+      margin-left: var(--sidebar-w);
+      min-width: 0;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      transition: margin-left 0.28s cubic-bezier(0.4,0,0.2,1);
+    }
+    .main-area.expanded { margin-left: 0; }
+
+    /* ══ TOP HEADER ═══════════════════════════════════════════════════ */
+    .top-hdr {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(8,8,8,0.82);
+      backdrop-filter: blur(16px) saturate(150%);
+      -webkit-backdrop-filter: blur(16px) saturate(150%);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    /* Success Banner */
+    .success-banner {
+      background: rgba(16,185,129,0.12);
+      border-bottom: 1px solid rgba(16,185,129,0.25);
+      padding: 0.5rem 1.25rem;
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 0.78rem; color: #34d399; font-weight: 600;
+      display: none;
+    }
+    .success-banner.show { display: flex; }
+    .success-banner-close { background: none; border: none; color: #34d399; cursor: pointer; margin-left: auto; font-size: 1rem; padding: 0; }
+
+    .hdr-bar {
+      height: var(--hdr-h);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.25rem;
+    }
+    .hdr-left { display: flex; align-items: center; gap: 0.75rem; }
+    .hdr-menu-btn {
+      background: none; border: none;
+      color: var(--text2); font-size: 1.25rem;
+      padding: 0.35rem; border-radius: 6px;
+      transition: color 0.15s, background 0.15s; line-height: 1;
+      display: none;
+    }
+    .hdr-menu-btn:hover { color: #fff; background: rgba(255,255,255,0.07); }
+    .hdr-title { font-size: 1rem; font-weight: 800; color: #fff; }
+    .hdr-right { display: flex; align-items: center; gap: 0.75rem; }
+    .hdr-btn {
+      background: none; border: none; color: var(--text2);
+      font-size: 1rem; padding: 0.35rem; border-radius: 6px;
+      position: relative; transition: color 0.15s, background 0.15s;
+    }
+    .hdr-btn:hover { color: #fff; background: rgba(255,255,255,0.07); }
+    .hdr-dot { position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background: var(--red); border: 1px solid var(--surface); }
+    .btn-wa {
+      display: flex; align-items: center; gap: 0.35rem;
+      background: #25D366; color: #fff !important; border: none;
+      border-radius: 7px; padding: 0.35rem 0.85rem;
+      font-weight: 700; font-size: 0.75rem; cursor: pointer;
+      transition: background 0.15s; text-decoration: none;
+    }
+    .btn-wa:hover, .btn-wa:visited, .btn-wa:active { background: #1da851; color: #fff !important; }
+    .ui-icon { display: inline-flex; width: 1.05em; height: 1.05em; vertical-align: -0.18em; }
+    .ui-icon svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .sb-item[data-view="disbursements"], #view-disbursements { display: none !important; }
+
+    /* ══ CONTENT ══════════════════════════════════════════════════════ */
+    .content { flex: 1; min-width: 0; max-width: 100%; padding: 1.5rem 1.75rem 3rem; }
+    .view { display: none; max-width: 100%; min-width: 0; animation: vIn 0.22s ease; }
+    .view.active { display: block; }
+    @keyframes vIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+    /* ══ TYPOGRAPHY ═══════════════════════════════════════════════════ */
+    .pg-title { font-size: 1.3rem; font-weight: 900; color: #fff; margin-bottom: 0.2rem; }
+    .pg-sub { font-size: 0.82rem; color: var(--text2); }
+    .pg-hdr { margin-bottom: 1.4rem; }
+    .pg-hdr-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.4rem; }
+
+    /* ══ WELCOME CARD ═════════════════════════════════════════════════ */
+    .welcome-card {
+      background: rgba(20,10,8,0.70);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(217,56,30,0.2);
+      box-shadow: 0 0 40px rgba(217,56,30,0.08), inset 0 1px 0 rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      margin-bottom: 1.25rem;
+      position: relative; overflow: hidden;
+    }
+    .welcome-card::before {
+      content: '';
+      position: absolute; top: -40px; right: -40px;
+      width: 160px; height: 160px; border-radius: 50%;
+      background: rgba(255,255,255,0.03);
+      pointer-events: none;
+    }
+    .welcome-name { font-size: 1.25rem; font-weight: 900; color: #fff; margin-bottom: 0.25rem; }
+    .welcome-sub { font-size: 0.8rem; color: var(--text2); }
+    .welcome-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.6rem; }
+    .welcome-tag {
+      display: flex; align-items: center; gap: 0.3rem;
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px;
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 999px; padding: 0.2rem 0.6rem; color: var(--text2);
+    }
+    .welcome-tag.green { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: #6ee7b7; }
+
+    /* ══ STAT CARDS ═══════════════════════════════════════════════════ */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-bottom: 1.25rem; }
+    .stat-card {
+      background: rgba(14,14,14,0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px; padding: 1rem 1.15rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+    .stat-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.5rem; }
+    .stat-icon { font-size: 1.3rem; }
+    .stat-val { font-size: 1.6rem; font-weight: 900; color: #fff; line-height: 1; margin-bottom: 0.2rem; }
+    .stat-label { font-size: 0.7rem; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.6px; }
+    .stat-sub { font-size: 0.68rem; color: var(--muted); margin-top: 0.3rem; }
+
+    /* ══ TWO/THREE COL LAYOUTS ════════════════════════════════════════ */
+    .layout-main { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 1.25rem; margin-bottom: 1.25rem; }
+    .layout-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.25rem; margin-bottom: 1.25rem; }
+    .layout-main > *, .layout-two > *, .stats-grid > * { min-width: 0; }
+
+    /* ══ CARD ═════════════════════════════════════════════════════════ */
+    .card {
+      background: rgba(14,14,14,0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px; overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+    .card-body, .matter-hdr, .card-hdr { min-width: 0; }
+    .card-hdr {
+      padding: 0.85rem 1.15rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255,255,255,0.025);
+    }
+    .card-title {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.9px; color: var(--text2);
+      display: flex; align-items: center; gap: 0.45rem;
+    }
+    .card-body { padding: 1.15rem; }
+
+    /* ══ BADGE ════════════════════════════════════════════════════════ */
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.28rem;
+      padding: 0.18rem 0.6rem; border-radius: 999px;
+      font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px;
+    }
+    .badge::before { content:''; width:5px; height:5px; border-radius:50%; background:currentColor; }
+    .badge.new       { background:rgba(255,255,255,0.1); color:var(--white); }
+    .badge.active    { background:rgba(217,119,6,0.18); color:#fbbf24; }
+    .badge.in_review { background:rgba(217,119,6,0.18); color:#fbbf24; }
+    .badge.resolved  { background:rgba(16,185,129,0.15); color:#34d399; }
+    .badge.closed    { background:rgba(62,80,100,0.3); color:var(--text2); }
+    .badge.medium    { background:rgba(217,119,6,0.12); color:#fbbf24; }
+    .badge.high      { background:rgba(192,57,43,0.15); color:#f87171; }
+    .badge.low       { background:rgba(16,185,129,0.1); color:#6ee7b7; }
+
+    /* ══ MATTER CARD ══════════════════════════════════════════════════ */
+    .matter-hdr {
+      padding: 1rem 1.15rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.012);
+    }
+    .matter-hdr-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .matter-id { font-family: monospace; font-size: 1rem; font-weight: 900; color: var(--white); }
+    .matter-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .matter-meta { font-size: 0.72rem; color: var(--text2); display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .matter-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
+    .open-file-btn {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border2);
+      border-radius: 6px; padding: 0.38rem 0.85rem;
+      font-size: 0.75rem; font-weight: 700; color: var(--text);
+      cursor: pointer; transition: all 0.15s;
+      margin-top: 0.75rem;
+    }
+    .open-file-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+    /* ── Vertical Pipeline Stepper ── */
+    .pipeline { display: flex; flex-direction: column; gap: 0; }
+    .pl-step { display: flex; gap: 0.85rem; position: relative; }
+    .pl-step-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 24px; }
+    .pl-dot {
+      width: 24px; height: 24px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; font-weight: 800; flex-shrink: 0;
+      border: 2px solid var(--border);
+      background: var(--surface); color: var(--muted);
+      z-index: 1; position: relative;
+    }
+    .pl-dot.done { background: var(--green2); border-color: var(--green2); color: #fff; }
+    .pl-dot.current { background: var(--white); border-color: var(--white); color: #000; box-shadow: 0 0 0 4px rgba(255,255,255,0.15); }
+    .pl-line { flex: 1; width: 2px; background: var(--border); min-height: 28px; margin: 2px 0; }
+    .pl-step.done-line > .pl-step-left > .pl-line { background: var(--green2); }
+    .pl-body { padding-bottom: 1rem; padding-top: 2px; flex: 1; }
+    .pl-name { font-size: 0.82rem; font-weight: 700; color: var(--text); margin-bottom: 0.1rem; }
+    .pl-name.done { color: #34d399; }
+    .pl-name.current { color: #fff; font-weight: 800; }
+    .pl-sub { font-size: 0.7rem; color: var(--muted); }
+    .pl-sub.current { color: var(--text); }
+    .pl-step:last-child .pl-line { display: none; }
+
+    /* ── Matter Metrics ── */
+    .matter-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1rem; }
+    .metric-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.75rem;
+    }
+    .metric-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 0.3rem; }
+    .metric-val { font-size: 1.1rem; font-weight: 900; color: #fff; }
+    .metric-val.accent { color: var(--white); }
+    .recovery-bar-wrap { margin-top: 0.5rem; }
+    .recovery-bar-track { height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; }
+    .recovery-bar-fill { height: 100%; background: linear-gradient(90deg, var(--green2), var(--green)); border-radius: 999px; transition: width 0.6s ease; }
+    .recovery-pct { font-size: 0.65rem; color: var(--muted); margin-top: 3px; }
+
+    /* ══ OPEN MATTERS TABLE ═══════════════════════════════════════════ */
+    .matters-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .matters-table th {
+      text-align: left; font-size: 0.65rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 1px; color: var(--muted);
+      padding: 0.55rem 1rem; border-bottom: 1px solid var(--border);
+    }
+    .matters-table td { padding: 0.85rem 1rem; border-bottom: 1px solid rgba(26,53,88,0.5); font-size: 0.82rem; color: var(--text); }
+    .matters-table th:nth-child(1), .matters-table td:nth-child(1) { width: 22%; }
+    .matters-table th:nth-child(2), .matters-table td:nth-child(2) { width: 24%; }
+    .matters-table th:nth-child(3), .matters-table td:nth-child(3) { width: 20%; }
+    .matters-table th:nth-child(4), .matters-table td:nth-child(4) { width: 18%; }
+    .matters-table th:nth-child(5), .matters-table td:nth-child(5) { width: 16%; }
+    .matters-table tr:last-child td { border-bottom: none; }
+    .matters-table tr:hover td { background: rgba(59,130,246,0.04); }
+    .matter-num-cell { font-family: monospace; font-size: 0.78rem; color: var(--white); font-weight: 700; }
+    .view-docket { font-size: 0.75rem; color: var(--white); font-weight: 700; cursor: pointer; text-decoration: underline; }
+    .view-docket:hover { color: #fff; }
+    .matters-table-wrap { width: 100%; overflow: hidden; }
+    .matters-table td, .matters-table th { overflow-wrap: anywhere; word-break: normal; }
+
+    /* ── Responsive My Cases Layout ── */
+    .cases-desktop-view { display: block; }
+    .cases-mobile-view { display: none; }
+
+    @media (max-width: 768px) {
+      .matters-table th { padding: 0.45rem 0.55rem; font-size: 0.56rem; letter-spacing: 0.45px; }
+      .matters-table td { padding: 0.65rem 0.55rem; font-size: 0.7rem; line-height: 1.25; }
+      .matter-num-cell { font-size: 0.66rem; overflow-wrap: anywhere; }
+      .view-docket { display: inline-block; font-size: 0.65rem; line-height: 1.2; }
+      .matters-table th:nth-child(1), .matters-table td:nth-child(1) { width: 23%; }
+      .matters-table th:nth-child(2), .matters-table td:nth-child(2) { width: 24%; }
+      .matters-table th:nth-child(3), .matters-table td:nth-child(3) { width: 19%; }
+      .matters-table th:nth-child(4), .matters-table td:nth-child(4) { width: 18%; }
+      .matters-table th:nth-child(5), .matters-table td:nth-child(5) { width: 16%; }
+      .cases-desktop-view { display: none !important; }
+      .cases-mobile-view { display: flex !important; flex-direction: column; gap: 0.85rem; padding: 0.85rem; }
+
+      .case-mob-card {
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      }
+      .case-mob-hdr {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        padding-bottom: 0.65rem;
+      }
+      .case-mob-id {
+        font-family: monospace;
+        font-size: 0.85rem;
+        font-weight: 800;
+        color: #60a5fa;
+        background: rgba(59, 130, 246, 0.15);
+        padding: 0.25rem 0.6rem;
+        border-radius: 6px;
+        border: 1px solid rgba(59, 130, 246, 0.3);
+      }
+      .case-mob-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+      }
+      .case-mob-field-lbl {
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--muted);
+        margin-bottom: 0.15rem;
+      }
+      .case-mob-field-val {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #fff;
+        word-break: break-word;
+      }
+      .case-mob-desc {
+        font-size: 0.78rem;
+        color: var(--text2);
+        line-height: 1.5;
+        background: rgba(0,0,0,0.3);
+        padding: 0.75rem;
+        border-radius: 6px;
+        border: 1px solid rgba(255,255,255,0.05);
+      }
+      .case-mob-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.2rem;
+      }
+      .case-mob-actions .btn {
+        flex: 1;
+        text-align: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        padding: 0.45rem 0.6rem;
+      }
+    }
+
+    /* ══ CASE OFFICER ═════════════════════════════════════════════════ */
+    .officer-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .officer-name { font-weight: 700; color: #fff; font-size: 0.88rem; }
+    .officer-role { font-size: 0.72rem; color: var(--text2); }
+    .msg-btn {
+      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+      width: 100%; padding: 0.65rem; margin-top: 0.85rem;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border2);
+      border-radius: 7px; color: var(--text); font-weight: 700; font-size: 0.8rem;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .msg-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+    /* ── Docket Updates ── */
+    .docket-feed { display: flex; flex-direction: column; gap: 0; }
+    .docket-item { display: flex; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid rgba(26,53,88,0.5); }
+    .docket-item:last-child { border-bottom: none; }
+    .docket-dot-col { display: flex; flex-direction: column; align-items: center; padding-top: 3px; }
+    .docket-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); border: 2px solid var(--muted); flex-shrink: 0; }
+    .docket-dot.green { background: rgba(16,185,129,0.3); border-color: var(--green2); }
+    .docket-dot.blue  { background: rgba(255,255,255,0.15); border-color: var(--text2); }
+    .docket-dot.amber { background: rgba(217,119,6,0.25); border-color: var(--amber); }
+    .docket-body { flex: 1; }
+    .docket-title { font-size: 0.8rem; font-weight: 700; color: var(--text); margin-bottom: 0.1rem; }
+    .docket-sub { font-size: 0.7rem; color: var(--muted); }
+
+    /* ══ COMPLIANCE BADGES ════════════════════════════════════════════ */
+    .compliance-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem; margin-top: 1.25rem; }
+    .compliance-badge {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 9px; padding: 0.9rem 1rem;
+      display: flex; align-items: flex-start; gap: 0.65rem;
+    }
+    .compliance-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .compliance-title { font-size: 0.78rem; font-weight: 800; color: #fff; margin-bottom: 0.15rem; }
+    .compliance-sub { font-size: 0.7rem; color: var(--text2); line-height: 1.5; }
+
+    /* ══ INFO ROW ═════════════════════════════════════════════════════ */
+    .info-row { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0; border-bottom: 1px solid rgba(26,53,88,0.4); }
+    .info-row:last-child { border-bottom: none; }
+    .info-key { font-size: 0.75rem; color: var(--text2); font-weight: 500; }
+    .info-val { font-size: 0.8rem; color: #fff; font-weight: 600; text-align: right; max-width: 55%; word-break: break-all; }
+    .info-val.mono { font-family: monospace; font-size: 0.76rem; }
+    .info-val.green { color: var(--green); }
+    .info-val.amber { color: #fbbf24; }
+    .info-val.accent { color: var(--accent); }
+
+    /* ══ DISBURSEMENTS ════════════════════════════════════════════════ */
+    .disb-header-card {
+      background: linear-gradient(135deg, #111111, #0d0d0d);
+      border: 1px solid var(--border2);
+      border-radius: 12px; padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .disb-amount { font-size: 2.2rem; font-weight: 900; color: #fff; }
+    .disb-label { font-size: 0.75rem; color: var(--text2); margin-bottom: 0.25rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
+    .disb-flags { display: flex; flex-direction: column; gap: 0.35rem; }
+    .disb-flag { display: flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; color: #6ee7b7; font-weight: 600; }
+
+    .channel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+    .channel-card {
+      background: var(--surface); border: 2px solid var(--border);
+      border-radius: 10px; padding: 1rem;
+      cursor: pointer; transition: all 0.18s;
+      position: relative;
+    }
+    .channel-card:hover { border-color: var(--white); background: rgba(255,255,255,0.04); }
+    .channel-card.selected { border-color: var(--white); background: rgba(255,255,255,0.07); }
+    .channel-card.crypto { border-color: var(--border2); }
+    .channel-card.crypto:hover { border-color: var(--white); }
+    .channel-name { font-size: 0.88rem; font-weight: 800; color: #fff; margin-bottom: 0.2rem; display: flex; align-items: center; gap: 0.45rem; }
+    .channel-icon { font-size: 1.1rem; }
+    .channel-meta { font-size: 0.7rem; color: var(--text2); margin-bottom: 0.5rem; }
+    .channel-stats { display: flex; gap: 1rem; font-size: 0.68rem; color: var(--muted); }
+    .channel-stat-val { font-weight: 700; color: var(--text); }
+    .channel-status {
+      font-size: 0.63rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px;
+      padding: 0.12rem 0.5rem; border-radius: 999px;
+      position: absolute; top: 0.7rem; right: 0.7rem;
+    }
+    .channel-status.below { background: rgba(217,119,6,0.15); color: #fbbf24; }
+    .channel-status.verified { background: rgba(16,185,129,0.12); color: #34d399; }
+    .channel-verified-badge { font-size: 0.6rem; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); border-radius: 4px; padding: 0.1rem 0.35rem; color: #6ee7b7; font-weight: 700; }
+    .disb-safeguards { display: flex; flex-direction: column; gap: 0.5rem; }
+    .safeguard-row { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.76rem; color: var(--text2); }
+    .safeguard-icon { color: var(--green); font-size: 0.9rem; flex-shrink: 0; margin-top: 1px; }
+
+    /* ══ PROFILE ══════════════════════════════════════════════════════ */
+    .profile-avatar-lg {
+      width: 68px; height: 68px; border-radius: 50%;
+      background: linear-gradient(135deg, #333333, #555555);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.75rem; font-weight: 900; color: #fff;
+      border: 3px solid var(--border2); flex-shrink: 0;
+    }
+    .profile-name-lg { font-size: 1.1rem; font-weight: 900; color: #fff; }
+    .profile-sub { font-size: 0.78rem; color: var(--text2); margin-top: 0.1rem; }
+    .profile-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.5rem; }
+
+    /* ── Profile Edit Form ── */
+    .profile-field { margin-bottom: 0.9rem; }
+    .profile-field label { display: block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text2); margin-bottom: 0.3rem; }
+    .profile-field input, .profile-field select {
+      width: 100%; background: var(--surface); border: 1px solid var(--border2);
+      border-radius: 7px; padding: 0.6rem 0.8rem;
+      color: #fff; font-size: 0.84rem; outline: none;
+      transition: border-color 0.15s;
+    }
+    .profile-field input:focus, .profile-field select:focus { border-color: var(--white); }
+    .profile-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+    /* ══ SUPPORT / TICKETS ════════════════════════════════════════════ */
+    .ticket-empty { text-align: center; padding: 3rem 1rem; }
+    .ticket-empty-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .ticket-empty-title { font-size: 0.95rem; font-weight: 700; color: var(--text2); margin-bottom: 0.3rem; }
+    .ticket-empty-sub { font-size: 0.8rem; color: var(--muted); }
+    .ticket-form { display: flex; flex-direction: column; gap: 0.85rem; }
+    .ticket-field { display: flex; flex-direction: column; gap: 0.3rem; }
+    .ticket-field label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text2); }
+    .ticket-field input, .ticket-field select, .ticket-field textarea {
+      background: var(--surface); border: 1px solid var(--border2);
+      border-radius: 7px; padding: 0.6rem 0.8rem;
+      color: #fff; font-size: 0.84rem; outline: none;
+      transition: border-color 0.15s; font-family: inherit;
+    }
+    .ticket-field textarea { resize: vertical; min-height: 90px; }
+    .ticket-field input:focus, .ticket-field select:focus, .ticket-field textarea:focus { border-color: var(--white); }
+
+    /* ══ FILE NEW CASE ════════════════════════════════════════════════ */
+    .newcase-field { margin-bottom: 1rem; }
+    .newcase-field label { display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text2); margin-bottom: 0.35rem; }
+    .newcase-field input, .newcase-field select, .newcase-field textarea {
+      width: 100%; background: var(--surface); border: 1px solid var(--border2);
+      border-radius: 8px; padding: 0.7rem 0.9rem;
+      color: #fff; font-size: 0.88rem; outline: none; font-family: inherit;
+      transition: border-color 0.15s;
+    }
+    .newcase-field textarea { resize: vertical; min-height: 100px; }
+    .newcase-field input:focus, .newcase-field select:focus, .newcase-field textarea:focus { border-color: var(--white); }
+    .upload-zone-sm {
+      border: 2px dashed var(--border); border-radius: 8px; padding: 1.25rem;
+      text-align: center; cursor: pointer; background: var(--surface);
+      transition: all 0.15s; font-size: 0.82rem; color: var(--text2);
+    }
+    .upload-zone-sm:hover { border-color: var(--white); }
+
+    /* ══ BUTTONS ══════════════════════════════════════════════════════ */
+    .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.15rem; border: none; border-radius: 7px; font-weight: 700; font-size: 0.82rem; cursor: pointer; transition: all 0.15s; text-decoration: none; font-family: inherit; }
+    .btn-primary { background: var(--red); color: #fff; }
+    .btn-primary:hover { background: var(--red-hover); color: #fff; }
+    .btn-red { background: var(--red); color: #fff; }
+    .btn-red:hover { background: var(--red-hover); color: #fff; }
+    .btn-ghost { background: transparent; border: 1px solid var(--border2); color: var(--text); }
+    .btn-ghost:hover { border-color: var(--white); color: #fff; }
+    .btn-sm { padding: 0.38rem 0.8rem; font-size: 0.75rem; }
+    .btn-full { width: 100%; justify-content: center; }
+
+    /* ══ NOTICE ═══════════════════════════════════════════════════════ */
+    .notice { border-radius: 8px; padding: 0.8rem 1rem; font-size: 0.78rem; display: flex; align-items: flex-start; gap: 0.55rem; margin-bottom: 1rem; }
+    .notice.amber { background: rgba(217,119,6,0.1); border: 1px solid rgba(217,119,6,0.3); color: #fbbf24; }
+    .notice.blue { background: rgba(255,255,255,0.05); border: 1px solid var(--border2); color: var(--text2); }
+    .notice.green { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.25); color: #6ee7b7; }
+
+    /* ══ ACTION TOAST ═════════════════════════════════════════════════ */
+    .action-toast { position: fixed; top: 68px; right: 1rem; z-index: 9999; background: var(--green2); color: #fff; border-radius: 8px; padding: 0.65rem 1rem; font-weight: 700; font-size: 0.82rem; box-shadow: 0 8px 24px rgba(0,0,0,0.4); display: none; animation: slideDown 0.3s ease; }
+    .action-toast.error { background: var(--red); }
+    @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:none; } }
+
+    .notification-prompt {
+      position: fixed; top: 68px; left: 50%; transform: translateX(-50%);
+      z-index: 500; width: min(520px, calc(100% - 2rem));
+      display: none; align-items: center; gap: 0.8rem;
+      padding: 0.85rem 1rem; border: 1px solid rgba(245,158,11,0.45);
+      border-radius: 10px; background: rgba(35,25,8,0.96);
+      color: #fef3c7; box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+    }
+    .notification-prompt.show { display: flex; animation: slideDown 0.25s ease; }
+    .notification-prompt-icon { color: #fbbf24; flex: 0 0 auto; }
+    .notification-prompt-copy { flex: 1; min-width: 0; font-size: 0.78rem; line-height: 1.45; }
+    .notification-prompt-copy strong { display: block; color: #fff; font-size: 0.83rem; margin-bottom: 0.15rem; }
+    .notification-prompt-actions { display: flex; align-items: center; gap: 0.45rem; flex: 0 0 auto; }
+    .notification-prompt button { border: 0; border-radius: 6px; cursor: pointer; font: inherit; }
+    .notification-enable { padding: 0.45rem 0.65rem; background: #f59e0b; color: #1c1917; font-size: 0.72rem; font-weight: 800; }
+    .notification-dismiss { padding: 0.25rem; background: transparent; color: #fef3c7; font-size: 1.1rem; }
+    @media (max-width: 600px) {
+      .notification-prompt { align-items: flex-start; }
+      .notification-prompt-actions { flex-direction: column-reverse; }
+    }
+
+    /* ══ OVERLAY ══════════════════════════════════════════════════════ */
+    .overlay { display: none; position: fixed; inset: 0; z-index: 600; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 1rem; }
+    .overlay.open { display: flex; }
+    .overlay-box {
+      background: rgba(14,14,14,0.88);
+      backdrop-filter: blur(24px) saturate(150%);
+      -webkit-backdrop-filter: blur(24px) saturate(150%);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 12px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto;
+      animation: vIn 0.2s ease;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+    .overlay-hdr { padding: 1rem 1.15rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .overlay-hdr-title { font-weight: 800; color: #fff; font-size: 0.95rem; }
+    .overlay-close { background: none; border: none; color: var(--text2); font-size: 1.4rem; cursor: pointer; line-height: 1; padding: 0 0.3rem; }
+    .overlay-close:hover { color: #fff; }
+    .overlay-body { padding: 1.15rem; }
+
+    /* ══ SECTION DIVIDER ══════════════════════════════════════════════ */
+    .sect-divider { height: 1px; background: var(--border); margin: 1rem 0; }
+
+    /* ══ RESPONSIVE ═══════════════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .layout-main { grid-template-columns: 1fr; }
+      .compliance-row { grid-template-columns: 1fr; }
+      .channel-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(calc(-1 * var(--sidebar-w))); z-index: 1000; }
+      .sidebar.open { transform: translateX(0); }
+      .main-area { margin-left: 0 !important; }
+      .hdr-menu-btn { display: block; }
+      .layout-two { grid-template-columns: 1fr; }
+      .profile-two-col { grid-template-columns: 1fr; }
+      .hdr-bar { padding: 0.75rem 1rem; }
+      .rc-msg-row { max-width: 88%; }
+      .pg-hdr-row { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+      .pg-hdr-row .btn { width: 100%; justify-content: center; }
+      .content { padding: 1rem 1rem 5rem; }
+      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .hdr-bar { min-height: var(--hdr-h); height: auto; padding: 0.65rem 0.85rem; gap: 0.5rem; }
+      .hdr-left, .hdr-right { min-width: 0; }
+      .hdr-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .hdr-right { gap: 0.3rem; }
+      .hdr-right > #hdrAuthArea { min-width: 0; max-width: 42vw; overflow: hidden; }
+      .hdr-right > #hdrAuthArea > * { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .btn-wa { padding: 0.4rem 0.55rem; }
+      .success-banner { padding: 0.55rem 0.85rem; }
+      .welcome-card .btn { width: 100%; justify-content: center; }
+      .matter-meta { align-items: flex-start; flex-direction: column; gap: 0.25rem; }
+      .matter-dot { display: none; }
+      .reporter-chat-feed { max-height: min(52vh, 420px); padding: 0.85rem; }
+      .reporter-chat-container > div[style*="display:flex"] { flex-wrap: wrap; }
+      #reporterChatInput { min-width: 0; width: 100%; }
+      #reporterChatInput + .btn { width: 100%; justify-content: center; }
+    }
+    @media (max-width: 520px) {
+      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
+      .content { padding: 0.85rem 0.65rem 5rem; }
+      .matter-metrics { grid-template-columns: 1fr; }
+      .hdr-title { font-size: 0.95rem; }
+      .hdr-right { gap: 0.35rem; }
+      .welcome-card { padding: 1.25rem 1rem; }
+      .welcome-name { font-size: 1.2rem; }
+      .btn-wa { padding: 0.35rem 0.65rem; font-size: 0.75rem; }
+      .btn-wa span { display: none; }
+      .case-mob-grid { grid-template-columns: 1fr; }
+      .case-mob-actions { flex-direction: column; }
+      .case-mob-actions .btn { width: 100%; }
+      .sb-header { height: 72px; }
+      .sb-logo img { height: 48px; }
+      .sb-toggle { font-size: 1.05rem; }
+      .hdr-right > #hdrAuthArea { display: none !important; }
+      .hdr-btn { font-size: 0.95rem; }
+      .welcome-tags { gap: 0.35rem; }
+      .welcome-tag { font-size: 0.58rem; padding: 0.2rem 0.45rem; }
+      .stat-card { padding: 0.8rem; }
+      .stat-label { font-size: 0.62rem; }
+      .stat-val { font-size: 1.35rem; }
+      .stat-sub { font-size: 0.62rem; }
+      .card-hdr, .card-body, .matter-hdr { padding-left: 0.85rem; padding-right: 0.85rem; }
+      .rc-msg-row { max-width: 94%; }
+      .officer-hint { max-width: min(220px, calc(100vw - 5rem)); }
+      .pg-title, .pg-sub, .matter-id, .metric-val, .info-val { overflow-wrap: anywhere; }
+      .card, .welcome-card, .notice, .overlay-box { max-width: 100%; }
+    }
+
+    /* ══ REPORTER LIVE CHAT CSS ═════════════════════════════════════════ */
+    .reporter-chat-feed {
+      display: flex; flex-direction: column; gap: 0.85rem; max-height: 420px; overflow-y: auto;
+      background: rgba(3, 7, 18, 0.5); padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border);
+    }
+    .rc-msg-row { display: flex; flex-direction: column; max-width: 75%; gap: 0.25rem; }
+    .rc-msg-row.user { align-self: flex-end; }
+    .rc-msg-row.admin { align-self: flex-start; }
+    .rc-msg-sender { font-size: 0.72rem; font-weight: 700; color: var(--muted); }
+    .rc-msg-row.user .rc-msg-sender { text-align: right; color: #ff8a75; }
+    .rc-msg-row.admin .rc-msg-sender { color: #60a5fa; }
+    .rc-msg-bubble { padding: 0.75rem 1rem; border-radius: 12px; font-size: 0.88rem; line-height: 1.5; }
+    .rc-msg-row.user .rc-msg-bubble {
+      background: linear-gradient(135deg, rgba(217, 56, 30, 0.85), rgba(153, 27, 27, 0.85)); color: #fff; border-top-right-radius: 2px;
+      box-shadow: 0 4px 14px rgba(217, 56, 30, 0.25);
+    }
+    .rc-msg-row.admin .rc-msg-bubble {
+      background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(59, 130, 246, 0.3); color: #f1f5f9; border-top-left-radius: 2px;
+    }
+    .rc-msg-time { font-size: 0.65rem; color: rgba(255,255,255,0.5); margin-top: 0.2rem; }
+    .rc-msg-row.user .rc-msg-time { text-align: right; }
+
+    /* ══ FLOATING OFFICER CHAT ═════════════════════════════════════════ */
+    .officer-fab-wrap {
+      position: fixed; right: 1.15rem; bottom: 1.15rem; z-index: 8500;
+      display: flex; flex-direction: column; align-items: flex-end; gap: 0.65rem;
+    }
+    .officer-hint {
+      background: #fff; color: #111; border-radius: 14px 14px 4px 14px;
+      padding: 0.7rem 0.9rem; max-width: 220px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+      font-size: 0.82rem; font-weight: 700; line-height: 1.35;
+      position: relative;
+    }
+    .officer-hint small { display: block; font-weight: 500; color: #555; margin-top: 0.2rem; }
+    .officer-hint-close {
+      position: absolute; top: 4px; right: 6px; border: none; background: none;
+      color: #888; cursor: pointer; font-size: 0.95rem; line-height: 1;
+    }
+    .officer-fab {
+      width: 58px; height: 58px; border-radius: 50%; border: none;
+      background: #25D366; color: #fff; cursor: pointer;
+      box-shadow: 0 8px 24px rgba(37,211,102,0.45);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; transition: transform 0.15s ease, background 0.15s;
+    }
+    .officer-fab:hover { transform: scale(1.06); background: #1ebe5d; }
+    .officer-fab-badge {
+      position: absolute; top: -4px; right: -4px; min-width: 20px; height: 20px;
+      padding: 0 5px; border-radius: 999px; background: #d9381e; color: #fff;
+      font-size: 0.68rem; font-weight: 800; display: none;
+      align-items: center; justify-content: center; border: 2px solid #000;
+    }
+    .officer-fab-badge.show { display: flex; }
+    .officer-widget {
+      position: fixed; right: 1.15rem; bottom: 5.4rem; z-index: 8490;
+      width: min(380px, calc(100vw - 1.5rem)); height: min(540px, calc(100vh - 7.5rem));
+      background: #0b141a; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.55);
+      display: none; flex-direction: column; border: 1px solid rgba(255,255,255,0.08);
+    }
+    .officer-widget.open { display: flex; }
+    .ow-hdr {
+      background: #075e54; padding: 0.75rem 0.9rem; display: flex; align-items: center; gap: 0.7rem;
+      flex-shrink: 0;
+    }
+    .ow-hdr img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background: #fff; }
+    .ow-hdr-name { font-weight: 800; font-size: 0.9rem; color: #fff; }
+    .ow-hdr-sub { font-size: 0.7rem; color: #b7e0d8; }
+    .ow-hdr-close {
+      margin-left: auto; background: none; border: none; color: #fff; font-size: 1.25rem;
+      cursor: pointer; line-height: 1; padding: 0.2rem;
+    }
+    .ow-feed {
+      flex: 1; overflow-y: auto; padding: 0.9rem; display: flex; flex-direction: column; gap: 0.55rem;
+      background: #0b141a url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" opacity="0.04"><circle cx="4" cy="4" r="1.4" fill="%23fff"/></svg>');
+    }
+    .ow-row { max-width: 82%; display: flex; flex-direction: column; gap: 0.12rem; }
+    .ow-row.user { align-self: flex-end; }
+    .ow-row.admin { align-self: flex-start; }
+    .ow-bubble {
+      padding: 0.5rem 0.7rem; border-radius: 10px; font-size: 0.85rem; line-height: 1.45; color: #e9edef;
+    }
+    .ow-row.user .ow-bubble { background: #005c4b; border-top-right-radius: 3px; }
+    .ow-row.admin .ow-bubble { background: #202c33; border-top-left-radius: 3px; }
+    .ow-time { font-size: 0.62rem; color: rgba(255,255,255,0.45); }
+    .ow-row.user .ow-time { text-align: right; }
+    .ow-foot {
+      display: flex; gap: 0.45rem; padding: 0.55rem 0.65rem; background: #1f2c33; flex-shrink: 0;
+    }
+    .ow-foot input {
+      flex: 1; border: none; border-radius: 999px; background: #2a3942; color: #fff;
+      padding: 0.65rem 0.95rem; font-size: 0.85rem; outline: none;
+    }
+    .ow-send {
+      width: 42px; height: 42px; border: none; border-radius: 50%; background: #00a884; color: #fff;
+      cursor: pointer; font-size: 1.05rem; flex-shrink: 0;
+    }
+    .chat-attachment-preview {
+      display: flex; align-items: center; gap: 0.6rem; margin-top: 0.65rem; padding: 0.55rem 0.7rem;
+      border: 1px solid var(--border); border-radius: 8px; background: rgba(0,0,0,0.25); color: var(--text2);
+      font-size: 0.76rem; min-width: 0;
+    }
+    .chat-attachment-preview[hidden] { display: none; }
+    .chat-attachment-preview img {
+      width: 42px; height: 42px; border-radius: 5px; object-fit: cover; flex-shrink: 0;
+    }
+    .chat-attachment-preview-name {
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;
+    }
+    .chat-attachment-preview-remove {
+      border: 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 1.1rem;
+      line-height: 1; padding: 0.2rem;
+    }
+    .chat-attachment-preview-remove:hover { color: #fff; }
+    .chat-attachment-preview-widget {
+      margin: 0; border-radius: 0; border-left: 0; border-right: 0; border-bottom: 0;
+      background: #1f2c33;
+    }
+    @media (max-width: 520px) {
+      .officer-widget { right: 0.5rem; left: 0.5rem; width: auto; bottom: 5.1rem; }
+      .officer-fab-wrap { right: 0.75rem; bottom: 0.85rem; }
+    }
+
+    /* ══ AMBIENT BACKGROUND ════════════════════════════════════════════ */
+    .bg-ambient {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+    }
+    .bg-blob-1 {
+      position: absolute; top: -15%; left: -5%;
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(217,56,30,0.1) 0%, transparent 65%);
+      filter: blur(100px);
+      animation: dashBlob 12s ease-in-out infinite alternate;
+    }
+    .bg-blob-2 {
+      position: absolute; bottom: -20%; right: 10%;
+      width: 800px; height: 800px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 65%);
+      filter: blur(120px);
+      animation: dashBlob 15s ease-in-out infinite alternate-reverse;
+    }
+    .bg-blob-3 {
+      position: absolute; top: 40%; left: 40%;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(217,56,30,0.06) 0%, transparent 65%);
+      filter: blur(80px);
+      animation: dashBlob 10s ease-in-out infinite alternate;
+    }
+    
+  </style>
+
+<meta name="color-scheme" content="dark">
+    <script src="js/uswds-init.min.30dc2.js"></script>
+    <script defer src="js/uswds.min.30dc2.js"></script>
+    <link rel="stylesheet" href="css/uswds.min.12c2d.css">
+    <link rel="stylesheet" href="css/site.d8c3f.css">
+    <script defer src="js/site.js"></script>
+
+</head>
+<body>
+<div class="bg-ambient">
+  <div class="bg-blob-1"></div>
+  <div class="bg-blob-2"></div>
+  <div class="bg-blob-3"></div>
+</div>
+
+<!-- ══ ACTION TOAST ════════════════════════════════════════════════ -->
+<div class="action-toast" id="actionToast"></div>
+<div class="notification-prompt" id="notificationPrompt" role="status" aria-live="polite">
+  <span class="notification-prompt-icon" aria-hidden="true">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"/><path d="M10 21h4"/>
+    </svg>
+  </span>
+  <span class="notification-prompt-copy">
+    <strong>Enable case notifications</strong>
+    <span id="notificationPromptText">Click Enable to receive new messages and case updates.</span>
+  </span>
+  <span class="notification-prompt-actions">
+    <button type="button" class="notification-dismiss" onclick="dismissNotificationPrompt()" aria-label="Dismiss notification prompt">×</button>
+    <button type="button" class="notification-enable" onclick="enableDashboardNotifications()">Enable</button>
+  </span>
+</div>
+<div class="notification-prompt" id="clientPwaPrompt" role="status" aria-live="polite">
+  <span class="notification-prompt-icon" aria-hidden="true">📱</span>
+  <span class="notification-prompt-copy">
+    <strong>Install the client portal</strong>
+    <span data-pwa-copy>Install this web app on your Home Screen for easier access and reliable notifications.</span>
+  </span>
+  <span class="notification-prompt-actions">
+    <button type="button" class="notification-dismiss" onclick="dismissPwaInstallPrompt('clientPwaPrompt')" aria-label="Dismiss install guide">×</button>
+    <button type="button" class="notification-enable" data-pwa-install onclick="installPwaOrDismiss('clientPwaPrompt')">Install</button>
+  </span>
+</div>
+
+<!-- ══ MESSAGE OVERLAY ═════════════════════════════════════════════ -->
+<div class="overlay" id="msgOverlay">
+  <div class="overlay-box">
+    <div class="overlay-hdr">
+      <span class="overlay-hdr-title"><span class="ui-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v14l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z"/></svg></span> Send Secure Message</span>
+      <button class="overlay-close" onclick="closeOverlay('msgOverlay')">×</button>
+    </div>
+    <div class="overlay-body">
+      <div class="notice blue"><span class="ui-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span> Messages are encrypted and logged in your case docket.</div>
+      <div class="ticket-form">
+        <div class="ticket-field"><label>Subject</label><select id="msgSubject"><option value="">Select…</option><option>Case Status Update</option><option>Evidence Submission</option><option>Bank Contact Issue</option><option>Disbursement Question</option><option>Other</option></select></div>
+        <div class="ticket-field"><label>Message</label><textarea id="msgBody" rows="4" placeholder="Describe your question or provide additional information…"></textarea></div>
+        <div style="display:flex;gap:0.65rem;margin-top:0.25rem;">
+          <button class="btn btn-primary" onclick="sendMessage()">Send Message</button>
+          <button class="btn btn-ghost" onclick="closeOverlay('msgOverlay')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LOGIN OVERLAY ═══════════════════════════════════════════════ -->
+<div class="overlay" id="loginOverlay">
+  <div class="overlay-box" style="max-width:440px;">
+    <div class="overlay-hdr">
+      <span class="overlay-hdr-title"><span class="ui-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 8-8M16 4l4 4M14 7l3 3"/></svg></span> Sign In to Client Portal</span>
+      <button class="overlay-close" onclick="closeOverlay('loginOverlay')">×</button>
+    </div>
+    <div class="overlay-body">
+      <div class="notice blue"><span class="ui-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span> Enter your registered email address or Case Reference ID (e.g., <code>REC-XXXXXXXX</code> or <code>IC-2026-XXXXXXXX</code>).</div>
+      <form class="ticket-form" onsubmit="handlePortalLogin(event)">
+        <div class="ticket-field">
+          <label>Email Address or Case Reference ID</label>
+          <input type="text" id="loginKey" placeholder="your@email.com or REC-..." required>
+        </div>
+        <div class="ticket-field">
+          <label>Password</label>
+          <input type="password" id="loginPw" placeholder="Enter your password" required>
+        </div>
+        <div style="display:flex;gap:0.65rem;margin-top:0.4rem;">
+          <button type="submit" class="btn btn-primary btn-full">Sign In &amp; Load Case Info</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SIDEBAR ═════════════════════════════════════════════════════ -->
+<nav class="sidebar" id="sidebar">
+  <div class="sb-header">
+    <div class="sb-logo">
+      <img src="images/ic3ratlogo.jpeg" alt="IC3 RAT Logo">
+      <div>
+        <div class="sb-logo-text">IC3 RAT</div>
+        <div class="sb-logo-sub">Client Portal</div>
+      </div>
+    </div>
+    <button class="sb-toggle" onclick="toggleSidebar()" title="Collapse">◀</button>
+  </div>
+
+  <div class="sb-nav">
+    <div class="sb-sect">Main</div>
+    <button class="sb-item active" data-view="dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </button>
+    <button class="sb-item" data-view="cases">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      My Cases
+      <span class="sb-badge-pill amber" id="casesBadge">1</span>
+    </button>
+    <button class="sb-item" data-view="chat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      Live Officer Chat
+      <span class="sb-badge-pill" id="chatUnreadBadge" style="display:none;">0</span>
+    </button>
+    <button class="sb-item" data-view="newcase">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      File New Case
+    </button>
+
+    <div class="sb-divider"></div>
+    <div class="sb-sect">Account</div>
+    <button class="sb-item" data-view="profile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Profile
+    </button>
+    <button class="sb-item" data-view="support">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Help &amp; Support
+    </button>
+    <button class="sb-item notification-toggle-row" type="button" onclick="toggleDashboardNotifications()" aria-label="Toggle browser notifications">
+      <span style="display:flex;align-items:center;gap:0.65rem;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"/><path d="M10 21h4"/></svg>
+        Notifications
+      </span>
+      <span class="notification-toggle-label" id="dashboardNotificationState">Off</span>
+      <span class="notification-toggle" id="dashboardNotificationToggle" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div class="sb-user">
+    <div class="sb-user-avatar" id="sbAvatar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+    <div style="flex:1;min-width:0;">
+      <div class="sb-user-name" id="sbUserName">—</div>
+      <div class="sb-user-role">Recovery Client</div>
+    </div>
+    <button class="sb-signout" title="Sign out" aria-label="Sign out" onclick="if(confirm('Sign out?')){sessionStorage.clear();window.location.href='index.html';}"><span class="ui-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 4H5v16h5M14 8l4 4-4 4M18 12H9"/></svg></span></button>
+  </div>
+</nav>
+
+<!-- ══ MAIN AREA ════════════════════════════════════════════════════ -->
+<div class="main-area" id="mainArea">
+
+  <!-- Top Header -->
+  <div class="top-hdr">
+    <div class="success-banner" id="successBanner">
+      <span class="ui-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg></span>
+      <span>Your claim has been submitted. We will be in touch shortly.</span>
+      <button class="success-banner-close" onclick="document.getElementById('successBanner').classList.remove('show')">×</button>
+    </div>
+    <div class="hdr-bar">
+      <div class="hdr-left">
+        <button class="hdr-menu-btn" onclick="toggleSidebarMobile()">☰</button>
+        <span class="hdr-title" id="hdrTitle">Dashboard</span>
+      </div>
+      <div class="hdr-right">
+        <div id="hdrAuthArea" style="display:inline-flex;align-items:center;gap:0.4rem;"></div>
+        <a href="https://wa.me/14783099781" target="_blank" rel="noopener" class="btn-wa">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Live Support
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ CONTENT VIEWS ═══════════════════════════════ -->
+  <div class="content">
+
+    <!-- ──────────── DASHBOARD ──────────── -->
+    <div class="view active" id="view-dashboard">
+
+      <!-- Welcome Card -->
+      <div class="welcome-card">
+        <div>
+          <div class="welcome-name" id="welcomeName">Welcome back</div>
+          <div class="welcome-sub">Client Portal · IC3 Recovery Asset Team</div>
+          <div class="welcome-tags">
+            <span class="welcome-tag green"><span class="ui-icon"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span> Encrypted Session</span>
+            <span class="welcome-tag"><span class="ui-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span> On-call: 24 / 7</span>
+            <span class="welcome-tag green">✓ Verified Client</span>
+          </div>
+        </div>
+        <button class="btn btn-red" onclick="navigate('newcase')">+ File New Case</button>
+      </div>
+
+      <!-- Account Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-label">Matters on File</div><div class="stat-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></span></div></div>
+          <div class="stat-val" id="statMatters">1</div>
+          <div class="stat-sub">Total submitted claims</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-label">Active Matters</div><div class="stat-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 9-12h-7l1-8Z"/></svg></span></div></div>
+          <div class="stat-val" id="statActive">1</div>
+          <div class="stat-sub">Open investigations</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-label">Recovered to Date</div><div class="stat-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 8.5c-.7-.5-1.7-.8-3-.8-1.7 0-2.8.8-2.8 1.9 0 2.8 5.6 1.2 5.6 4 0 1.1-1.1 1.9-2.8 1.9-1.3 0-2.3-.3-3-.8M12 5.5v13"/></svg></span></div></div>
+          <div class="stat-val" style="font-size:1.25rem;" id="statRecovered">$0.00</div>
+          <div class="stat-sub">Lifetime recovery</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-top"><div class="stat-label">Cleared for Disbursement</div><div class="stat-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg></span></div></div>
+          <div class="stat-val" style="font-size:1.25rem;" id="statCleared">$0.00</div>
+          <div class="stat-sub">Pending KYC verification</div>
+        </div>
+      </div>
+
+      <!-- Primary Matter + Timeline -->
+      <div class="layout-main">
+
+        <!-- Primary Active Matter Card -->
+        <div class="card">
+          <div class="matter-hdr">
+            <div class="matter-hdr-top">
+              <div>
+                <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--muted);margin-bottom:0.2rem;">Primary Active Matter</div>
+                <div class="matter-id" id="matterId">REC-——</div>
+              </div>
+              <div class="matter-badges">
+                <span class="badge new">New</span>
+                <span class="badge medium">Priority: Medium</span>
+              </div>
+            </div>
+            <div class="matter-meta">
+              <span id="matterScheme">—</span>
+              <span class="matter-dot"></span>
+              <span>Filed <span id="matterFiled">—</span></span>
+            </div>
+            <button class="open-file-btn" onclick="navigate('cases')"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M3 6h7l2 2h9v11H3z"/></svg></span> Open matter file →</button>
+          </div>
+
+          <div class="card-body">
+            <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin-bottom:0.85rem;">Recovery Pipeline</div>
+
+            <div class="pipeline" id="pipeline">
+              <!-- built by JS -->
+            </div>
+
+            <div class="matter-metrics">
+              <div class="metric-box">
+                <div class="metric-label">Amount in Dispute</div>
+                <div class="metric-val accent" id="metricDispute">—</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Recovered to Date</div>
+                <div class="metric-val" id="metricRecovered">$0.00</div>
+              </div>
+              <div class="metric-box" style="grid-column:1/-1;">
+                <div class="metric-label">Recovery Progress</div>
+                <div class="recovery-bar-wrap">
+                  <div class="recovery-bar-track"><div class="recovery-bar-fill" id="recoveryBarFill" style="width:0%"></div></div>
+                  <div class="recovery-pct" id="recoveryPctLabel">0% — Investigation in progress</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Officer + Docket -->
+        <div style="display:flex;flex-direction:column;gap:1.25rem;">
+
+          <!-- Case Officer -->
+          <div class="card">
+            <div class="card-hdr"><div class="card-title" style="display:flex;align-items:center;gap:0.4rem;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Your Case Officer
+            </div></div>
+            <div class="card-body">
+              <div style="display:flex;align-items:center;gap:0.85rem;margin-bottom:0.85rem;">
+                <div class="officer-avatar" style="background:transparent;border:none;padding:0;">
+                  <img src="images/fbi_seal_new.8aaa0.png" alt="FBI Seal" style="width:42px;height:42px;border-radius:50%;object-fit:contain;display:block;">
+                </div>
+                <div>
+                  <div class="officer-name">Recovery Operations Desk</div>
+                  <div class="officer-role">Recovery Operations Team</div>
+                </div>
+              </div>
+              <div class="info-row"><span class="info-key">Status</span><span class="info-val amber" id="caseStatusValue">Under Review</span></div>
+              <div class="info-row"><span class="info-key">Response SLA</span><span class="info-val">24 – 48 hours</span></div>
+              <div class="info-row"><span class="info-key">Emergency Line</span><span class="info-val"><a href="https://wa.me/14783099781" target="_blank" style="color:var(--accent);">WhatsApp →</a></span></div>
+              <button class="msg-btn" onclick="document.getElementById('msgOverlay').classList.add('open')">
+                <span class="ui-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v14l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z"/></svg></span> Send a secure message
+              </button>
+            </div>
+          </div>
+
+          <!-- Docket Updates -->
+          <div class="card">
+            <div class="card-hdr"><div class="card-title"><span class="ui-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span> Docket Updates</div></div>
+            <div class="card-body" style="padding:0.75rem 1.15rem;">
+              <div class="docket-feed" id="docketFeed"><!-- built by JS --></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Open Matters Table -->
+      <div class="card" style="margin-bottom:1.25rem;">
+        <div class="card-hdr">
+          <div class="card-title"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></span> Open Matters</div>
+          <button class="btn btn-ghost btn-sm" onclick="navigate('cases')">View all →</button>
+        </div>
+        <div class="matters-table-wrap">
+          <table class="matters-table" id="mattersTable">
+            <thead>
+              <tr>
+                <th>Matter #</th>
+                <th>Scheme</th>
+                <th>Claim</th>
+                <th>Recovery</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="mattersTableBody"><!-- built by JS --></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Compliance Badges -->
+      <div class="compliance-row">
+        <div class="compliance-badge">
+          <div class="compliance-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 5 5"/></svg></span></div>
+          <div><div class="compliance-title">KYC Verified</div><div class="compliance-sub">Identity verification is required prior to any fund disbursement to the client of record.</div></div>
+        </div>
+        <div class="compliance-badge">
+          <div class="compliance-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M3 10h18M5 10v8M9 10v8M15 10v8M19 10v8M2 18h20M12 4l10 6H2z"/></svg></span></div>
+          <div><div class="compliance-title">Funds Held in Escrow</div><div class="compliance-sub">All recovered assets are held in segregated client escrow accounts, ring-fenced from operating funds.</div></div>
+        </div>
+        <div class="compliance-badge">
+          <div class="compliance-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="m8 12 2.5 2.5L16 9"/></svg></span></div>
+          <div><div class="compliance-title">AML / CFT Reviewed</div><div class="compliance-sub">Anti-money laundering and counter-financing of terrorism controls are performed before every disbursement.</div></div>
+        </div>
+      </div>
+    </div><!-- /dashboard -->
+
+    <!-- ──────────── MY CASES ──────────── -->
+    <div class="view" id="view-cases">
+      <div class="pg-hdr-row">
+        <div class="pg-hdr"><div class="pg-title">My Cases</div><div class="pg-sub">All matters filed through the IC3 RAT portal.</div></div>
+        <button class="btn btn-red" onclick="navigate('newcase')">+ File New Case</button>
+      </div>
+      <div class="card" id="casesDetailCard"><!-- built by JS --></div>
+    </div>
+
+    <!-- ──────────── FILE NEW CASE ──────────── -->
+    <div class="view" id="view-newcase">
+      <div class="pg-hdr"><div class="pg-title">File New Case</div><div class="pg-sub">Submit an additional claim for IC3 RAT investigation.</div></div>
+      <div class="layout-two" style="max-width:860px;">
+        <div class="card">
+          <div class="card-hdr"><div class="card-title"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></span> New Claim Intake</div></div>
+          <div class="card-body">
+            <div class="notice blue"><span>ℹ️</span> File within 48 hours of a wire transfer for maximum recovery probability.</div>
+            <form onsubmit="submitNewCase(event)">
+              <div class="newcase-field">
+                <label>Type of Fraud *</label>
+                <select id="nc-type" required>
+                  <option value="">Select…</option>
+                  <option>Trading / Investment Scam</option>
+                  <option>Cryptocurrency Fraud</option>
+                  <option>Forex Trading Scam</option>
+                  <option>Romance Scam</option>
+                  <option>Phishing / Impersonation</option>
+                  <option>Bank Fraud</option>
+                  <option>NFT / Digital Asset Scam</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="newcase-field">
+                <label>Amount Lost (USD) *</label>
+                <select id="nc-amount" required>
+                  <option value="">Select…</option>
+                  <option>Under $5,000</option>
+                  <option>$5,000 – $25,000</option>
+                  <option>$25,000 – $100,000</option>
+                  <option>$100,000 – $500,000</option>
+                  <option>$500,000+</option>
+                  <option>Prefer not to say</option>
+                </select>
+              </div>
+              <div class="newcase-field">
+                <label>When did this happen? *</label>
+                <select id="nc-when" required>
+                  <option value="">Select…</option>
+                  <option>Less than 3 months ago</option>
+                  <option>3 – 6 months ago</option>
+                  <option>6 – 12 months ago</option>
+                  <option>1 – 2 years ago</option>
+                  <option>2+ years ago</option>
+                  <option>Ongoing</option>
+                </select>
+              </div>
+              <div class="newcase-field">
+                <label>Describe what happened *</label>
+                <textarea id="nc-desc" placeholder="Include the company/individual involved, how you were contacted, what happened, and actions already taken…"></textarea>
+              </div>
+              <div class="newcase-field">
+                <label>Supporting Documents <span style="font-weight:400;font-size:0.75rem;text-transform:none;">(optional)</span></label>
+                <div class="upload-zone-sm" onclick="document.getElementById('nc-files').click()">
+                  <span class="ui-icon"><svg viewBox="0 0 24 24"><path d="m8 12 6.5-6.5a3 3 0 0 1 4 4L10 18a5 5 0 0 1-7-7l8-8"/></svg></span> Click to upload or drag files here<br>
+                  <span style="font-size:0.7rem;color:var(--muted);">JPG, PNG, PDF, DOC, XLS, TXT · Max 10MB each</span>
+                </div>
+                <input type="file" id="nc-files" style="display:none" multiple accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.xls,.txt">
+              </div>
+              <div style="display:flex;gap:0.75rem;margin-top:0.5rem;">
+                <button type="submit" class="btn btn-primary">Submit for Review</button>
+                <button type="button" class="btn btn-ghost" onclick="navigate('dashboard')">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:1rem;">
+            <div class="card-hdr"><div class="card-title">⏱ Response Times</div></div>
+            <div class="card-body">
+              <div class="info-row"><span class="info-key">Within 24 hrs</span><span class="info-val green">85% freeze rate</span></div>
+              <div class="info-row"><span class="info-key">24 – 48 hrs</span><span class="info-val green">70–75%</span></div>
+              <div class="info-row"><span class="info-key">48 – 72 hrs</span><span class="info-val amber">~40%</span></div>
+              <div class="info-row"><span class="info-key">After 72 hrs</span><span class="info-val" style="color:var(--text2);">Reduced</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hdr"><div class="card-title"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></span> What to Prepare</div></div>
+            <div class="card-body">
+              <ul style="list-style:none;display:flex;flex-direction:column;gap:0.45rem;font-size:0.8rem;color:var(--text2);">
+                <li>✔ Wire transfer amount &amp; exact date</li>
+                <li>✔ Sending bank name &amp; account number</li>
+                <li>✔ Receiving bank details &amp; SWIFT/BIC</li>
+                <li>✔ Wire reference / confirmation number</li>
+                <li>✔ Fraudulent party contact info</li>
+                <li>✔ Email / chat logs from scammer</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────── DISBURSEMENTS ──────────── -->
+    <div class="view" id="view-disbursements">
+      <div class="pg-hdr"><div class="pg-title">Disbursements</div><div class="pg-sub">Authorise disbursement of recovered funds to your verified account.</div></div>
+
+      <div class="disb-header-card">
+        <div>
+          <div class="disb-label">Funds Cleared for Disbursement</div>
+          <div class="disb-amount" id="disbAmount">$0.00</div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:0.3rem;">Client Reference: <span style="color:var(--accent);font-weight:700;" id="disbRef">#—</span> · Net of recovery fees and operational costs</div>
+        </div>
+        <div class="disb-flags">
+          <div class="disb-flag"><span class="ui-icon"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span> Held in segregated client escrow</div>
+          <div class="disb-flag"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="m8 12 2.5 2.5L16 9"/></svg></span> AML / CFT screened on every release</div>
+          <div class="disb-flag">✓ Released only to verified client of record</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:1.25rem;">
+        <div class="card-hdr">
+          <div class="card-title"><span class="ui-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg></span> Step 1 — Choose Disbursement Channel</div>
+        </div>
+        <div class="card-body">
+          <div class="notice amber" style="margin-bottom:1.25rem;" id="disbBalanceNotice"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M12 3 22 20H2z"/><path d="M12 9v5M12 17v.01"/></svg></span> Your current balance ($0.00) is below the minimum disbursement threshold for most channels. Channels are listed below for when funds are cleared.</div>
+          <div class="channel-grid">
+
+            <!-- Bank Wire -->
+            <div class="channel-card">
+              <span class="channel-status below">Below Minimum</span>
+              <div class="channel-name"><span class="channel-icon ui-icon"><svg viewBox="0 0 24 24"><path d="M3 10h18M5 10v8M9 10v8M15 10v8M19 10v8M2 18h20M12 4l10 6H2z"/></svg></span> Bank / Wire Transfer <span style="font-size:0.65rem;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);border-radius:4px;padding:0.1rem 0.35rem;color:#93c5fd;font-weight:700;">Primary</span></div>
+              <div class="channel-meta">Standard wire disbursement to your verified bank account</div>
+              <div class="channel-stats">
+                <span>Min: <span class="channel-stat-val">$100</span></span>
+                <span>Max: <span class="channel-stat-val">$1,000,000</span></span>
+                <span>Fee: <span class="channel-stat-val">5%</span></span>
+              </div>
+            </div>
+
+            <!-- Cash App -->
+            <div class="channel-card">
+              <span class="channel-status below">Below Minimum</span>
+              <div class="channel-name"><span class="channel-icon ui-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 8.5c-.7-.5-1.7-.8-3-.8-1.7 0-2.8.8-2.8 1.9 0 2.8 5.6 1.2 5.6 4 0 1.1-1.1 1.9-2.8 1.9-1.3 0-2.3-.3-3-.8"/></svg></span> Cash App</div>
+              <div class="channel-meta">US-only mobile payment disbursement</div>
+              <div class="channel-stats">
+                <span>Min: <span class="channel-stat-val">$100</span></span>
+                <span>Max: <span class="channel-stat-val">$1,000,000</span></span>
+                <span>Fee: <span class="channel-stat-val">5%</span></span>
+              </div>
+            </div>
+
+            <!-- PayPal -->
+            <div class="channel-card">
+              <span class="channel-status below">Below Minimum</span>
+              <div class="channel-name"><span class="channel-icon ui-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 16V8h3.5a2.5 2.5 0 0 1 0 5H9"/></svg></span> PayPal</div>
+              <div class="channel-meta">International digital wallet disbursement</div>
+              <div class="channel-stats">
+                <span>Min: <span class="channel-stat-val">$100</span></span>
+                <span>Max: <span class="channel-stat-val">$1,000,000</span></span>
+                <span>Fee: <span class="channel-stat-val">5%</span></span>
+              </div>
+            </div>
+
+            <!-- BNB -->
+            <div class="channel-card crypto">
+              <span class="channel-status verified">✓ Verified</span>
+              <div class="channel-name"><span class="channel-icon ui-icon"><svg viewBox="0 0 24 24"><path d="m12 3 3 3-3 3-3-3zM7 8l5 5 5-5M4 11l8 8 8-8"/></svg></span> BNB <span class="channel-verified-badge">Digital Asset</span></div>
+              <div class="channel-meta">BNB Smart Chain (BNB) assets only</div>
+              <div class="channel-stats">
+                <span>Min: <span class="channel-stat-val">$100</span></span>
+                <span>Max: <span class="channel-stat-val">$20,000,000</span></span>
+                <span>Fee: <span class="channel-stat-val">5%</span></span>
+              </div>
+            </div>
+
+            <!-- USDT -->
+            <div class="channel-card crypto">
+              <span class="channel-status verified">✓ Verified</span>
+              <div class="channel-name"><span class="channel-icon ui-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M7 8h10M12 8v9M9 11h6"/></svg></span> Tether / USDT <span class="channel-verified-badge">Digital Asset</span></div>
+              <div class="channel-meta">Tether (ERC20) assets only</div>
+              <div class="channel-stats">
+                <span>Min: <span class="channel-stat-val">$10</span></span>
+                <span>Max: <span class="channel-stat-val">$20,000,000</span></span>
+                <span>Fee: <span class="channel-stat-val" style="color:var(--green);">0%</span></span>
+              </div>
+            </div>
+
+            <!-- ETH -->
+            <div class="channel-card crypto">
+              <span class="channel-status verified">✓ Verified</span>
+              <div class="channel-name"><span class="channel-icon ui-icon"><svg viewBox="0 0 24 24"><path d="m12 3 5 9-5 3-5-3zM12 15l5-3-5 9-5-9z"/></svg></span> Ethereum / ETH <span class="channel-verified-badge">Digital Asset</span></div>
+              <div class="channel-meta">Ethereum (ETH) assets only</div>
+              <div class="channel-stats">
+                <span>Min: <span class="channel-stat-val">$10</span></span>
+                <span>Max: <span class="channel-stat-val">$20,000,000</span></span>
+                <span>Fee: <span class="channel-stat-val" style="color:var(--green);">0%</span></span>
+              </div>
+            </div>
+
+            <!-- XRP -->
+            <div class="channel-card crypto">
+              <span class="channel-status verified">✓ Verified</span>
+              <div class="channel-name"><span class="channel-icon ui-icon"><svg viewBox="0 0 24 24"><path d="m6 4 6 7 6-7M6 20l6-7 6 7M4 11h16M4 13h16"/></svg></span> XRP <span class="channel-verified-badge">Digital Asset</span></div>
+              <div class="channel-meta">XRP Ledger assets only</div>
+              <div class="channel-stats">
+                <span>Min: <span class="channel-stat-val">$10</span></span>
+                <span>Max: <span class="channel-stat-val">$200,000,000</span></span>
+                <span>Fee: <span class="channel-stat-val" style="color:var(--green);">0%</span></span>
+              </div>
+            </div>
+
+            <!-- BTC -->
+            <div class="channel-card crypto">
+              <span class="channel-status verified">✓ Verified</span>
+              <div class="channel-name"><span class="channel-icon ui-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 7v10M13 7v10M8 9h4.5a2 2 0 0 1 0 4H8h5a2 2 0 0 1 0 4H8"/></svg></span> Bitcoin / BTC <span class="channel-verified-badge">Digital Asset</span></div>
+              <div class="channel-meta">Bitcoin (BTC) assets only</div>
+              <div class="channel-stats">
+                <span>Min: <span class="channel-stat-val">$10</span></span>
+                <span>Max: <span class="channel-stat-val">$20,000,000</span></span>
+                <span>Fee: <span class="channel-stat-val" style="color:var(--green);">0%</span></span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr"><div class="card-title"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="m8 12 2.5 2.5L16 9"/></svg></span> Compliance Safeguards</div></div>
+        <div class="card-body">
+          <div class="disb-safeguards">
+            <div class="safeguard-row"><span class="safeguard-icon">✓</span><div><strong style="color:#fff;">Trust-account reconciled:</strong> Ring-fenced from operating funds — client balances are fully segregated.</div></div>
+            <div class="safeguard-row"><span class="safeguard-icon">✓</span><div><strong style="color:#fff;">Case-officer oversight:</strong> Every disbursement instruction is reviewed by your assigned case officer before processing.</div></div>
+            <div class="safeguard-row"><span class="safeguard-icon">✓</span><div><strong style="color:#fff;">AML / CFT screened:</strong> All releases are logged and screened against anti-money laundering and counter-terrorism financing controls.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────── PROFILE ──────────── -->
+    <div class="view" id="view-profile">
+      <div class="pg-hdr"><div class="pg-title">My Profile</div><div class="pg-sub">Your account information and verification status.</div></div>
+      <div class="layout-two" style="max-width:860px;">
+        <div>
+          <div class="card" style="margin-bottom:1rem;">
+            <div class="card-hdr">
+              <div class="card-title" style="display:flex;align-items:center;gap:0.4rem;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Account
+              </div>
+              <button class="btn btn-ghost btn-sm" onclick="toggleProfileEdit()"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13 6 4 4"/></svg></span> Edit</button>
+            </div>
+            <div class="card-body">
+              <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+                <div class="profile-avatar-lg" id="profileAvatarLg">?</div>
+                <div>
+                  <div class="profile-name-lg" id="profileNameLg">—</div>
+                  <div class="profile-sub" id="profileEmailSub">—</div>
+                  <div class="profile-tags" style="margin-top:0.4rem;">
+                    <span class="badge resolved">✓ Verified Client</span>
+                    <span class="badge active">Active</span>
+                  </div>
+                </div>
+              </div>
+              <div id="profileViewMode">
+                <div class="info-row"><span class="info-key">Client Name</span><span class="info-val" id="pv-name">—</span></div>
+                <div class="info-row"><span class="info-key">Email</span><span class="info-val" id="pv-email">—</span></div>
+                <div class="info-row"><span class="info-key">Username</span><span class="info-val mono accent" id="pv-username">—</span></div>
+                <div class="info-row"><span class="info-key">Phone</span><span class="info-val" id="pv-phone">—</span></div>
+                <div class="info-row"><span class="info-key">Account Type</span><span class="info-val">Recovery Client</span></div>
+                <div class="info-row"><span class="info-key">Status</span><span class="info-val green">Active</span></div>
+                <div class="info-row"><span class="info-key">Country</span><span class="info-val" id="pv-country">—</span></div>
+                <div class="info-row"><span class="info-key">Member Since</span><span class="info-val" id="pv-since">—</span></div>
+              </div>
+              <form id="profileEditMode" style="display:none;" onsubmit="saveProfile(event)">
+                <div class="profile-two-col" style="margin-bottom:0.75rem;">
+                  <div class="profile-field"><label>Full Name</label><input id="pe-name" type="text"></div>
+                  <div class="profile-field"><label>Phone</label><input id="pe-phone" type="tel"></div>
+                  <div class="profile-field"><label>Email</label><input id="pe-email" type="email"></div>
+                  <div class="profile-field"><label>Country</label><input id="pe-country" type="text"></div>
+                </div>
+                <div style="display:flex;gap:0.6rem;">
+                  <button type="submit" class="btn btn-primary btn-sm">Save Changes</button>
+                  <button type="button" class="btn btn-ghost btn-sm" onclick="toggleProfileEdit()">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hdr"><div class="card-title"><span class="ui-icon"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span> Security &amp; Session</div></div>
+            <div class="card-body">
+              <div class="info-row"><span class="info-key">Session</span><span class="info-val green">Active</span></div>
+              <div class="info-row"><span class="info-key">Encryption</span><span class="info-val green">TLS 1.3 / 256-bit SSL</span></div>
+              <div class="info-row"><span class="info-key">Legal Certification</span><span class="info-val">18 U.S.C. § 1001</span></div>
+              <div style="margin-top:0.85rem;">
+                <button class="btn btn-ghost btn-sm" onclick="if(confirm('Sign out?')){sessionStorage.clear();window.location.href='index.html';}">Sign Out of Portal</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:1rem;">
+            <div class="card-hdr"><div class="card-title"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></span> Case Summary</div></div>
+            <div class="card-body" id="profileCaseSummary">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────── HELP & SUPPORT ──────────── -->
+    <div class="view" id="view-support">
+      <div class="pg-hdr-row">
+        <div class="pg-hdr"><div class="pg-title">Help &amp; Support</div><div class="pg-sub">Submit a ticket or contact your case officer directly.</div></div>
+        <button class="btn btn-primary" onclick="document.getElementById('newTicketForm').style.display='block';document.getElementById('ticketEmpty').style.display='none';">+ New Ticket</button>
+      </div>
+
+      <div class="layout-two" style="max-width:860px;">
+        <div>
+          <div class="card" style="margin-bottom:1rem;">
+            <div class="card-hdr"><div class="card-title"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M8 6v3M16 6v3M8 15h8"/></svg></span> Support Tickets</div></div>
+            <div id="ticketEmpty" class="card-body">
+              <div class="ticket-empty">
+                <div class="ticket-empty-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M8 6v3M16 6v3M8 15h8"/></svg></span></div>
+                <div class="ticket-empty-title">No tickets yet</div>
+                <div class="ticket-empty-sub">Submit a ticket to get direct assistance from your case team.</div>
+                <button class="btn btn-primary" style="margin-top:1rem;" onclick="document.getElementById('newTicketForm').style.display='block';document.getElementById('ticketEmpty').style.display='none';">+ Create Ticket</button>
+              </div>
+            </div>
+            <div id="newTicketForm" class="card-body" style="display:none;">
+              <form class="ticket-form" onsubmit="submitTicket(event)">
+                <div class="ticket-field">
+                  <label>Subject</label>
+                  <select id="tk-subject">
+                    <option value="">Select topic…</option>
+                    <option>Case Status Update</option>
+                    <option>Evidence Submission</option>
+                    <option>Bank Contact Issue</option>
+                    <option>Disbursement Question</option>
+                    <option>KYC / Verification</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="ticket-field">
+                  <label>Priority</label>
+                  <select id="tk-priority">
+                    <option value="normal">Normal</option>
+                    <option value="high">High — time-sensitive issue</option>
+                    <option value="urgent">Urgent — active financial risk</option>
+                  </select>
+                </div>
+                <div class="ticket-field">
+                  <label>Message</label>
+                  <textarea id="tk-message" placeholder="Describe your issue or question in detail…"></textarea>
+                </div>
+                <div style="display:flex;gap:0.6rem;">
+                  <button type="submit" class="btn btn-primary">Submit Ticket</button>
+                  <button type="button" class="btn btn-ghost" onclick="document.getElementById('newTicketForm').style.display='none';document.getElementById('ticketEmpty').style.display='block';">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card" style="margin-bottom:1rem;">
+            <div class="card-hdr"><div class="card-title"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v14l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z"/></svg></span> Direct Support</div></div>
+            <div class="card-body">
+              <p style="font-size:0.82rem;color:var(--text2);margin-bottom:1rem;line-height:1.6;">Reach your RAT case officer directly for urgent matters, evidence submission, or case updates.</p>
+              <a href="https://wa.me/14783099781" target="_blank" rel="noopener" class="btn-wa btn-full" style="display:flex;padding:0.75rem;font-size:0.88rem;border-radius:8px;margin-bottom:0.75rem;justify-content:center;gap:0.5rem;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                WhatsApp: +1 (478) 309-9781
+              </a>
+              <div class="info-row"><span class="info-key">Response Time</span><span class="info-val green">&lt; 2 hours</span></div>
+              <div class="info-row"><span class="info-key">Emergency</span><span class="info-val">WhatsApp 24 / 7</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────── LIVE OFFICER CHAT ──────────── -->
+    <div class="view" id="view-chat">
+      <div class="pg-hdr-row" style="margin-bottom:1rem;">
+        <div class="pg-hdr">
+          <div class="pg-title"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v14l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z"/></svg></span> Direct Officer Communication</div>
+          <div class="pg-sub">Real-time encrypted messaging channel with your assigned IC3 RAT Case Officer.</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="navigate('support')"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M8 6v3M16 6v3M8 15h8"/></svg></span> Open Support Ticket</button>
+      </div>
+
+      <div class="card" style="margin-bottom:1rem;">
+        <div class="card-hdr" style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <img src="images/fbi_seal_new.8aaa0.png" alt="FBI Seal" style="width:36px;height:36px;border-radius:50%;object-fit:contain;display:block;flex-shrink:0;">
+            <div>
+              <div class="card-title" style="font-size:0.95rem;">RAT Recovery Desk</div>
+              <div style="font-size:0.72rem;color:var(--green);display:flex;align-items:center;gap:0.3rem;"><span>●</span> Online &amp; Monitoring Case Docket</div>
+            </div>
+          </div>
+          <span class="badge active" id="reporterChatStatusBadge">Under Review</span>
+        </div>
+
+        <div class="card-body">
+          <div class="reporter-chat-container">
+            <div class="reporter-chat-feed" id="reporterChatFeed">
+              <!-- Rendered dynamically by JS -->
+            </div>
+            
+            <div style="display:flex;gap:0.5rem;margin-top:1rem;align-items:center;">
+              <label class="btn" style="padding:0.7rem 0.8rem;cursor:pointer;" title="Attach an image or document">
+                📎
+                <input type="file" id="reporterChatFile" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt" hidden>
+              </label>
+              <input type="text" id="reporterChatInput" placeholder="Write a message to your Case Officer..." style="flex:1;background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;color:#fff;font-size:0.88rem;outline:none;" onkeypress="if(event.key==='Enter') sendReporterChatMessage()">
+              <button class="btn btn-primary" onclick="sendReporterChatMessage()">Send Message ➔</button>
+            </div>
+            <div class="chat-attachment-preview" id="reporterChatFilePreview" hidden></div>
+            <div style="font-size:0.72rem;color:var(--muted);margin-top:0.35rem;">Images or documents only. Maximum file size: less than 5 MB.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main-area -->
+
+<div class="officer-fab-wrap" id="officerFabWrap">
+  <div class="officer-hint" id="officerHint">
+    <button type="button" class="officer-hint-close" onclick="dismissOfficerHint()" aria-label="Dismiss">×</button>
+    Live Officer Chat
+    <small>Message your case officer securely</small>
+  </div>
+  <button type="button" class="officer-fab" id="officerFab" onclick="toggleOfficerWidget()" title="Live Officer Chat" aria-label="Live Officer Chat">
+    <span class="officer-fab-badge" id="fabUnread">0</span>
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+  </button>
+</div>
+<div class="officer-widget" id="officerWidget" role="dialog" aria-label="Officer chat">
+  <div class="ow-hdr">
+    <img src="images/fbi_seal_new.8aaa0.png" alt="">
+    <div>
+      <div class="ow-hdr-name">Case Officer</div>
+      <div class="ow-hdr-sub">Live officer chat · typically &lt; 2 hrs</div>
+    </div>
+    <button type="button" class="ow-hdr-close" onclick="toggleOfficerWidget(false)" aria-label="Close chat">×</button>
+  </div>
+  <div class="ow-feed" id="officerWidgetFeed"></div>
+  <div class="ow-foot">
+    <label class="ow-send" style="cursor:pointer;" title="Attach an image or document">📎<input type="file" id="officerWidgetFile" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt" hidden></label>
+    <input type="text" id="officerWidgetInput" placeholder="Type a message" onkeypress="if(event.key==='Enter') sendReporterChatMessage()">
+    <button type="button" class="ow-send" onclick="sendReporterChatMessage()" aria-label="Send">➤</button>
+  </div>
+  <div class="chat-attachment-preview chat-attachment-preview-widget" id="officerWidgetFilePreview" hidden></div>
+</div>
+
+<script src="js/supabase-config.js" onerror=""></script>
+<script src="js/complaint-backend.js" onerror=""></script>
+<script src="js/officer-chat.js" onerror=""></script>
+<script src="js/web-push.js" onerror=""></script>
+<script src="js/pwa-install.js" onerror=""></script>
+<script>
+(function () {
+'use strict';
+
+// ── Storage helpers ──────────────────────────────────────────────────────
+var ss  = function(k){ return sessionStorage.getItem(k) || ''; };
+var ls  = function(k){ try{ return localStorage.getItem(k)||''; }catch(e){ return ''; } };
+var lsO = function(k){
+  try {
+    var v = localStorage.getItem(k);
+    if (!v) return null;
+    try { return JSON.parse(v); } catch(e) { return v; }
+  } catch(e) { return null; }
+};
+var lsS = function(k,v){ try{ localStorage.setItem(k,v); }catch(e){} };
+var lsOS= function(k,v){ try{ localStorage.setItem(k,typeof v === 'string' ? v : JSON.stringify(v)); }catch(e){} };
+var qs  = function(k){ return new URLSearchParams(location.search).get(k)||''; };
+
+function esc(s) {
+  if (s === null || s === undefined) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function get(){
+  for(var i=0;i<arguments.length;i++){
+    var k=arguments[i];
+    var v=qs(k)||ss(k)||ls(k);
+    if(v&&v.trim()) return v.trim();
+  }
+  return '';
+}
+
+// ── User Data — loaded from Supabase ──────────────────────────────────────
+var urlKey = (qs('compEmail') || qs('emailAddress') || qs('email') || qs('trackingId') || qs('matterId') || '').toLowerCase();
+var sessionEmail = sessionStorage.getItem('ic3_session_email') || '';
+var sessionTracking = sessionStorage.getItem('ic3_session_tracking') || '';
+var searchKey = (urlKey || sessionEmail || sessionTracking || '').toLowerCase();
+
+// D holds the current user's data — starts empty, filled by Supabase fetch
+var D = {
+  name: '', email: '', phone: '', country: '',
+  scamType: '', lossAmount: '', timeframe: '', description: '',
+  trackingId: '', submittedAt: '', pipelineStage: 0, docketEntries: null,
+  status: 'Under Review',
+  recoveredAmount: '$0.00', recoveryProgress: 0, clearedAmount: '$0.00'
+};
+var lastCaseUpdateSnapshot = null;
+
+function caseUpdateSnapshot(record) {
+  var docket = Array.isArray(record && record.docketEntries) ? record.docketEntries : [];
+  return {
+    pipelineStage: String(record && record.pipelineStage !== undefined ? record.pipelineStage : ''),
+    recoveredAmount: String(record && record.recoveredAmount || ''),
+    recoveryProgress: String(record && record.recoveryProgress !== undefined ? record.recoveryProgress : ''),
+    clearedAmount: String(record && record.clearedAmount || ''),
+    caseStatus: String(record && (record.caseStatus || record.status) || ''),
+    docketEntries: JSON.stringify(docket)
+  };
+}
+
+function checkCaseUpdate(record) {
+  var ref = String(record && (record.trackingId || record.email || '') || '').toLowerCase();
+  if (!ref) return;
+  var current = caseUpdateSnapshot(record);
+  var storageKey = 'ic3_case_update_snapshot_' + ref;
+  var previous = lastCaseUpdateSnapshot;
+  if (!previous) {
+    try { previous = JSON.parse(localStorage.getItem(storageKey) || 'null'); } catch (e) { previous = null; }
+  }
+  lastCaseUpdateSnapshot = current;
+  try { localStorage.setItem(storageKey, JSON.stringify(current)); } catch (e) {}
+  if (!previous) return;
+
+  var changes = [];
+  if (previous.pipelineStage !== current.pipelineStage) changes.push('Pipeline stage updated');
+  if (previous.recoveredAmount !== current.recoveredAmount || previous.recoveryProgress !== current.recoveryProgress || previous.clearedAmount !== current.clearedAmount) {
+    changes.push('Recovery amount or progress updated');
+  }
+  if (previous.caseStatus !== current.caseStatus) changes.push('Case status updated');
+  if (previous.docketEntries !== current.docketEntries) changes.push('Docket timeline updated');
+  if (!changes.length) return;
+
+  showToast('Case update: ' + changes.join(' · '));
+  if (window.IC3Chat) {
+    window.IC3Chat.notifyCaseUpdate({
+      ref: ref,
+      changes: changes,
+      title: 'Update from your case officer',
+      onClick: function () { navigate('dashboard'); }
+    });
+  }
+}
+
+function genMatterId(){
+  var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
+  var r = '';
+  for(var i=0;i<8;i++) r += chars[Math.floor(Math.random()*chars.length)];
+  return 'REC-' + r;
+}
+
+function payloadVal(record, keys) {
+  var p = (record && record.payload) || {};
+  for (var i = 0; i < keys.length; i++) {
+    var v = record && record[keys[i]];
+    if (v === undefined || v === null || v === '') v = p[keys[i]];
+    if (v !== undefined && v !== null && String(v).trim()) return v;
+  }
+  return '';
+}
+
+function applyRecord(record) {
+  if (!record) return;
+  D.name          = payloadVal(record, ['name']) || D.name;
+  D.email         = payloadVal(record, ['email', 'compEmail', 'emailAddress']) || D.email;
+  D.phone         = payloadVal(record, ['phone', 'compPhone']) || D.phone;
+  D.country       = payloadVal(record, ['country']) || D.country;
+  D.scamType      = payloadVal(record, ['scamType', 'txType']) || D.scamType;
+  D.lossAmount    = payloadVal(record, ['lossAmount', 'moneyLost', 'totalLoss']) || D.lossAmount;
+  D.timeframe     = payloadVal(record, ['timeframe']) || D.timeframe;
+  D.description   = payloadVal(record, ['description', 'incidentDescription']) || D.description;
+  D.trackingId    = payloadVal(record, ['trackingId']) || D.trackingId;
+  D.submittedAt   = record.submittedAt || payloadVal(record, ['submittedAt']) || D.submittedAt;
+  D.pipelineStage = typeof record.pipelineStage === 'number' ? record.pipelineStage : D.pipelineStage;
+  D.docketEntries = Array.isArray(record.docketEntries) && record.docketEntries.length ? record.docketEntries : D.docketEntries;
+  D.status        = record.caseStatus || record.status || D.status;
+  D.recoveredAmount = payloadVal(record, ['recoveredAmount']) || D.recoveredAmount || '$0.00';
+  D.clearedAmount   = payloadVal(record, ['clearedAmount']) || D.clearedAmount || '$0.00';
+  D.recoveryProgress = (function () {
+    var n = parseInt(record.recoveryProgress, 10);
+    if (isNaN(n) && record.payload) n = parseInt(record.payload.recoveryProgress, 10);
+    if (isNaN(n)) n = typeof D.recoveryProgress === 'number' ? D.recoveryProgress : 0;
+    return Math.max(0, Math.min(100, n));
+  })();
+  MATTER_ID       = payloadVal(record, ['matterId']) || D.trackingId || MATTER_ID;
+}
+
+function recoveryProgressCaption(pct) {
+  if (pct >= 100) return '100% — Recovery complete';
+  if (pct >= 75) return pct + '% — Disbursement pending';
+  if (pct >= 50) return pct + '% — Recovery underway';
+  if (pct >= 25) return pct + '% — Assets identified';
+  if (pct > 0) return pct + '% — Tracing in progress';
+  return '0% — Investigation in progress';
+}
+
+var MATTER_ID = '';
+
+// Load user from Supabase immediately
+(async function loadUserFromDB() {
+  if (!searchKey || !window.IC3API || !window.IC3API.ready()) {
+    // No session — show login overlay
+    var loginOverlay = document.getElementById('loginOverlay');
+    if (loginOverlay) loginOverlay.classList.add('open');
+    return;
+  }
+
+  try {
+    var record = await window.IC3API.getUserRecord(searchKey);
+    if (!record) {
+      // Not found — prompt login
+      var loginOverlay = document.getElementById('loginOverlay');
+      if (loginOverlay) loginOverlay.classList.add('open');
+      return;
+    }
+
+    checkCaseUpdate(record);
+    applyRecord(record);
+    if (!MATTER_ID) MATTER_ID = genMatterId();
+
+    // Store session
+    sessionStorage.setItem('ic3_session_email', D.email.toLowerCase());
+    sessionStorage.setItem('ic3_session_tracking', D.trackingId);
+
+    if (window.hydrateDashboard) window.hydrateDashboard();
+  } catch(err) {
+    console.error('[Dashboard] Failed to load user from Supabase:', err);
+    var loginOverlay = document.getElementById('loginOverlay');
+    if (loginOverlay) loginOverlay.classList.add('open');
+  }
+})();
+
+window.handlePortalLogin = async function(ev) {
+  ev.preventDefault();
+  var key = document.getElementById('loginKey').value.trim();
+  var pw  = document.getElementById('loginPw').value;
+  if (!key) { showToast('Please enter your email or Case Reference ID', 'error'); return; }
+
+  showToast('Verifying credentials…');
+
+  try {
+    var result = await window.IC3API.loginUser(key, pw);
+
+    if (result && result.__wrongPassword) {
+      showToast('Incorrect password for this account', 'error');
+      return;
+    }
+    if (!result) {
+      showToast('No account found. Please submit a complaint first.', 'error');
+      return;
+    }
+
+    checkCaseUpdate(result);
+    applyRecord(result);
+    if (!MATTER_ID) MATTER_ID = genMatterId();
+
+    sessionStorage.setItem('ic3_session_email', D.email.toLowerCase());
+    sessionStorage.setItem('ic3_session_tracking', D.trackingId);
+
+    closeOverlay('loginOverlay');
+    showPwaInstallPrompt('clientPwaPrompt');
+    showNotificationPromptIfNeeded();
+    showToast('✅ Authenticated! Loading your case…');
+    if (window.hydrateDashboard) window.hydrateDashboard();
+    renderReporterChat();
+  } catch(err) {
+    console.error('[Dashboard Login] Error:', err);
+    showToast('Authentication error. Please try again.', 'error');
+  }
+};
+
+var FILED_DATE = D.submittedAt
+  ? new Date(D.submittedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
+  : new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+
+var MEMBER_SINCE = D.submittedAt
+  ? new Date(D.submittedAt).toLocaleDateString('en-US',{month:'long',year:'numeric'})
+  : new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'});
+
+var DISPLAY_NAME = D.name || 'Client';
+var initials = DISPLAY_NAME.split(' ').map(function(w){return w[0]||'';}).join('').substring(0,2).toUpperCase() || 'CL';
+var username  = (D.email || 'user').split('@')[0].toLowerCase();
+
+// ── Show success banner if just arrived from form ─────────────────────────
+if (ss('complaintReference') || qs('submitted')) {
+  document.getElementById('successBanner').classList.add('show');
+}
+
+// ── Sidebar / Nav ─────────────────────────────────────────────────────────
+var sidebarEl = document.getElementById('sidebar');
+var mainEl    = document.getElementById('mainArea');
+var sbOpen    = true;
+
+window.toggleSidebar = function(){
+  sbOpen = !sbOpen;
+  sidebarEl.classList.toggle('collapsed', !sbOpen);
+  mainEl.style.marginLeft = sbOpen ? 'var(--sidebar-w)' : '0';
+};
+
+window.toggleSidebarMobile = function(){
+  sidebarEl.classList.toggle('open');
+};
+
+var pageTitles = {
+  dashboard:'Dashboard', cases:'My Cases', newcase:'File New Case',
+  disbursements:'Disbursements', profile:'Profile', support:'Help & Support', chat:'Live Officer Chat'
+};
+
+window.navigate = function(v){
+  document.querySelectorAll('.view').forEach(function(el){ el.classList.remove('active'); });
+  document.querySelectorAll('.sb-item').forEach(function(el){ el.classList.remove('active'); });
+  var el = document.getElementById('view-'+v);
+  if(el) el.classList.add('active');
+  var btn = document.querySelector('.sb-item[data-view="'+v+'"]');
+  if(btn) btn.classList.add('active');
+  document.getElementById('hdrTitle').textContent = pageTitles[v] || '';
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(window.innerWidth<=768) sidebarEl.classList.remove('open');
+  if(v === 'chat') {
+    renderReporterChat();
+    if (window.IC3Chat) window.IC3Chat.markRead('user', getChatRef());
+    updateChatBadges(0);
+  }
+};
+
+document.querySelectorAll('.sb-item[data-view]').forEach(function(btn){
+  btn.addEventListener('click', function(){ navigate(btn.dataset.view); });
+});
+
+// ── Toast ─────────────────────────────────────────────────────────────────
+window.showToast = function(msg, type){
+  var el = document.getElementById('actionToast');
+  el.textContent = msg;
+  el.className = 'action-toast' + (type==='error'?' error':'');
+  el.style.display = 'block';
+  clearTimeout(el._t);
+  el._t = setTimeout(function(){ el.style.display='none'; }, 3500);
+};
+
+window.closeOverlay = function(id){ document.getElementById(id).classList.remove('open'); };
+
+window.dismissNotificationPrompt = function() {
+  var prompt = document.getElementById('notificationPrompt');
+  if (prompt) prompt.classList.remove('show');
+  sessionStorage.setItem('ic3_notification_prompt_dismissed', '1');
+  updateDashboardNotificationToggle();
+};
+
+window.enableDashboardNotifications = async function() {
+  if (!window.Notification) {
+    showToast('This browser does not support notifications.', 'error');
+    return;
+  }
+  if (Notification.permission === 'denied') {
+    showToast('Notifications are blocked. Allow them in your browser site settings, then try again.', 'error');
+    return;
+  }
+  try {
+    var permission = Notification.permission;
+    if (permission === 'default') permission = await Notification.requestPermission();
+    if (permission !== 'granted') {
+      showToast('Notifications were not enabled.', 'error');
+      return;
+    }
+    dismissNotificationPrompt();
+    updateDashboardNotificationToggle();
+    var registered = window.IC3Push ? await window.IC3Push.register('user', D.trackingId || D.email) : false;
+    if (!registered) throw new Error('Push registration was not completed.');
+    showToast('Case notifications enabled');
+  } catch (error) {
+    console.error('[Dashboard] Notification setup failed:', error);
+    showToast('Could not enable notifications. Please try again.', 'error');
+  }
+};
+
+function updateDashboardNotificationToggle() {
+  var on = !!(window.Notification && Notification.permission === 'granted');
+  var toggle = document.getElementById('dashboardNotificationToggle');
+  var state = document.getElementById('dashboardNotificationState');
+  if (toggle) toggle.classList.toggle('on', on);
+  if (state) state.textContent = on ? 'On' : 'Off';
+}
+
+window.toggleDashboardNotifications = async function() {
+  if (window.Notification && Notification.permission === 'granted') {
+    showToast('Notifications are already enabled. Disable them in browser site settings.', 'error');
+    return;
+  }
+  await window.enableDashboardNotifications();
+  updateDashboardNotificationToggle();
+};
+
+function showNotificationPromptIfNeeded() {
+  updateDashboardNotificationToggle();
+  var prompt = document.getElementById('notificationPrompt');
+  if (!prompt || !window.Notification || !D.email) return;
+  if (Notification.permission === 'granted' || sessionStorage.getItem('ic3_notification_prompt_dismissed') === '1') return;
+  var text = document.getElementById('notificationPromptText');
+  if (text && Notification.permission === 'denied') {
+    text.textContent = 'Notifications are blocked. Allow them in your browser site settings to receive updates.';
+  }
+  prompt.classList.add('show');
+}
+
+// ── Hydrate Dashboard UI ──────────────────────────────────────────────────
+window.hydrateDashboard = function() {
+  // Refresh from Supabase in background, then re-render
+  if (D.email && window.IC3API && window.IC3API.ready()) {
+    window.IC3API.getUserRecord(D.email || D.trackingId || sessionStorage.getItem('ic3_session_email')).then(function(record) {
+      if (!record) return;
+      checkCaseUpdate(record);
+      applyRecord(record);
+      showNotificationPromptIfNeeded();
+      if (window.Notification && Notification.permission === 'granted' && window.IC3Push) window.IC3Push.register('user', record.trackingId || record.email);
+      _renderDashboard();
+    }).catch(function(error) {
+      console.error('[Dashboard] Case refresh failed:', error);
+      showToast('Unable to refresh case updates. Please check your connection.', 'error');
+    });
+  }
+  _renderDashboard();
+};
+
+function _renderDashboard() {
+
+  FILED_DATE = D.submittedAt
+    ? new Date(D.submittedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
+    : new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+
+  MEMBER_SINCE = D.submittedAt
+    ? new Date(D.submittedAt).toLocaleDateString('en-US',{month:'long',year:'numeric'})
+    : new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'});
+
+  DISPLAY_NAME = D.name || 'Client';
+  initials = DISPLAY_NAME.split(' ').map(function(w){return w[0]||'';}).join('').substring(0,2).toUpperCase() || 'CL';
+  username  = (D.email || 'user').split('@')[0].toLowerCase();
+
+  // sbAvatar keeps its outline SVG person icon — no text initials overwrite
+  var sbUserName = document.getElementById('sbUserName');
+  if (sbUserName) sbUserName.textContent = DISPLAY_NAME;
+  var welcomeName = document.getElementById('welcomeName');
+  if (welcomeName) welcomeName.textContent = 'Welcome back, ' + DISPLAY_NAME.split(' ')[0];
+  var matterIdEl = document.getElementById('matterId');
+  if (matterIdEl) matterIdEl.textContent = MATTER_ID;
+  var matterScheme = document.getElementById('matterScheme');
+  if (matterScheme) matterScheme.textContent = D.scamType || 'Internet Crime';
+  var matterFiled = document.getElementById('matterFiled');
+  if (matterFiled) matterFiled.textContent = FILED_DATE;
+  var caseStatusValue = document.getElementById('caseStatusValue');
+  if (caseStatusValue) caseStatusValue.textContent = D.status || 'Under Review';
+  var reporterChatStatusBadge = document.getElementById('reporterChatStatusBadge');
+  if (reporterChatStatusBadge) reporterChatStatusBadge.textContent = D.status || 'Under Review';
+  var metricDispute = document.getElementById('metricDispute');
+  if (metricDispute) metricDispute.textContent = D.lossAmount || '—';
+  var recoveredDisplay = D.recoveredAmount || '$0.00';
+  var clearedDisplay = D.clearedAmount || '$0.00';
+  var recoveryPct = parseInt(D.recoveryProgress, 10);
+  if (isNaN(recoveryPct)) recoveryPct = 0;
+  recoveryPct = Math.max(0, Math.min(100, recoveryPct));
+  var statRecovered = document.getElementById('statRecovered');
+  if (statRecovered) statRecovered.textContent = recoveredDisplay;
+  var statCleared = document.getElementById('statCleared');
+  if (statCleared) statCleared.textContent = clearedDisplay;
+  var metricRecovered = document.getElementById('metricRecovered');
+  if (metricRecovered) metricRecovered.textContent = recoveredDisplay;
+  var recoveryBarFill = document.getElementById('recoveryBarFill');
+  if (recoveryBarFill) recoveryBarFill.style.width = recoveryPct + '%';
+  var recoveryPctLabel = document.getElementById('recoveryPctLabel');
+  if (recoveryPctLabel) recoveryPctLabel.textContent = recoveryProgressCaption(recoveryPct);
+  var disbAmount = document.getElementById('disbAmount');
+  if (disbAmount) disbAmount.textContent = clearedDisplay;
+  var disbNotice = document.getElementById('disbBalanceNotice');
+  if (disbNotice) {
+    disbNotice.innerHTML = '<span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M12 3 22 20H2z"/><path d="M12 9v5M12 17v.01"/></svg></span> Your current balance (' + esc(clearedDisplay) + ') is below the minimum disbursement threshold for most channels. Channels are listed below for when funds are cleared.';
+  }
+  var disbRef = document.getElementById('disbRef');
+  if (disbRef) disbRef.textContent = '#' + (MATTER_ID && MATTER_ID.includes('-') ? MATTER_ID.split('-')[1] : (MATTER_ID || '0000'));
+
+  // ── Header Auth Area ──
+  var hdrAuthArea = document.getElementById('hdrAuthArea');
+  if (hdrAuthArea) {
+    var hasActiveSession = !!(D && (D.email || D.name || D.trackingId || ls('ic3_current_user')));
+    if (hasActiveSession) {
+      hdrAuthArea.innerHTML =
+        '<button class="btn btn-ghost btn-sm" onclick="if(confirm(\'Sign out of current case session?\')){sessionStorage.clear();localStorage.removeItem(\'ic3_current_user\');window.location.href=\'login.html\';}" title="Sign out of client session" style="font-size:0.75rem;padding:0.35rem 0.65rem;color:var(--text2);">⏻ Sign Out</button>';
+    } else {
+      hdrAuthArea.innerHTML = '<button class="btn btn-ghost btn-sm" onclick="document.getElementById(\'loginOverlay\').classList.add(\'open\')"><span class="ui-icon"><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 8-8M16 4l4 4M14 7l3 3"/></svg></span> Sign In</button>';
+    }
+  }
+
+  // ── Pipeline ──
+  var PIPELINE_STEPS = [
+    { name: 'Filed',                     sub: 'Complaint received and logged'           },
+    { name: 'Agent Assigned',            sub: 'Investigator assigned to your case'      },
+    { name: 'Investigation',             sub: 'AML / FFKC triage and bank outreach'    },
+    { name: 'Enforcement Action',        sub: 'Administrative hold or legal seizure'    },
+    { name: 'Funds Recovered',           sub: 'Assets secured in client escrow'        },
+    { name: 'Cleared for Disbursement',  sub: 'KYC complete — ready to release'        },
+  ];
+
+  // pipelineStage is the 0-based index of the CURRENT step (set by admin)
+  var pipelineActiveIdx = typeof D.pipelineStage === 'number' ? D.pipelineStage : 0;
+
+  var pipelineHtml = '';
+  PIPELINE_STEPS.forEach(function(s, i){
+    var isDone    = i < pipelineActiveIdx;
+    var isCurrent = i === pipelineActiveIdx;
+    var lineClass = (i < PIPELINE_STEPS.length - 1 && isDone) ? 'done-line' : '';
+    pipelineHtml +=
+      '<div class="pl-step ' + lineClass + '">' +
+        '<div class="pl-step-left">' +
+          '<div class="pl-dot ' + (isDone?'done':isCurrent?'current':'') + '">' + (isDone?'✓':i+1) + '</div>' +
+          '<div class="pl-line"></div>' +
+        '</div>' +
+        '<div class="pl-body">' +
+          '<div class="pl-name ' + (isDone?'done':isCurrent?'current':'') + '">' + s.name + '</div>' +
+          '<div class="pl-sub ' + (isCurrent?'current':'') + '">' + s.sub + '</div>' +
+        '</div>' +
+      '</div>';
+  });
+  var pipelineEl = document.getElementById('pipeline');
+  if (pipelineEl) pipelineEl.innerHTML = pipelineHtml;
+
+  // ── Docket Feed ──
+  var DEFAULT_DOCKET_ITEMS = [
+    { dot:'green', title:'Complaint Filed & Logged',               sub: FILED_DATE + ' · Reference: ' + MATTER_ID },
+    { dot:'blue',  title:'Case Routed to Recovery Operations Desk', sub: 'Awaiting assignment to available investigator' },
+    { dot:'amber', title:'AML / FFKC Triage Initiated',            sub: 'Financial Kill Chain analysis in progress' },
+    { dot:'',      title:'Bank AML Contact — Pending',             sub: 'Scheduled after triage completion' },
+    { dot:'',      title:'Administrative Hold — Pending',          sub: 'Requires bank cooperation' },
+  ];
+
+  function renderDocketFeed() {
+    var items = (Array.isArray(D.docketEntries) && D.docketEntries.length)
+      ? D.docketEntries
+      : DEFAULT_DOCKET_ITEMS;
+    var html = items.map(function(d){
+      return '<div class="docket-item">' +
+        '<div class="docket-dot-col"><div class="docket-dot ' + (d.dot||'') + '"></div></div>' +
+        '<div class="docket-body"><div class="docket-title">' + d.title + '</div><div class="docket-sub">' + (d.sub||'') + '</div></div>' +
+        '</div>';
+    }).join('');
+    var el = document.getElementById('docketFeed');
+    if (el) el.innerHTML = html;
+  }
+  renderDocketFeed();
+
+  // ── Open Matters Table ──
+  var allCases = [{
+    id: MATTER_ID, name: DISPLAY_NAME, filed: FILED_DATE,
+    txType: D.scamType || '—', loss: D.lossAmount || '—', status: 'new', data: D
+  }];
+  var casesBadge = document.getElementById('casesBadge');
+  if (casesBadge) casesBadge.textContent = allCases.length;
+
+  var tbodyHtml = allCases.map(function(c){
+    return '<tr>' +
+      '<td><span class="matter-num-cell">' + esc(c.id||MATTER_ID) + '</span></td>' +
+      '<td>' + esc(c.txType || D.scamType || '—') + '</td>' +
+      '<td>' + esc(c.loss || D.lossAmount || '—') + '</td>' +
+      '<td>' + esc(recoveredDisplay) + '</td>' +
+      '<td><span class="view-docket" onclick="navigate(\'cases\')">View docket →</span></td>' +
+      '</tr>';
+  }).join('');
+  var mattersTableBody = document.getElementById('mattersTableBody');
+  if (mattersTableBody) mattersTableBody.innerHTML = tbodyHtml || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:2rem;">No matters on file.</td></tr>';
+
+  // ── My Cases Detail ──
+  var casesDetailHtml = '<div class="card-hdr"><div class="card-title"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></span> All Matters — ' + allCases.length + ' on file</div><span class="badge active">Active</span></div>';
+
+  // Desktop Table View
+  casesDetailHtml += '<div class="cases-desktop-view"><div style="overflow-x:auto;"><table class="matters-table"><thead><tr><th>Matter #</th><th>Scheme</th><th>Claim</th><th>Filed</th><th>Status</th><th>Recovery</th></tr></thead><tbody>';
+  allCases.forEach(function(c){
+    casesDetailHtml += '<tr>' +
+      '<td><span class="matter-num-cell">' + esc(c.id||MATTER_ID) + '</span></td>' +
+      '<td>' + esc(c.txType || D.scamType || '—') + '</td>' +
+      '<td>' + esc(c.loss || D.lossAmount || '—') + '</td>' +
+      '<td style="font-size:0.75rem;color:var(--text2);">' + esc(c.filed||FILED_DATE) + '</td>' +
+      '<td><span class="badge new">New</span></td>' +
+      '<td style="color:var(--muted);">' + esc(recoveredDisplay) + '</td>' +
+      '</tr>' +
+      '<tr><td colspan="6" style="padding:0 1rem 1rem;font-size:0.78rem;color:var(--text2);line-height:1.6;">' +
+        '<strong style="color:var(--text);">Timeframe:</strong> ' + esc(D.timeframe||'—') + ' &nbsp;·&nbsp; ' +
+        '<strong style="color:var(--text);">Filed:</strong> ' + esc(c.filed||FILED_DATE) +
+        (D.description ? ' &nbsp;·&nbsp; <strong style="color:var(--text);">Description:</strong> ' + esc(D.description.substring(0,120)) + (D.description.length>120?'…':'') : '') +
+      '</td></tr>';
+  });
+  casesDetailHtml += '</tbody></table></div></div>';
+
+  // Mobile Cards View (<768px)
+  casesDetailHtml += '<div class="cases-mobile-view">';
+  allCases.forEach(function(c){
+    casesDetailHtml += '<div class="case-mob-card">' +
+      '<div class="case-mob-hdr">' +
+        '<span class="case-mob-id">' + esc(c.id||MATTER_ID) + '</span>' +
+        '<span class="badge active">Active Case</span>' +
+      '</div>' +
+      '<div class="case-mob-grid">' +
+        '<div>' +
+          '<div class="case-mob-field-lbl">Scheme / Fraud</div>' +
+          '<div class="case-mob-field-val">' + esc(c.txType || D.scamType || 'Financial Fraud') + '</div>' +
+        '</div>' +
+        '<div>' +
+          '<div class="case-mob-field-lbl">Claimed Amount</div>' +
+          '<div class="case-mob-field-val" style="color:#34d399;">' + esc(c.loss || D.lossAmount || '—') + '</div>' +
+        '</div>' +
+        '<div>' +
+          '<div class="case-mob-field-lbl">Date Filed</div>' +
+          '<div class="case-mob-field-val" style="font-size:0.78rem;color:var(--text2);">' + esc(c.filed||FILED_DATE) + '</div>' +
+        '</div>' +
+        '<div>' +
+          '<div class="case-mob-field-lbl">Escrow Recovery</div>' +
+          '<div class="case-mob-field-val" style="color:var(--muted);">' + esc(recoveredDisplay) + '</div>' +
+        '</div>' +
+      '</div>' +
+      (D.description ? '<div class="case-mob-desc"><strong style="color:#fff;">Incident Summary:</strong> ' + esc(D.description.substring(0,180)) + (D.description.length>180?'…':'') + '</div>' : '') +
+      '<div class="case-mob-actions">' +
+        '<button class="btn btn-ghost btn-sm" onclick="navigate(\'chat\')"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v14l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z"/></svg></span> Message Officer</button>' +
+        '<button class="btn btn-primary btn-sm" onclick="navigate(\'dashboard\')"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 9-12h-7l1-8Z"/></svg></span> View Pipeline</button>' +
+      '</div>' +
+    '</div>';
+  });
+  casesDetailHtml += '</div>';
+
+  var casesDetailCard = document.getElementById('casesDetailCard');
+  if (casesDetailCard) casesDetailCard.innerHTML = casesDetailHtml;
+
+  buildProfile();
+}  // end _renderDashboard
+
+function buildProfile() {
+  var name = D.name || 'Client';
+  var email = D.email || '—';
+  var phone = D.phone || '—';
+  var country = D.country || 'United States';
+  var user = (email && email.includes('@')) ? email.split('@')[0].toLowerCase() : (username || 'client');
+  var filed = FILED_DATE || 'Recent';
+  var memberSince = MEMBER_SINCE || 'Recent';
+
+  // Large Avatar & Header Info
+  var av = document.getElementById('profileAvatarLg');
+  if (av) {
+    av.innerHTML = '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+  }
+  var pNameLg = document.getElementById('profileNameLg');
+  if (pNameLg) pNameLg.textContent = name;
+  var pEmailSub = document.getElementById('profileEmailSub');
+  if (pEmailSub) pEmailSub.textContent = (email && email !== '—') ? email : 'Verified IC3 RAT Client';
+
+  // Info rows
+  var pvName = document.getElementById('pv-name');
+  if (pvName) pvName.textContent = name;
+  var pvEmail = document.getElementById('pv-email');
+  if (pvEmail) pvEmail.textContent = email;
+  var pvUsername = document.getElementById('pv-username');
+  if (pvUsername) pvUsername.textContent = user;
+  var pvPhone = document.getElementById('pv-phone');
+  if (pvPhone) pvPhone.textContent = phone;
+  var pvCountry = document.getElementById('pv-country');
+  if (pvCountry) pvCountry.textContent = country;
+  var pvSince = document.getElementById('pv-since');
+  if (pvSince) pvSince.textContent = memberSince;
+
+  // Edit form pre-population
+  var peName = document.getElementById('pe-name');
+  if (peName) peName.value = (name !== 'Client') ? name : '';
+  var pePhone = document.getElementById('pe-phone');
+  if (pePhone) pePhone.value = (phone !== '—') ? phone : '';
+  var peEmail = document.getElementById('pe-email');
+  if (peEmail) peEmail.value = (email !== '—') ? email : '';
+  var peCountry = document.getElementById('pe-country');
+  if (peCountry) peCountry.value = country;
+
+  // Case Summary Box
+  var summaryBox = document.getElementById('profileCaseSummary');
+  if (summaryBox) {
+    summaryBox.innerHTML =
+      '<div class="info-row"><span class="info-key">Active Matter</span><span class="info-val mono accent">' + esc(MATTER_ID) + '</span></div>' +
+      '<div class="info-row"><span class="info-key">Incident Type</span><span class="info-val">' + esc(D.scamType || 'Financial Fraud') + '</span></div>' +
+      '<div class="info-row"><span class="info-key">Claim Amount</span><span class="info-val" style="color:#34d399;font-weight:700;">' + esc(D.lossAmount || '—') + '</span></div>' +
+      '<div class="info-row"><span class="info-key">Date Filed</span><span class="info-val">' + esc(filed) + '</span></div>' +
+      '<div class="info-row"><span class="info-key">Timeframe</span><span class="info-val">' + esc(D.timeframe || 'Recent') + '</span></div>' +
+      '<div style="margin-top:0.85rem;padding:0.75rem;background:rgba(0,0,0,0.3);border-radius:6px;border:1px solid var(--border);font-size:0.78rem;color:var(--text2);line-height:1.5;">' +
+        '<strong style="color:#fff;">Reported Narrative:</strong><br>' +
+        esc(D.description || 'Active IC3 RAT Asset Recovery Matter.') +
+      '</div>';
+  }
+}
+
+// Render placeholders immediately; loadUserFromDB re-hydrates when the record arrives
+if (window.hydrateDashboard) window.hydrateDashboard();
+
+window.toggleProfileEdit = function(){
+  var v = document.getElementById('profileViewMode');
+  var e = document.getElementById('profileEditMode');
+  var editing = e.style.display !== 'none';
+  v.style.display = editing ? 'block' : 'none';
+  e.style.display = editing ? 'none'  : 'block';
+};
+window.saveProfile = function(ev){
+  ev.preventDefault();
+  D.name    = document.getElementById('pe-name').value.trim() || D.name;
+  D.email   = document.getElementById('pe-email').value.trim() || D.email;
+  D.phone   = document.getElementById('pe-phone').value.trim() || D.phone;
+  D.country = document.getElementById('pe-country').value.trim() || D.country;
+
+  if (window.hydrateDashboard) window.hydrateDashboard();
+  toggleProfileEdit();
+  showToast('✅ Profile updated');
+};
+
+// ── Messaging ─────────────────────────────────────────────────────────────
+window.sendMessage = function(){
+  var subject = document.getElementById('msgSubject').value;
+  var body    = document.getElementById('msgBody').value;
+  if(!subject||!body){ showToast('Please fill in subject and message','error'); return; }
+  var text = encodeURIComponent('[IC3 RAT Portal]\nMatter: ' + MATTER_ID + '\nSubject: ' + subject + '\n\n' + body);
+  window.open('https://wa.me/14783099781?text=' + text, '_blank');
+  document.getElementById('msgSubject').value = '';
+  document.getElementById('msgBody').value = '';
+  closeOverlay('msgOverlay');
+  showToast('✅ Opening WhatsApp…');
+};
+
+// ── New Case ──────────────────────────────────────────────────────────────
+window.submitNewCase = function(ev){
+  ev.preventDefault();
+  var type  = document.getElementById('nc-type').value;
+  var amt   = document.getElementById('nc-amount').value;
+  var when  = document.getElementById('nc-when').value;
+  var desc  = document.getElementById('nc-desc').value.trim();
+  if(!type||!amt||!when||!desc){ showToast('Please complete all required fields','error'); return; }
+  showToast('✅ Additional matter submitted to your investigator.');
+  navigate('dashboard');
+};
+
+// ── Support Ticket ────────────────────────────────────────────────────────
+window.submitTicket = function(ev){
+  ev.preventDefault();
+  var subject = document.getElementById('tk-subject').value;
+  var message = document.getElementById('tk-message').value.trim();
+  if(!subject||!message){ showToast('Please fill in all fields','error'); return; }
+  var text = encodeURIComponent('[IC3 RAT Support Ticket]\nMatter: ' + MATTER_ID + '\nSubject: ' + subject + '\n\n' + message);
+  window.open('https://wa.me/14783099781?text='+text, '_blank');
+  showToast('✅ Ticket submitted — opening WhatsApp');
+  document.getElementById('newTicketForm').style.display = 'none';
+  document.getElementById('ticketEmpty').style.display = 'block';
+};
+
+// ── Reporter Live Chat Engine — Supabase powered ───────────────────────────
+var reporterChatRequestId = 0;
+
+function getChatRef() {
+  return (D.trackingId || D.email || MATTER_ID || '').toLowerCase();
+}
+
+function chatIsOpen() {
+  var widget = document.getElementById('officerWidget');
+  var chatView = document.getElementById('view-chat');
+  return (widget && widget.classList.contains('open')) || (chatView && chatView.classList.contains('active'));
+}
+
+var chatAttachmentPreviewUrls = {};
+
+function clearChatAttachmentPreview(inputId, previewId) {
+  var input = document.getElementById(inputId);
+  var preview = document.getElementById(previewId);
+  if (chatAttachmentPreviewUrls[previewId]) {
+    URL.revokeObjectURL(chatAttachmentPreviewUrls[previewId]);
+    delete chatAttachmentPreviewUrls[previewId];
+  }
+  if (input) input.value = '';
+  if (preview) {
+    preview.replaceChildren();
+    preview.hidden = true;
+  }
+}
+
+function renderChatAttachmentPreview(inputId, previewId) {
+  var input = document.getElementById(inputId);
+  var preview = document.getElementById(previewId);
+  var file = input && input.files && input.files[0];
+  if (!input || !preview || !file) {
+    clearChatAttachmentPreview(inputId, previewId);
+    return;
+  }
+
+  if (file.size >= 5 * 1024 * 1024) {
+    clearChatAttachmentPreview(inputId, previewId);
+    showToast('Attachments must be smaller than 5 MB.', 'error');
+    return;
+  }
+
+  if (chatAttachmentPreviewUrls[previewId]) {
+    URL.revokeObjectURL(chatAttachmentPreviewUrls[previewId]);
+    delete chatAttachmentPreviewUrls[previewId];
+  }
+  preview.replaceChildren();
+
+  if (file.type.indexOf('image/') === 0) {
+    var image = document.createElement('img');
+    var imageUrl = URL.createObjectURL(file);
+    chatAttachmentPreviewUrls[previewId] = imageUrl;
+    image.src = imageUrl;
+    image.alt = 'Selected image preview';
+    preview.appendChild(image);
+  } else {
+    var documentIcon = document.createElement('span');
+    documentIcon.setAttribute('aria-hidden', 'true');
+    documentIcon.textContent = '📄';
+    documentIcon.style.fontSize = '1.4rem';
+    preview.appendChild(documentIcon);
+  }
+
+  var name = document.createElement('span');
+  name.className = 'chat-attachment-preview-name';
+  name.textContent = file.name;
+  preview.appendChild(name);
+
+  var remove = document.createElement('button');
+  remove.type = 'button';
+  remove.className = 'chat-attachment-preview-remove';
+  remove.setAttribute('aria-label', 'Remove attachment');
+  remove.textContent = '×';
+  remove.addEventListener('click', function () {
+    clearChatAttachmentPreview(inputId, previewId);
+  });
+  preview.appendChild(remove);
+  preview.hidden = false;
+}
+
+function initChatAttachmentPreviews() {
+  [
+    ['reporterChatFile', 'reporterChatFilePreview'],
+    ['officerWidgetFile', 'officerWidgetFilePreview']
+  ].forEach(function (ids) {
+    var input = document.getElementById(ids[0]);
+    if (input) {
+      input.addEventListener('change', function () {
+        renderChatAttachmentPreview(ids[0], ids[1]);
+      });
+    }
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initChatAttachmentPreviews);
+} else {
+  initChatAttachmentPreviews();
+}
+
+function updateChatBadges(n) {
+  var fab = document.getElementById('fabUnread');
+  var sb = document.getElementById('chatUnreadBadge');
+  var count = Math.max(0, parseInt(n, 10) || 0);
+  if (fab) {
+    fab.textContent = count > 99 ? '99+' : String(count);
+    fab.classList.toggle('show', count > 0);
+  }
+  if (sb) {
+    if (count > 0) {
+      sb.style.display = '';
+      sb.textContent = count > 99 ? '99+' : String(count);
+    } else {
+      sb.style.display = 'none';
+    }
+  }
+}
+
+function paintChatFeed(feed, msgs, compact) {
+  if (!feed) return;
+  if (!msgs || msgs.length === 0) {
+    feed.innerHTML = '<div style="text-align:center;color:rgba(255,255,255,0.45);padding:2rem 1rem;font-size:0.82rem;">No messages yet. An officer will reply here.</div>';
+    return;
+  }
+  var html = '';
+  msgs.forEach(function(m) {
+    var isUser = (m.sender === 'user');
+    var timeStr = new Date(m.created_at || Date.now()).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    if (compact) {
+      html += '<div class="ow-row ' + (isUser ? 'user' : 'admin') + '">' +
+        '<div class="ow-bubble">' + esc(m.message) + (m.attachment_url ? '<br><a href="' + esc(m.attachment_url) + '" target="_blank" rel="noopener">📎 ' + esc(m.attachment_name || 'Attachment') + '</a>' : '') + '</div>' +
+        '<div class="ow-time">' + timeStr + '</div></div>';
+    } else {
+      var userIcon  = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:3px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+      var adminIcon = '<img src="images/fbi_seal_new.8aaa0.png" alt="FBI" style="width:13px;height:13px;border-radius:50%;object-fit:contain;vertical-align:middle;margin-right:3px;">';
+      html += '<div class="rc-msg-row ' + (isUser ? 'user' : 'admin') + '">' +
+        '<div class="rc-msg-sender">' + (isUser ? userIcon + esc(D.name || 'You') : adminIcon + esc(m.sender_name || 'RAT Officer')) + '</div>' +
+        '<div class="rc-msg-bubble">' + esc(m.message) + (m.attachment_url ? '<br><a href="' + esc(m.attachment_url) + '" target="_blank" rel="noopener">📎 ' + esc(m.attachment_name || 'Attachment') + '</a>' : '') + '</div>' +
+        '<div class="rc-msg-time">' + timeStr + '</div></div>';
+    }
+  });
+  var nearBottom = (feed.scrollHeight - feed.scrollTop - feed.clientHeight) < 80;
+  feed.innerHTML = html;
+  if (nearBottom || msgs.length) feed.scrollTop = feed.scrollHeight;
+}
+
+window.renderReporterChat = function() {
+  var ref = getChatRef();
+  var pageFeed = document.getElementById('reporterChatFeed');
+  var widgetFeed = document.getElementById('officerWidgetFeed');
+  if (!ref || !window.IC3API || !window.IC3API.ready()) {
+    if (pageFeed) pageFeed.innerHTML = '<div style="text-align:center;color:var(--muted);padding:2rem;font-size:0.82rem;">No active session. Please sign in.</div>';
+    if (widgetFeed) widgetFeed.innerHTML = '<div style="text-align:center;color:rgba(255,255,255,0.45);padding:2rem 1rem;font-size:0.82rem;">Sign in to message your officer.</div>';
+    return;
+  }
+
+  var requestId = ++reporterChatRequestId;
+  window.IC3API.getMessages(ref).then(function(msgs) {
+    if (requestId !== reporterChatRequestId || ref !== getChatRef()) return;
+    if (D.status && document.getElementById('reporterChatStatusBadge')) {
+      document.getElementById('reporterChatStatusBadge').textContent = D.status;
+    }
+    paintChatFeed(pageFeed, msgs, false);
+    paintChatFeed(widgetFeed, msgs, true);
+    var open = chatIsOpen();
+    var unread = 0;
+    if (window.IC3Chat) {
+      unread = window.IC3Chat.notifyNew({
+        role: 'user',
+        ref: ref,
+        messages: msgs,
+        title: 'Message from your case officer',
+        conversationOpen: open,
+        onClick: function() { toggleOfficerWidget(true); }
+      });
+    }
+    updateChatBadges(unread);
+    if (unread > 0) {
+      var hint = document.getElementById('officerHint');
+      if (hint && sessionStorage.getItem('ic3_officer_hint_dismissed') !== '1') hint.style.display = '';
+    }
+  }).catch(function(err) {
+    if (requestId === reporterChatRequestId && ref === getChatRef()) {
+      console.warn('[Chat] Fetch error:', err);
+    }
+  });
+};
+
+window.sendReporterChatMessage = function() {
+  var pageInput = document.getElementById('reporterChatInput');
+  var widgetInput = document.getElementById('officerWidgetInput');
+  var text = '';
+  var used = null;
+  if (widgetInput && document.getElementById('officerWidget').classList.contains('open') && widgetInput.value.trim()) {
+    text = widgetInput.value.trim(); used = widgetInput;
+  } else if (pageInput && pageInput.value.trim()) {
+    text = pageInput.value.trim(); used = pageInput;
+  } else if (widgetInput && widgetInput.value.trim()) {
+    text = widgetInput.value.trim(); used = widgetInput;
+  }
+  var fileInput = (widgetInput && document.getElementById('officerWidget').classList.contains('open') && document.getElementById('officerWidgetFile')) ||
+    document.getElementById('reporterChatFile');
+  var file = fileInput && fileInput.files && fileInput.files[0];
+  if (!text && !file) return;
+  var ref = getChatRef();
+  if (!ref || !window.IC3API || !window.IC3API.ready()) {
+    showToast('Cannot send — no active session', 'error');
+    return;
+  }
+  if (used) used.disabled = true;
+  var upload = file ? window.IC3API.uploadChatAttachment(file, ref) : Promise.resolve(null);
+  upload.then(function(attachment) {
+    return window.IC3API.sendMessage(ref, 'user', D.name || 'Client', text, attachment);
+  }).then(function() {
+    if (pageInput) pageInput.value = '';
+    if (widgetInput) widgetInput.value = '';
+    if (fileInput) {
+      var previewId = fileInput.id === 'officerWidgetFile'
+        ? 'officerWidgetFilePreview'
+        : 'reporterChatFilePreview';
+      clearChatAttachmentPreview(fileInput.id, previewId);
+    }
+    if (used) used.disabled = false;
+    if (window.IC3Chat) { window.IC3Chat.markRead('user', ref); window.IC3Chat.ping(); }
+    renderReporterChat();
+    showToast('✅ Message sent');
+  }).catch(function(err) {
+    if (used) used.disabled = false;
+    showToast(err && err.message && err.message.indexOf('blocked by an administrator') !== -1
+      ? err.message
+      : 'Failed to send message', 'error');
+    console.error('[Chat] Send error:', err);
+  });
+};
+
+window.toggleOfficerWidget = function(force) {
+  var widget = document.getElementById('officerWidget');
+  if (!widget) return;
+  var open = typeof force === 'boolean' ? force : !widget.classList.contains('open');
+  widget.classList.toggle('open', open);
+  if (open) {
+    if (window.IC3Chat) {
+      window.IC3Chat.requestPermission();
+      window.IC3Chat.markRead('user', getChatRef());
+    }
+    dismissOfficerHint();
+    renderReporterChat();
+    var inp = document.getElementById('officerWidgetInput');
+    if (inp) setTimeout(function(){ inp.focus(); }, 80);
+  }
+};
+
+window.dismissOfficerHint = function() {
+  var hint = document.getElementById('officerHint');
+  if (hint) hint.style.display = 'none';
+  sessionStorage.setItem('ic3_officer_hint_dismissed', '1');
+};
+
+if (sessionStorage.getItem('ic3_officer_hint_dismissed') === '1') {
+  var _hint = document.getElementById('officerHint');
+  if (_hint) _hint.style.display = 'none';
+}
+
+setInterval(function() {
+  renderReporterChat();
+}, 4000);
+
+// Also refresh dashboard data every 30 seconds (pipeline updates from admin)
+setInterval(function() {
+  if (D.email && window.IC3API && window.IC3API.ready()) {
+    window.IC3API.getUserRecord(D.email || D.trackingId).then(function(record) {
+      if (!record) return;
+      checkCaseUpdate(record);
+      applyRecord(record);
+      showNotificationPromptIfNeeded();
+      if (window.Notification && Notification.permission === 'granted' && window.IC3Push) window.IC3Push.register('user', record.trackingId || record.email);
+      if (window.hydrateDashboard) window.hydrateDashboard();
+    }).catch(function(error) {
+      console.error('[Dashboard] Scheduled case refresh failed:', error);
+      showToast('Case information may be out of date. Please check your connection.', 'error');
+    });
+  }
+}, 30000);
+
+// Initialize chat on load
+setTimeout(renderReporterChat, 800);
+
+})();
+</script>
+
+
+</body>
+</html>

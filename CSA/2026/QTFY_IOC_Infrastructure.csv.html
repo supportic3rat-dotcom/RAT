@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <title>QTFY IOC Infrastructure — Indicators of Compromise | FBI IC3 RAT</title>
+    <link rel="icon" type="image/jpeg" href="../../images/ic3ratlogo.jpeg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon-32.8aaa0.png">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../css/site.d8c3f.css">
+    <style>
+        :root { color-scheme: dark !important; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #030712 !important;
+            color: #f8fafc !important;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+        }
+        .ioc-header {
+            background: #0b1d3a;
+            border-bottom: 1px solid #1e293b;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .ioc-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+        .ioc-brand img {
+            height: 40px;
+            width: auto;
+        }
+        .ioc-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        .ioc-card {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+        .ioc-card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #1e293b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .ioc-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+        }
+        .ioc-subtitle {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin-top: 0.25rem;
+        }
+        .search-box {
+            padding: 0.5rem 0.85rem;
+            background: #030712;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.875rem;
+            width: 260px;
+        }
+        .ioc-table-wrapper {
+            overflow-x: auto;
+            max-height: 70vh;
+        }
+        table.ioc-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+        table.ioc-table th {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 0.85rem 1.25rem;
+            font-weight: 600;
+            border-bottom: 1px solid #334155;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        table.ioc-table td {
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid #1e293b;
+            color: #cbd5e1;
+            font-family: 'JetBrains Mono', monospace, sans-serif;
+            word-break: break-all;
+        }
+        table.ioc-table tr:hover td {
+            background: #1e293b55;
+            color: #ffffff;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            background: #1e293b;
+            color: #ffffff;
+            border: 1px solid #334155;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            background: #334155;
+        }
+    </style>
+    <script defer src="../../js/recovery-toast.js"></script>
+<style>
+/* ── US Government Banner & Dropdown ── */
+.usa-banner {
+  background-color: #ffffff !important;
+  color: #1b1b1b !important;
+  font-family: inherit;
+  font-size: 0.82rem;
+  border-bottom: 1px solid #e5e7eb;
+  position: relative;
+  z-index: 100;
+  width: 100%;
+}
+.usa-banner__header {
+  padding: 0.4rem 1.25rem;
+  background-color: #ffffff !important;
+}
+.usa-banner__inner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.usa-banner__header-flag {
+  height: 13px;
+  width: auto;
+  vertical-align: middle;
+}
+.usa-banner__header-text {
+  font-size: 0.78rem;
+  margin: 0;
+  display: inline;
+  color: #1b1b1b !important;
+}
+.usa-banner__header-action {
+  display: none;
+}
+.usa-banner__button {
+  background: none;
+  border: none;
+  padding: 0 0.25rem;
+  font-size: 0.78rem;
+  font-family: inherit;
+  color: #1b1b1b !important;
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.usa-banner__button::after {
+  content: '▼';
+  font-size: 0.6rem;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+.usa-banner__button[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+.usa-banner__button:hover {
+  background-color: #f0f0f0 !important;
+  color: #000000 !important;
+}
+.usa-banner__content {
+  background-color: #ffffff !important;
+  color: #1b1b1b !important;
+  padding: 1rem 1.25rem 1.25rem;
+  border-top: 1px solid #f0f0f0;
+}
+.usa-banner__content[hidden] {
+  display: none !important;
+}
+.usa-banner .grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.usa-banner__guidance {
+  flex: 1 1 300px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+.usa-banner__guidance p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #1b1b1b !important;
+}
+.usa-banner__guidance strong {
+  color: #1b1b1b !important;
+}
+.usa-banner__icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.usa-banner__lock-image,
+.usa-banner__lock-image path {
+  width: 11px;
+  height: 14px;
+  fill: #1b1b1b !important;
+  color: #1b1b1b !important;
+  vertical-align: middle;
+}
+</style>
+<style>
+/* ── US Government Banner & Dropdown (Strict White BG & Black Text) ── */
+.usa-banner,
+.usa-banner *,
+.usa-banner header,
+.usa-banner .usa-banner__header,
+.usa-banner .usa-banner__inner,
+.usa-banner .usa-banner__content,
+.usa-banner p,
+.usa-banner span,
+.usa-banner strong,
+.usa-banner button,
+.usa-banner .usa-banner__header-text,
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  position: relative !important;
+  z-index: 1000 !important;
+  width: 100% !important;
+}
+
+.usa-banner .usa-banner__header {
+  padding: 0.4rem 1.25rem !important;
+}
+
+.usa-banner .usa-banner__header-action,
+.usa-banner .usa-banner__button,
+.usa-banner .usa-banner__button-text {
+  color: #1b1b1b !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+}
+
+.usa-banner .usa-banner__button:hover,
+.usa-banner .usa-banner__header-action:hover {
+  color: #000000 !important;
+  background-color: #f3f4f6 !important;
+}
+
+.usa-banner .usa-banner__content {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  padding: 1rem 1.25rem 1.25rem !important;
+  border-top: 1px solid #e5e7eb !important;
+  background-color: #ffffff !important;
+}
+
+.usa-banner .usa-banner__content[hidden] {
+  display: none !important;
+}
+
+.usa-banner .usa-banner__lock-image,
+.usa-banner .usa-banner__lock-image path {
+  fill: #1b1b1b !important;
+  color: #1b1b1b !important;
+}
+</style>
+</head>
+<body>
+    <header class="ioc-header">
+        <a href="../../index.html" class="ioc-brand">
+            <img src="../../images/ic3ratlogo.jpeg" alt="FBI IC3 RAT">
+            <span>FBI IC3 Threat Intelligence</span>
+        </a>
+        <a href="javascript:history.back()" class="btn">Back</a>
+    </header>
+    <main class="ioc-container">
+        <div class="ioc-card">
+            <div class="ioc-card-header">
+                <div>
+                    <h1 class="ioc-title">QTFY IOC Infrastructure</h1>
+                    <div class="ioc-subtitle">Official Threat Indicators of Compromise (IOC) • 1048573 Entries</div>
+                </div>
+                <input type="text" id="filterInput" class="search-box" placeholder="Filter indicators..." onkeyup="filterTable()">
+            </div>
+            <div class="ioc-table-wrapper">
+                <table class="ioc-table" id="iocTable">
+                    <thead>
+                        <tr><th>﻿type</th><th>indicator</th><th>first_seen</th><th>last_seen</th><th>description</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>domain</td><td>adaadada.top</td><td>2022-09-24</td><td>2023-09-25</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>anticonstitutionally.sbs</td><td>2026-03-03</td><td>2027-03-03</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>apexrecord.top</td><td>2023-03-02</td><td>2024-03-03</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>bigchains.net</td><td>2019-03-17</td><td>2025-03-17</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>bigdataocean.net</td><td>2018-12-24</td><td>2021-12-24</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>cataclysmdda.xyz</td><td>2022-12-05</td><td>2024-12-05</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>categorystore.net</td><td>2020-11-20</td><td>2026-03-02</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>ccgv.me</td><td>2018-03-12</td><td>2027-03-12</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>daumcab.net</td><td>2019-08-01</td><td>2024-08-01</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>dlview.net</td><td>2019-03-17</td><td>2024-03-17</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>docker-hub.qt-team.com</td><td>2022-02-25</td><td>2032-02-25</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>fastsecurey.info</td><td>2026-03-30</td><td>2027-03-31</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>helicopter-crash.online</td><td>2021-12-10</td><td>2022-12-10</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>huntger.store</td><td>2018-04-01</td><td>2020-04-01</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>instantmessagehub.tech</td><td>2023-11-03</td><td>2026-11-03</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>jump.qt-proxy.org</td><td>2025-12-14</td><td>2026-12-14</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>jump.qt-team.com</td><td>2022-02-25</td><td>2032-02-25</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>miandfish.store</td><td>2018-06-14</td><td>2020-06-14</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>microsoft-update.site</td><td>2017-12-31</td><td>2022-05-19</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>mirrorstorage.org</td><td>2020-10-15</td><td>2023-10-15</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>mq-result.qt-proxy.org</td><td>2025-12-14</td><td>2026-12-14</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>mq-result.qt-team.com</td><td>2022-02-25</td><td>2032-02-25</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>mq-task.qt-proxy.org</td><td>2025-12-14</td><td>2026-12-14</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>mq-task.qt-team.com</td><td>2022-02-25</td><td>2032-02-25</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>navioneday.tk</td><td>2023-08-09</td><td>2024-02-04</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>newtimeblog.com</td><td>2017-11-30</td><td>2022-11-30</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>newtourism.pw</td><td>2020-06-26</td><td>2024-06-26</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>onlion.shop</td><td>2024-06-22</td><td>2026-06-22</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>oraclelabs.biz</td><td>2025-09-03</td><td>2026-09-03</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>qtcyber.com</td><td>2021-09-02</td><td>2031-09-02</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>qtproxy.com</td><td>2017-07-20</td><td>2020-07-20</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>qt-proxy.org</td><td>2025-12-14</td><td>2026-12-14</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>qtproxy.tk</td><td>2018-10-10</td><td>2022-09-17</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>qtproxy.xyz</td><td>2022-11-10</td><td>2027-11-10</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>qt-team.com</td><td>2022-02-25</td><td>2032-02-25</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>securelink.qtproxy.xyz</td><td>2026-05-29</td><td>Present</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>securityforce.cf</td><td>2020-06-27</td><td>2022-06-27</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>serverbks.xyz</td><td>2023-11-30</td><td>2024-11-30</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>taskqueue.work</td><td>2021-06-06</td><td>2022-06-06</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>turandotarting.org</td><td>2017-11-07</td><td>2021-11-07</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>vigorlabs.info</td><td>2023-12-29</td><td>2025-12-29</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>vsky.tech</td><td>2018-11-08</td><td>2019-11-08</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>whtsapp.online</td><td>2018-04-01</td><td>2020-04-01</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>wintel.biz</td><td>2025-09-03</td><td>2026-09-02</td><td>actor controlled</td></tr>
+<tr><td>domain</td><td>worldswar.online</td><td>2022-03-02</td><td>2027-03-02</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>1.32.216.31</td><td>2025-09-11</td><td>2025-09-13</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>1.32.216.171</td><td>2026-04-13</td><td>Present</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>5.34.176.230</td><td>2020-02-18</td><td>2020-02-19</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>5.34.183.142</td><td>2020-10-21</td><td>2020-11-30</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>5.183.179.105</td><td>2019-07-26</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>5.183.179.120</td><td>2020-07-02</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>5.183.179.133</td><td>2021-09-11</td><td>2026-05-28</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>8.148.149.147</td><td>2025-11-30</td><td>2025-12-09</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>23.95.82.90</td><td>2018-03-04</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>23.95.220.192</td><td>2026-03-12</td><td>Present</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>23.224.39.80</td><td>2023-04-04</td><td>2023-09-12</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>23.224.46.224</td><td>2021-08-03</td><td>2022-10-10</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>23.235.147.235</td><td>2018-11-08</td><td>2018-12-14</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>23.238.217.23</td><td>2020-09-20</td><td>2021-03-07</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>23.254.161.193</td><td>2019-07-24</td><td>2020-09-18</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>23.254.164.48</td><td>2019-05-21</td><td>2020-08-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>23.254.164.181</td><td>2019-05-21</td><td>2020-08-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>23.254.167.3</td><td>2019-05-21</td><td>2019-07-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>23.254.202.64</td><td>2019-06-30</td><td>2020-06-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>23.254.227.240</td><td>2020-02-19</td><td>2020-03-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>23.254.229.43</td><td>2019-05-21</td><td>2019-07-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>23.254.250.188</td><td>2020-02-19</td><td>2020-03-04</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>27.102.118.249</td><td>2019-11-25</td><td>2019-12-14</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>27.102.127.93</td><td>2020-04-29</td><td>2020-04-30</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>31.169.126.162</td><td>2025-06-23</td><td>2026-05-08</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>31.170.160.61</td><td>2018-11-07</td><td>2018-11-07</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>31.170.161.71</td><td>2018-03-31</td><td>2019-02-19</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>31.170.161.78</td><td>2018-05-23</td><td>2019-02-19</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>39.104.208.77</td><td>2024-02-28</td><td>Present</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>43.240.12.129</td><td>2017-12-31</td><td>2020-05-10</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.8.158.64</td><td>2025-06-06</td><td>2025-07-07</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.8.159.228</td><td>2025-01-22</td><td>2025-06-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.12.206.12</td><td></td><td>2020-07-26</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.12.206.26</td><td>2019-07-15</td><td>2020-07-18</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.12.206.72</td><td>2020-11-19</td><td>2021-11-19</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.12.206.76</td><td>2019-08-15</td><td>2020-10-15</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.12.206.87</td><td>2020-07-29</td><td>2022-02-04</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.12.206.234</td><td>2019-07-15</td><td>2020-07-16</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.32.23.254</td><td>2021-06-21</td><td>2021-06-26</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.32.32.50</td><td>2020-08-02</td><td>2020-08-03</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.82.167.22</td><td>2020-12-02</td><td>2021-10-23</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.82.167.112</td><td>2019-07-26</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.82.167.115</td><td>2019-07-26</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.82.167.121</td><td>2019-07-26</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.82.167.222</td><td>2019-07-26</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.90.57.148</td><td>2020-10-14</td><td>2020-10-24</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.95.2.119</td><td>2026-03-13</td><td>2026-04-13</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.117.102.170</td><td></td><td>2019-09-10</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.128.153.29</td><td>2023-03-21</td><td>2024-01-29</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.128.153.126</td><td>2020-11-19</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.134.17.84</td><td>2022-01-09</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.154.2.86</td><td>2021-03-06</td><td>2021-03-07</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.154.2.94</td><td>2021-03-06</td><td>2021-03-08</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.157.136.157</td><td>2020-03-17</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.157.136.158</td><td>2020-03-17</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.157.136.159</td><td>2020-03-17</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.199.188.1</td><td>2019-04-02</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.199.188.251</td><td>2018-10-23</td><td>2019-07-18</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.199.189.122</td><td>2019-07-05</td><td>2019-08-20</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.199.189.123</td><td>2019-07-05</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>45.202.210.27</td><td>2026-05-29</td><td>Present</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>46.3.242.214</td><td>2023-12-06</td><td>2023-12-20</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>47.76.131.175</td><td>2024-02-28</td><td>2026-05-31</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>47.88.175.61</td><td>2017-12-19</td><td>2020-11-03</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>47.96.8.186</td><td>2025-03-22</td><td>2025-11-28</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>47.122.42.2</td><td>2024-05-05</td><td>2025-11-28</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>58.152.47.231</td><td>2020-12-18</td><td>2020-12-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>62.216.88.18</td><td>2020-06-23</td><td>2021-06-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>62.216.88.26</td><td>2020-06-23</td><td>2022-12-25</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>64.32.15.23</td><td>2018-03-13</td><td>2018-04-28</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>64.32.15.166</td><td>2018-04-03</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>64.32.15.198</td><td>2018-03-16</td><td>2018-05-30</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>66.154.120.18</td><td>2018-07-19</td><td>2018-12-31</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>75.140.50.69</td><td>2018-09-03</td><td>2021-09-01</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>77.83.117.245</td><td>2020-03-14</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>78.142.19.106</td><td>2019-04-30</td><td>2020-03-14</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>78.142.19.207</td><td>2019-07-26</td><td>2019-07-27</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>79.143.186.63</td><td>2018-03-07</td><td>2018-05-07</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>80.241.213.68</td><td>2018-03-06</td><td>2018-05-06</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>80.241.213.90</td><td>2018-03-06</td><td>2018-05-06</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>80.241.213.93</td><td>2018-03-06</td><td>2018-05-06</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>85.143.202.117</td><td>2019-05-31</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>88.119.175.225</td><td>2020-01-07</td><td>2020-05-07</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>88.119.175.229</td><td>2021-08-04</td><td>2022-07-30</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>89.31.127.87</td><td>2020-07-18</td><td>2022-04-10</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>89.31.127.242</td><td>2020-06-26</td><td>2023-06-26</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>89.223.100.18</td><td>2019-04-29</td><td>2019-06-30</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>91.194.90.213</td><td>2018-03-26</td><td>2018-05-30</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>91.194.91.25</td><td>2018-03-06</td><td>2018-05-06</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>91.194.91.84</td><td>2018-03-26</td><td>2018-06-04</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>91.220.202.243</td><td>2020-06-23</td><td>2020-08-26</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>92.38.139.64</td><td>2019-12-07</td><td>2022-05-12</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>92.38.163.102</td><td>2020-03-09</td><td>2020-07-19</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>94.156.236.183</td><td>2025-07-10</td><td>2026-04-09</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>101.35.24.222</td><td>2022-04-01</td><td>2022-05-18</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>103.83.157.38</td><td>2020-12-13</td><td>2021-10-07</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>103.103.128.6</td><td>2020-01-14</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>103.114.161.228</td><td>2018-06-18</td><td>2019-04-27</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>103.114.161.243</td><td>2018-06-22</td><td>2018-07-24</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>103.114.163.112</td><td>2019-04-01</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>103.201.131.121</td><td>2026-03-16</td><td>2026-05-16</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.123.211</td><td>2021-03-08</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.145.175</td><td>2019-02-01</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.148.236</td><td>2019-02-01</td><td>2020-08-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.153.230</td><td>2019-04-01</td><td>2019-10-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.157.30</td><td>2018-11-28</td><td>2019-05-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.158.113</td><td>2018-11-28</td><td>2019-05-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.158.114</td><td>2018-11-28</td><td>2019-05-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.158.181</td><td>2019-01-02</td><td>2019-07-20</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.165.68</td><td>2018-11-29</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.166.42</td><td>2019-05-21</td><td>2019-10-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.166.234</td><td>2019-05-21</td><td>2020-08-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.170.48</td><td>2018-11-28</td><td>2019-05-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.173.43</td><td>2019-05-21</td><td>2019-10-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.173.191</td><td>2020-02-19</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.175.134</td><td>2019-01-01</td><td>2019-07-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.194.148</td><td>2019-05-21</td><td>2020-08-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.203.65</td><td>2019-11-03</td><td>2019-12-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.211.139</td><td>2019-02-17</td><td>2020-08-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.168.211.236</td><td>2019-02-18</td><td>2019-05-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>104.234.174.5</td><td>2026-02-06</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>106.14.33.83</td><td>2025-03-22</td><td>2025-08-13</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>106.14.68.99</td><td>2025-05-12</td><td>2025-08-12</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>106.14.164.140</td><td>2025-03-22</td><td>2025-08-12</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>106.14.184.69</td><td>2024-01-25</td><td>2026-01-17</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>107.155.95.134</td><td>2021-02-04</td><td>2021-03-12</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>107.175.215.126</td><td>2020-12-15</td><td>2021-03-07</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>108.61.203.184</td><td>2017-12-31</td><td>2018-03-16</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>108.174.199.29</td><td>2019-06-28</td><td>2022-05-18</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>108.174.200.249</td><td>2019-05-19</td><td>2020-05-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>109.166.36.217</td><td>2020-08-18</td><td>2021-05-24</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>110.163.142.168</td><td>2019-03-27</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>111.223.246.9</td><td>2019-09-02</td><td>2019-12-14</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>113.212.91.177</td><td></td><td>2020-12-29</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>118.31.35.233</td><td>2025-03-11</td><td>2025-09-11</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>119.84.120.157</td><td>2019-07-24</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>119.237.159.189</td><td>2021-12-09</td><td>2021-12-13</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>120.27.150.114</td><td>2025-02-27</td><td>2025-11-28</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>122.112.169.163</td><td>2020-02-20</td><td>2024-03-15</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>141.164.39.12</td><td>2020-10-22</td><td>2021-01-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>142.11.211.86</td><td>2018-11-22</td><td>2020-09-24</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>142.11.211.250</td><td>2019-07-21</td><td>2022-08-04</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>142.11.212.111</td><td>2019-05-19</td><td>2020-05-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>142.11.213.132</td><td>2021-08-04</td><td>2022-07-29</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>142.11.213.254</td><td>2019-05-19</td><td>2020-09-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>142.11.215.132</td><td>2019-05-21</td><td>2019-07-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>142.11.219.75</td><td>2020-07-11</td><td>2021-09-10</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>142.11.227.204</td><td>2020-02-06</td><td>2020-08-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>142.11.227.246</td><td>2020-03-15</td><td>2020-03-19</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>142.11.236.143</td><td>2019-02-17</td><td>2020-02-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>142.11.237.112</td><td>2020-07-11</td><td>2022-06-29</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>154.85.14.250</td><td>2019-04-20</td><td>2019-12-25</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>154.85.32.39</td><td>2018-06-21</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>154.85.32.43</td><td>2018-06-18</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>154.198.212.233</td><td>2023-08-09</td><td>2023-08-23</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>154.210.13.78</td><td>2019-12-15</td><td>2019-12-19</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>154.211.2.78</td><td>2018-12-16</td><td>2019-06-10</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>156.23.19.18</td><td>2023-12-07</td><td>2024-11-29</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>156.67.220.50</td><td>2020-09-29</td><td>2020-10-15</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>156.234.193.18</td><td>2023-12-03</td><td>2024-12-27</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>156.234.193.182</td><td>2023-08-09</td><td>2023-08-30</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>167.160.86.103</td><td>2018-10-09</td><td>2019-04-18</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>167.160.86.168</td><td>2018-06-23</td><td>2020-07-26</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>173.231.242.82</td><td>2024-07-16</td><td>2024-07-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>173.247.227.62</td><td>2018-07-01</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>173.247.232.36</td><td>2019-01-16</td><td>2019-03-15</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>173.247.232.38</td><td>2019-01-03</td><td>2021-05-11</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.2.103.236</td><td>2018-03-06</td><td>2018-05-06</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.14.31.21</td><td>2020-10-14</td><td>2020-10-24</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.62.189.42</td><td>2018-03-22</td><td>2018-12-30</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.82.216.142</td><td>2020-10-14</td><td>2020-12-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.82.218.133</td><td>2020-10-29</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.126.116.236</td><td>2021-06-06</td><td>2022-06-09</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.141.24.3</td><td>2018-02-24</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.160.24.70</td><td>2020-03-20</td><td>2020-07-26</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.162.128.136</td><td>2018-03-03</td><td>2018-06-04</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.167.116.125</td><td>2020-07-13</td><td>2024-01-28</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.172.65.80</td><td>2018-11-30</td><td>2019-03-24</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.173.235.54</td><td>2020-12-15</td><td>2021-03-06</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.173.235.172</td><td>2020-09-27</td><td>2021-03-06</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.194.216.13</td><td>2021-11-29</td><td>2022-03-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.198.56.14</td><td>2019-11-03</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.198.58.131</td><td>2018-02-06</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.198.58.240</td><td>2018-02-06</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.198.58.241</td><td>2018-02-06</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.201.9.198</td><td>2020-05-01</td><td>2020-10-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.234.218.240</td><td>2019-05-09</td><td>2019-06-23</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>185.239.69.163</td><td>2022-09-09</td><td>2023-04-24</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>188.209.49.95</td><td>2018-03-17</td><td>2018-10-12</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.119.73.100</td><td>2020-02-06</td><td>2020-04-29</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.119.73.107</td><td>2020-02-06</td><td>2021-08-23</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.119.73.108</td><td>2020-02-06</td><td>2021-08-23</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.119.77.232</td><td>2020-10-23</td><td>2021-08-23</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.147.72</td><td>2019-11-04</td><td>2019-12-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.162.232</td><td>2020-02-23</td><td>2020-09-20</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.163.117</td><td>2020-02-23</td><td>2020-08-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.163.119</td><td>2020-02-23</td><td>2020-09-19</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.178.206</td><td>2019-05-21</td><td>2019-07-16</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.178.207</td><td>2019-05-21</td><td>2019-07-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.179.163</td><td>2019-07-27</td><td>2020-08-18</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.179.164</td><td>2019-07-27</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.179.166</td><td>2019-07-27</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.179.167</td><td>2019-07-27</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.179.173</td><td>2019-07-27</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.179.216</td><td>2019-07-27</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.179.254</td><td>2019-07-27</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.192.3</td><td>2019-07-27</td><td>2020-08-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.192.4</td><td>2019-07-27</td><td>2020-02-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.192.5</td><td>2019-07-27</td><td>2020-09-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.192.6</td><td>2019-07-27</td><td>2020-08-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>192.236.192.119</td><td>2019-07-27</td><td>2020-08-22</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>193.34.144.131</td><td>2018-03-06</td><td>2018-05-06</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>193.38.51.46</td><td>2020-07-25</td><td>2020-07-26</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>193.160.32.138</td><td>2020-09-20</td><td>2021-03-07</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>193.160.32.141</td><td>2020-09-27</td><td>2021-03-07</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>193.160.65.116</td><td>2019-02-18</td><td>2019-10-03</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>193.160.96.154</td><td>2020-12-15</td><td>2021-03-06</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>193.200.241.157</td><td>2018-03-06</td><td>2018-05-06</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>194.104.10.58</td><td>2026-03-03</td><td>2026-06-01</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>194.124.33.93</td><td>2022-05-17</td><td>2023-02-05</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>194.124.35.104</td><td>2019-07-15</td><td>2020-07-19</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>194.126.173.71</td><td>2021-02-04</td><td>2021-04-27</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>194.126.173.154</td><td>2021-02-02</td><td>2021-04-27</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>194.156.120.205</td><td>2022-08-25</td><td>2024-01-12</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>195.123.213.218</td><td>2018-11-21</td><td>2018-12-28</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>195.123.237.33</td><td>2020-10-07</td><td>2021-05-07</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>195.123.240.47</td><td>2020-10-20</td><td>2020-11-20</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>198.13.37.185</td><td>2017-11-08</td><td>2018-03-16</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>198.44.14.72</td><td>2020-10-22</td><td>2021-08-23</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>198.44.15.200</td><td>2020-10-23</td><td>2021-08-05</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>198.46.233.13</td><td>2020-08-28</td><td>2021-03-07</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>198.50.168.176</td><td>2021-03-07</td><td>2022-05-29</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>198.50.168.182</td><td>2020-09-25</td><td>2022-05-29</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>198.74.112.85</td><td>2022-05-17</td><td>2023-11-21</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>198.84.122.140</td><td>2020-10-23</td><td>2021-08-23</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>206.119.167.207</td><td>2026-01-23</td><td>Present</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>208.51.62.181</td><td>2017-06-26</td><td>2018-08-12</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>213.136.66.213</td><td>2018-03-08</td><td>2018-05-29</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>213.183.56.96</td><td>2020-10-29</td><td>2021-02-28</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>213.252.244.38</td><td>2020-01-03</td><td>2020-01-07</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>213.252.244.51</td><td>2020-01-03</td><td>2020-01-07</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>218.66.59.169</td><td>2023-03-02</td><td>2024-03-03</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>221.226.197.238</td><td></td><td>2020-12-15</td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>222.99.101.22</td><td>2019-04-04</td><td></td><td>actor controlled</td></tr>
+<tr><td>ipv4</td><td>64.32.22.203</td><td>2024-05-14</td><td>2025-05-12</td><td>qscan server</td></tr>
+<tr><td>ipv4</td><td>148.135.90.22</td><td>2023-12-07</td><td>2025-06-03</td><td>qscan server</td></tr>
+<tr><td>ipv4</td><td>154.64.238.222</td><td>2025-06-03</td><td>Present</td><td>qscan server</td></tr>
+<tr><td>ipv4</td><td>154.64.238.247</td><td>2025-05-12</td><td>Present</td><td>qscan server</td></tr>
+<tr><td>ipv4</td><td>1.32.216.3</td><td>2026-06-05</td><td>2026-07-03</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.4</td><td>2026-06-05</td><td>2026-07-03</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.27</td><td>2025-09-03</td><td>2025-10-03</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.33</td><td>2026-06-28</td><td>2026-06-29</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.49</td><td>2026-02-27</td><td>2026-03-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.77</td><td>2025-09-03</td><td>2025-10-03</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.83</td><td>2026-01-26</td><td>2026-02-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.92</td><td>2026-04-07</td><td>2026-05-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.94</td><td>2026-01-26</td><td>2026-02-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.104</td><td>2025-11-25</td><td>2025-12-24</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.113</td><td>2025-09-23</td><td>2025-10-23</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.123</td><td>2025-09-23</td><td>2025-10-23</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.126</td><td>2026-05-08</td><td>2026-06-04</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.130</td><td>2025-12-24</td><td>2026-01-26</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.132</td><td>2025-08-20</td><td>2025-09-21</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.145</td><td>2025-11-25</td><td>2025-12-24</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.167</td><td>2025-09-03</td><td>2025-10-03</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.177</td><td>2025-12-24</td><td>2026-01-26</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.187</td><td>2025-08-20</td><td>2025-09-21</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.225</td><td>2025-08-20</td><td>2025-09-21</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>1.32.216.226</td><td>2026-05-08</td><td>2026-06-04</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>23.225.180.171</td><td>2023-05-07</td><td>2023-06-04</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>23.225.180.177</td><td>2023-05-07</td><td>2023-06-04</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>23.225.195.20</td><td>2023-05-07</td><td>2023-06-04</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>23.225.195.35</td><td>2023-05-07</td><td>2023-06-04</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>23.225.195.44</td><td>2023-05-01</td><td>2023-06-04</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>23.225.195.56</td><td>2023-05-01</td><td>2023-06-04</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>27.124.24.220</td><td>2026-08-04</td><td>Present</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>27.124.24.237</td><td>2026-08-04</td><td>Present</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>38.14.63.7</td><td>2026-04-28</td><td>2026-05-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>38.14.63.8</td><td>2026-04-28</td><td>2026-05-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>38.14.63.179</td><td>2026-05-08</td><td>2026-06-04</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>38.14.63.235</td><td>2026-05-08</td><td>2026-06-04</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>45.147.200.105</td><td>2022-04-25</td><td>2023-09-09</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>45.196.221.138</td><td>2026-08-04</td><td>Present</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>45.196.221.149</td><td>2026-07-03</td><td>2026-08-03</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>45.196.221.152</td><td>2026-07-03</td><td>2026-08-03</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>45.202.65.135</td><td>2025-10-24</td><td>2025-11-24</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>45.202.210.32</td><td>2026-06-05</td><td>2026-07-03</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>69.176.89.102</td><td>2023-05-07</td><td>2023-06-04</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.150.22</td><td>2026-08-04</td><td>Present</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.150.25</td><td>2026-08-04</td><td>Present</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.150.27</td><td>2026-07-03</td><td>2026-08-03</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.150.73</td><td>2026-05-08</td><td>2026-06-04</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.151.19</td><td>2026-05-08</td><td>2026-06-04</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.186.21</td><td>2025-10-24</td><td>2025-11-24</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.194.131</td><td>2026-01-26</td><td>2026-02-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.194.135</td><td>2026-06-05</td><td>2026-07-03</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.194.137</td><td>2026-06-05</td><td>2026-07-03</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.194.143</td><td>2025-10-24</td><td>2025-11-24</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.194.149</td><td>2026-04-07</td><td>2026-05-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.194.161</td><td>2026-01-26</td><td>2026-02-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.194.168</td><td>2025-12-24</td><td>2026-01-26</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.194.170</td><td>2026-02-27</td><td>2026-03-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.194.171</td><td>2026-04-07</td><td>2026-05-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.194.173</td><td>2025-11-25</td><td>2025-12-24</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.194.198</td><td>2025-09-03</td><td>2025-10-03</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.194.209</td><td>2025-12-24</td><td>2026-01-26</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.194.217</td><td>2025-11-25</td><td>2025-12-24</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.194.222</td><td>2025-09-03</td><td>2025-10-03</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.194.232</td><td>2025-10-24</td><td>2025-11-24</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.194.235</td><td>2026-02-27</td><td>2026-03-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>134.122.206.11</td><td>2022-12-18</td><td>2025-03-17</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>137.220.181.142</td><td>2024-11-07</td><td>2025-03-21</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>137.220.181.143</td><td>2024-11-07</td><td>2025-03-21</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>137.220.181.196</td><td>2024-05-31</td><td>2025-03-20</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>137.220.244.18</td><td>2024-05-31</td><td>2025-04-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>137.220.244.23</td><td>2024-05-31</td><td>2025-04-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>154.38.104.144</td><td>2024-12-18</td><td>2025-06-02</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>154.38.105.11</td><td>2024-05-31</td><td>2025-03-17</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>154.38.105.39</td><td>2024-05-31</td><td>2025-04-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>154.38.105.109</td><td>2024-05-31</td><td>2025-03-17</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>154.198.213.58</td><td>2024-05-31</td><td>2025-06-02</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>155.94.129.191</td><td>2021-12-13</td><td>2023-06-04</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.234.193.62</td><td>2023-05-07</td><td>2025-03-17</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.234.193.79</td><td>2023-05-07</td><td>2025-03-17</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.245.124.20</td><td>2026-02-27</td><td>2026-03-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.245.124.25</td><td>2025-09-03</td><td>2025-10-03</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.245.124.44</td><td>2025-10-24</td><td>2025-11-24</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.245.124.47</td><td>2025-11-25</td><td>2025-12-24</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.245.124.57</td><td>2025-12-24</td><td>2026-01-26</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.245.124.82</td><td>2026-04-07</td><td>2026-04-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.245.124.113</td><td>2025-10-24</td><td>2025-11-24</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.245.124.115</td><td>2026-02-27</td><td>2026-03-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.245.124.131</td><td>2025-12-24</td><td>2026-01-26</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.245.124.157</td><td>2026-04-07</td><td>2026-04-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.245.124.172</td><td>2026-01-26</td><td>2026-02-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.245.124.180</td><td>2025-09-03</td><td>2025-10-03</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.245.124.223</td><td>2025-11-25</td><td>2025-12-24</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.245.124.243</td><td>2026-01-26</td><td>2026-02-27</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.251.172.166</td><td>2025-03-21</td><td>2025-06-02</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.251.172.167</td><td>2025-03-21</td><td>2025-06-02</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>156.251.172.168</td><td>2025-03-21</td><td>2025-06-02</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>172.247.15.222</td><td>2023-05-01</td><td>2025-03-17</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>172.247.15.236</td><td>2024-05-31</td><td>2025-05-25</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>198.50.168.185</td><td>2024-05-31</td><td>2025-04-29</td><td>qscan worker</td></tr>
+<tr><td>ipv4</td><td>198.50.168.189</td><td>2023-05-01</td><td>2025-04-29</td><td>qscan worker</td></tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <script>
+        function filterTable() {
+            const query = document.getElementById('filterInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#iocTable tbody tr');
+            rows.forEach(r => {
+                r.style.display = r.textContent.toLowerCase().includes(query) ? '' : 'none';
+            });
+        }
+    </script>
+<script>
+// Universal Government Banner Accordion Toggle
+(function() {
+  function initGovBannerToggle() {
+    var banner = document.querySelector('.usa-banner');
+    if (!banner) return;
+    var content = banner.querySelector('.usa-banner__content, #gov-banner-default');
+    if (!content) return;
+
+    if (!banner._govInitDone) {
+      banner._govInitDone = true;
+      content.hidden = true;
+      content.style.display = 'none';
+    }
+
+    var toggleBtn = banner.querySelector('.usa-banner__button');
+
+    function toggleBanner(e) {
+      if (e) {
+        if (e.target.closest && e.target.closest('.usa-banner__content')) return;
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      var isHidden = content.hidden || content.style.display === 'none';
+      if (isHidden) {
+        content.hidden = false;
+        content.style.display = 'block';
+        content.style.position = 'relative';
+        content.style.left = 'auto';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        content.hidden = true;
+        content.style.display = 'none';
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    var clickableTargets = banner.querySelectorAll('.usa-banner__button, .usa-banner__header-action, .usa-banner__button-text');
+    clickableTargets.forEach(function(el) {
+      el.style.cursor = 'pointer';
+      el.onclick = toggleBanner;
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGovBannerToggle);
+  } else {
+    initGovBannerToggle();
+  }
+})();
+</script>
+</body>
+</html>
