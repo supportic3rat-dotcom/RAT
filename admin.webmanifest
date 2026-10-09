@@ -1,0 +1,30 @@
+{
+  "id": "/admin",
+  "name": "IC3 RAT Admin",
+  "short_name": "RAT Admin",
+  "start_url": "/admin",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/images/favicon-192.8aaa0.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/favicon-512.8aaa0.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/favicon-180.8aaa0.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"]
+}
