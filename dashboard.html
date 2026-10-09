@@ -30,6 +30,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.8aaa0.png">
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.8aaa0.png">
     <link rel="shortcut icon" href="favicon.ico">
+    <link rel="manifest" href="site.webmanifest">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -110,18 +111,16 @@
     .sb-item.active { background: rgba(255,255,255,0.08); color: #fff; border-left-color: var(--white); font-weight: 700; }
     .sb-item svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.75; }
     .sb-item.active svg { opacity: 1; }
-    .notification-toggle-row { justify-content: space-between; }
-    .notification-toggle {
-      width: 36px; height: 20px; padding: 2px; border: 0; border-radius: 999px;
-      background: #3f3f46; transition: background 0.2s; flex-shrink: 0;
+    .notification-help {
+      display: none; margin: 0.1rem 0.55rem 0.45rem; padding: 0.7rem;
+      border: 1px solid var(--border); border-radius: 8px; background: rgba(255,255,255,0.04);
     }
-    .notification-toggle::after {
-      content: ''; display: block; width: 16px; height: 16px; border-radius: 50%;
-      background: #fff; transition: transform 0.2s;
+    .notification-help.show { display: block; }
+    .notification-help-link {
+      display: block; padding: 0; border: 0; background: none; color: #93c5fd;
+      font: inherit; font-size: 0.72rem; line-height: 1.45; text-align: left; text-decoration: underline;
     }
-    .notification-toggle.on { background: var(--green); }
-    .notification-toggle.on::after { transform: translateX(16px); }
-    .notification-toggle-label { margin-left: auto; margin-right: 0.45rem; font-size: 0.65rem; color: var(--muted); }
+    .notification-help-note { margin-top: 0.45rem; color: var(--muted); font-size: 0.66rem; line-height: 1.45; }
     .sb-badge-pill {
       margin-left: auto; font-size: 0.58rem; font-weight: 800;
       padding: 0.1rem 0.42rem; border-radius: 999px;
@@ -1056,14 +1055,16 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       Help &amp; Support
     </button>
-    <button class="sb-item notification-toggle-row" type="button" onclick="toggleDashboardNotifications()" aria-label="Toggle browser notifications">
+    <button class="sb-item" type="button" onclick="toggleDashboardNotificationHelp()" aria-expanded="false" aria-controls="dashboardNotificationHelp">
       <span style="display:flex;align-items:center;gap:0.65rem;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"/><path d="M10 21h4"/></svg>
         Notifications
       </span>
-      <span class="notification-toggle-label" id="dashboardNotificationState">Off</span>
-      <span class="notification-toggle" id="dashboardNotificationToggle" aria-hidden="true"></span>
     </button>
+    <div class="notification-help" id="dashboardNotificationHelp">
+      <button type="button" class="notification-help-link" onclick="enableDashboardNotifications()">If you're not getting update or chat notifications, click here.</button>
+      <p class="notification-help-note">Note: Your browser may be blocking notifications. Try allowing them in your browser settings, saving this site to your Home Screen, or switching browsers for a better experience.</p>
+    </div>
   </div>
 
   <div class="sb-user">
@@ -2035,7 +2036,6 @@ window.dismissNotificationPrompt = function() {
   var prompt = document.getElementById('notificationPrompt');
   if (prompt) prompt.classList.remove('show');
   sessionStorage.setItem('ic3_notification_prompt_dismissed', '1');
-  updateDashboardNotificationToggle();
 };
 
 window.enableDashboardNotifications = async function() {
@@ -2055,7 +2055,6 @@ window.enableDashboardNotifications = async function() {
       return;
     }
     dismissNotificationPrompt();
-    updateDashboardNotificationToggle();
     var registered = window.IC3Push ? await window.IC3Push.register('user', D.trackingId || D.email) : false;
     if (!registered) throw new Error('Push registration was not completed.');
     showToast('Case notifications enabled');
@@ -2065,25 +2064,15 @@ window.enableDashboardNotifications = async function() {
   }
 };
 
-function updateDashboardNotificationToggle() {
-  var on = !!(window.Notification && Notification.permission === 'granted');
-  var toggle = document.getElementById('dashboardNotificationToggle');
-  var state = document.getElementById('dashboardNotificationState');
-  if (toggle) toggle.classList.toggle('on', on);
-  if (state) state.textContent = on ? 'On' : 'Off';
-}
-
-window.toggleDashboardNotifications = async function() {
-  if (window.Notification && Notification.permission === 'granted') {
-    showToast('Notifications are already enabled. Disable them in browser site settings.', 'error');
-    return;
-  }
-  await window.enableDashboardNotifications();
-  updateDashboardNotificationToggle();
+window.toggleDashboardNotificationHelp = function() {
+  var panel = document.getElementById('dashboardNotificationHelp');
+  var button = document.querySelector('[aria-controls="dashboardNotificationHelp"]');
+  if (!panel || !button) return;
+  var expanded = panel.classList.toggle('show');
+  button.setAttribute('aria-expanded', String(expanded));
 };
 
 function showNotificationPromptIfNeeded() {
-  updateDashboardNotificationToggle();
   var prompt = document.getElementById('notificationPrompt');
   if (!prompt || !window.Notification || !D.email) return;
   if (Notification.permission === 'granted' || sessionStorage.getItem('ic3_notification_prompt_dismissed') === '1') return;
@@ -2557,6 +2546,7 @@ function updateChatBadges(n) {
       sb.style.display = 'none';
     }
   }
+  if (window.IC3Chat) window.IC3Chat.setAppBadge(count);
 }
 
 function paintChatFeed(feed, msgs, compact) {

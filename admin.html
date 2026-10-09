@@ -28,6 +28,11 @@
     <script src="js/officer-chat.js"></script>
     <script src="js/web-push.js"></script>
     <script src="js/pwa-install.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.8aaa0.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="images/favicon-128.8aaa0.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.8aaa0.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.8aaa0.png">
+    <link rel="manifest" href="site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -209,8 +214,7 @@
       .reporter-item .item-bottom { padding-top: 0.1rem; }
       .reporter-item .badge { font-size: 0.58rem; padding: 0.1rem 0.35rem; }
       .reporter-item .item-amount { font-size: 0.66rem; }
-      .report-unread { min-height: 17px; padding: 0 5px; font-size: 0.58rem; }
-      .report-unread.zero { min-height: 0; padding: 0; font-size: 0.55rem; }
+      .report-unread { width: 20px; height: 20px; flex-basis: 20px; font-size: 0.62rem; }
       .item-bottom { align-items: flex-start; }
       .item-bottom .badge { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
       .item-bottom > span:last-child { flex: 0 0 auto; max-width: 58%; }
@@ -279,14 +283,13 @@
       white-space: nowrap; overflow-wrap: normal; word-break: normal;
     }
     .report-unread {
-      min-height: 20px; padding: 0 7px; border-radius: 999px;
+      width: 22px; height: 22px; border-radius: 50%;
       display: inline-flex; align-items: center; justify-content: center;
-      background: #25D366; color: #052e16; font-size: 0.68rem; font-weight: 800;
-      flex-shrink: 0; white-space: nowrap;
+      background: #16803c; color: #fff; font-size: 0.72rem; font-weight: 800;
+      flex: 0 0 22px;
     }
     .report-unread.zero {
-      min-height: 0; padding: 0; border-radius: 0;
-      background: transparent; color: var(--muted); font-size: 0.62rem; font-weight: 600;
+      display: none;
     }
 
     .badge {
@@ -564,12 +567,16 @@
     .nav-brand-title { font-size: 0.82rem; font-weight: 800; color: #fff; line-height: 1.15; }
     .nav-brand-sub { font-size: 0.62rem; color: var(--muted); letter-spacing: 0.4px; }
     .nav-items { flex: 1; padding: 0.7rem 0.45rem; display: flex; flex-direction: column; gap: 0.25rem; }
-    .admin-notification-toggle-row { display:flex; align-items:center; justify-content:space-between; }
-    .admin-notification-toggle { width:36px; height:20px; padding:2px; border:0; border-radius:999px; background:#475569; flex-shrink:0; }
-    .admin-notification-toggle::after { content:''; display:block; width:16px; height:16px; border-radius:50%; background:#fff; transition:transform .2s; }
-    .admin-notification-toggle.on { background:#10b981; }
-    .admin-notification-toggle.on::after { transform:translateX(16px); }
-    .admin-notification-state { margin-left:auto; margin-right:.45rem; font-size:.65rem; color:var(--muted); }
+    .admin-notification-help {
+      display:none; margin:0.1rem 0.55rem 0.45rem; padding:0.7rem;
+      border:1px solid var(--border); border-radius:8px; background:rgba(255,255,255,0.04);
+    }
+    .admin-notification-help.show { display:block; }
+    .admin-notification-help-link {
+      display:block; padding:0; border:0; background:none; color:#93c5fd;
+      font:inherit; font-size:0.72rem; line-height:1.45; text-align:left; text-decoration:underline;
+    }
+    .admin-notification-help-note { margin-top:0.45rem; color:var(--muted); font-size:0.66rem; line-height:1.45; }
     .nav-item {
       display: flex; align-items: center; gap: 0.6rem; width: 100%;
       background: none; border: none; color: var(--text2); cursor: pointer;
@@ -640,9 +647,9 @@
     .wa-convo-bot { display: flex; justify-content: space-between; gap: 0.5rem; align-items: center; margin-top: 0.15rem; }
     .wa-convo-prev { font-size: 0.78rem; color: #8696a0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .wa-unread {
-      min-height: 20px; padding: 3px 7px; border-radius: 999px; background: #25D366;
-      color: #111; font-size: 0.62rem; font-weight: 800; display: flex; align-items: center; justify-content: center;
-      white-space: nowrap; flex-shrink: 0;
+      width: 22px; height: 22px; border-radius: 50%; background: #16803c;
+      color: #fff; font-size: 0.72rem; font-weight: 800; display: flex; align-items: center; justify-content: center;
+      flex: 0 0 22px;
     }
     .wa-thread { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: #0b141a; }
     .wa-thread .chat-card {
@@ -886,13 +893,15 @@
       <button type="button" class="nav-item" id="navSecurityBtn" onclick="showAdminView('security')">
         <span class="ui-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg></span> Security
       </button>
-      <button type="button" class="nav-item admin-notification-toggle-row" onclick="toggleAdminNotifications()" aria-label="Toggle browser notifications">
+      <button type="button" class="nav-item" onclick="toggleAdminNotificationHelp()" aria-expanded="false" aria-controls="adminNotificationHelp">
         <span style="display:flex;align-items:center;gap:.65rem;">
           <span class="ui-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"/><path d="M10 21h4"/></svg></span> Notifications
         </span>
-        <span class="admin-notification-state" id="adminNotificationState">Off</span>
-        <span class="admin-notification-toggle" id="adminNotificationToggle" aria-hidden="true"></span>
       </button>
+      <div class="admin-notification-help" id="adminNotificationHelp">
+        <button type="button" class="admin-notification-help-link" onclick="enableAdminNotifications()">If you're not getting update or chat notifications, click here.</button>
+        <p class="admin-notification-help-note">Note: Your browser may be blocking notifications. Try allowing them in your browser settings, saving this site to your Home Screen, or switching browsers for a better experience.</p>
+      </div>
     </div>
     <div class="nav-foot">
       <button type="button" class="btn btn-ghost btn-sm" style="width:100%;" onclick="lockAdminConsole()">Lock console</button>
@@ -1492,7 +1501,6 @@
         var prompt = document.getElementById('adminNotificationPrompt');
         if (prompt) prompt.classList.remove('show');
         sessionStorage.setItem('ic3_admin_notification_prompt_dismissed', '1');
-        updateAdminNotificationToggle();
       };
 
       window.enableAdminNotifications = async function() {
@@ -1509,7 +1517,6 @@
           if (permission === 'default') permission = await Notification.requestPermission();
           if (permission !== 'granted') return;
           dismissAdminNotificationPrompt();
-          updateAdminNotificationToggle();
           var registered = window.IC3Push ? await window.IC3Push.register('admin', '*') : false;
           if (!registered) throw new Error('Push registration was not completed.');
           alert('Admin notifications enabled.');
@@ -1519,25 +1526,15 @@
         }
       };
 
-      function updateAdminNotificationToggle() {
-        var on = !!(window.Notification && Notification.permission === 'granted');
-        var toggle = document.getElementById('adminNotificationToggle');
-        var state = document.getElementById('adminNotificationState');
-        if (toggle) toggle.classList.toggle('on', on);
-        if (state) state.textContent = on ? 'On' : 'Off';
-      }
-
-      window.toggleAdminNotifications = async function() {
-        if (window.Notification && Notification.permission === 'granted') {
-          alert('Notifications are already enabled. Disable them in browser site settings.');
-          return;
-        }
-        await window.enableAdminNotifications();
-        updateAdminNotificationToggle();
+      window.toggleAdminNotificationHelp = function() {
+        var panel = document.getElementById('adminNotificationHelp');
+        var button = document.querySelector('[aria-controls="adminNotificationHelp"]');
+        if (!panel || !button) return;
+        var expanded = panel.classList.toggle('show');
+        button.setAttribute('aria-expanded', String(expanded));
       };
 
       function showAdminNotificationPromptIfNeeded() {
-        updateAdminNotificationToggle();
         var prompt = document.getElementById('adminNotificationPrompt');
         if (!prompt || !window.Notification) return;
         if (Notification.permission === 'granted' || sessionStorage.getItem('ic3_admin_notification_prompt_dismissed') === '1') return;
@@ -1767,6 +1764,7 @@
             navBadge.textContent = totalUnread > 99 ? '99+' : String(totalUnread);
             navBadge.classList.toggle('show', totalUnread > 0);
           }
+          if (window.IC3Chat) window.IC3Chat.setAppBadge(totalUnread);
           if (fabBadge) {
             fabBadge.textContent = totalUnread > 99 ? '99+' : String(totalUnread);
             fabBadge.classList.toggle('show', totalUnread > 0);
@@ -1779,7 +1777,9 @@
                 ref: item.ref,
                 messages: item.messages,
                 title: 'New client message',
-                conversationOpen: currentSelectedKey && chatRefFor(reportersMap[currentSelectedKey], currentSelectedKey) === item.ref,
+                conversationOpen: document.getElementById('adminViewChats').classList.contains('active') &&
+                  (window.innerWidth > 860 || document.getElementById('waLayout').classList.contains('thread-open')) &&
+                  currentSelectedKey && chatRefFor(reportersMap[currentSelectedKey], currentSelectedKey) === item.ref,
                 onClick: function () {
                   if (item.key) selectReporter(item.key);
                   showAdminView('chats');
@@ -1811,8 +1811,8 @@
           var time = window.IC3Chat ? window.IC3Chat.formatClock(item.last.created_at) : '';
           var active = item.key === currentSelectedKey ? ' active' : '';
           var unread = item.unread
-            ? '<span class="wa-unread" aria-label="' + item.unread + ' unread ' + (item.unread === 1 ? 'message' : 'messages') + '">(' +
-                item.unread + ') unread ' + (item.unread === 1 ? 'message' : 'messages') + '</span>'
+            ? '<span class="wa-unread" aria-label="' + item.unread + ' unread ' + (item.unread === 1 ? 'message' : 'messages') + '">' +
+                item.unread + '</span>'
             : '';
           return '<button type="button" class="wa-convo' + active + '" data-chat-key="' + escHtml(item.key || '') + '">' +
             '<span class="wa-ava">' + escHtml(window.IC3Chat ? window.IC3Chat.initials(item.user.name) : 'CL') + '</span>' +
@@ -1856,11 +1856,18 @@
           var dossier = document.getElementById('dossierCard');
           var reportHost = document.getElementById('mobileReportHost');
           if (dossier && reportHost && dossier.parentNode !== reportHost) reportHost.appendChild(dossier);
+          var chatCard = document.getElementById('chatCard');
+          if (chatCard && reportHost && chatCard.parentNode !== reportHost) reportHost.appendChild(chatCard);
         } else if (view === 'cases') {
           var detail = document.getElementById('detailContainer');
           var dossierSlot = document.getElementById('dossierSlot');
           var currentDossier = document.getElementById('dossierCard');
           if (currentDossier && dossierSlot && currentDossier.parentNode !== detail) dossierSlot.appendChild(currentDossier);
+        }
+        if (!isReport) {
+          var chatCard = document.getElementById('chatCard');
+          var chatThread = document.getElementById('waThread');
+          if (chatCard && chatThread && chatCard.parentNode !== chatThread) chatThread.appendChild(chatCard);
         }
         if (isChats) {
           loadChatInbox();
@@ -1873,6 +1880,10 @@
       window.openReporterFromList = function (key) {
         selectReporter(key);
         if (window.innerWidth <= 768) showAdminView('report');
+        var reporter = reportersMap[key];
+        var chatRef = chatRefFor(reporter, key);
+        if (window.IC3Chat) window.IC3Chat.markRead('admin', chatRef);
+        loadChatInbox();
       };
 
       window.closeWaThread = function () {
@@ -1924,7 +1935,7 @@
               '<span class="badge badge-amber">' + escHtml(status) + '</span>' +
               '<span style="display:flex;align-items:center;gap:0.45rem;min-width:0;">' +
                 '<span class="report-unread' + (unreadMessages ? '' : ' zero') + '" title="' + unreadMessages + ' unread message' + (unreadMessages === 1 ? '' : 's') + '">' +
-                  (unreadMessages ? (unreadMessages > 99 ? '99+' : unreadMessages) + ' unread msgs' : '0 unread msgs') +
+                  (unreadMessages ? unreadMessages : '') +
                 '</span>' +
                 '<span class="item-amount">' + escHtml(loss) + '</span>' +
               '</span>' +
@@ -2139,7 +2150,6 @@
         if (!u) return;
         var requestId = ++chatMessagesRequestId;
         var chatRef = (u.trackingId || u.email || u.matterId || key).toLowerCase();
-        if (window.IC3Chat) window.IC3Chat.markRead('admin', chatRef);
         var body = document.getElementById('chatBody');
         var hasRenderedMessages = !!(body && body.querySelector('.chat-msg'));
         if (body && !hasRenderedMessages) {
@@ -2186,6 +2196,7 @@
           alert('Select a client first.');
           return;
         }
+        if (window.IC3Chat) window.IC3Chat.markRead('admin', chatRefFor(reportersMap[currentSelectedKey], currentSelectedKey));
         showAdminView('chats');
         document.getElementById('waLayout').classList.add('thread-open');
       };

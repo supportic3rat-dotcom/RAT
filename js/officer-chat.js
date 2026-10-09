@@ -5,6 +5,17 @@
   'use strict';
 
   var PING_KEY = 'ic3_chat_sync_ping';
+  var appBadgeErrorReported = false;
+  var serviceWorkerReady = null;
+
+  if ('serviceWorker' in navigator && window.isSecureContext) {
+    serviceWorkerReady = navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      .then(function () { return navigator.serviceWorker.ready; })
+      .catch(function (error) {
+        console.warn('[Chat] Service worker registration failed:', error);
+        return null;
+      });
+  }
 
   function lsGet(k) {
     try { return localStorage.getItem(k) || ''; } catch (e) { return ''; }
@@ -42,6 +53,39 @@
     return n;
   }
 
+  function setAppBadge(count) {
+    var unread = Math.max(0, Math.floor(Number(count) || 0));
+    var action = unread > 0 ? 'setAppBadge' : 'clearAppBadge';
+    try {
+      if (typeof navigator[action] === 'function') {
+        var result = unread > 0 ? navigator.setAppBadge(unread) : navigator.clearAppBadge();
+        if (result && typeof result.catch === 'function') {
+          result.catch(function (error) {
+            if (!appBadgeErrorReported) {
+              appBadgeErrorReported = true;
+              console.warn('[Chat] App icon badge update failed:', error);
+            }
+          });
+        }
+      }
+    } catch (error) {
+      if (!appBadgeErrorReported) {
+        appBadgeErrorReported = true;
+        console.warn('[Chat] App icon badge update failed:', error);
+      }
+    }
+    var controller = navigator.serviceWorker && navigator.serviceWorker.controller;
+    if (controller) {
+      controller.postMessage({ type: 'ic3-set-app-badge', count: unread });
+    } else if (serviceWorkerReady) {
+      serviceWorkerReady.then(function (registration) {
+        if (registration && registration.active) {
+          registration.active.postMessage({ type: 'ic3-set-app-badge', count: unread });
+        }
+      });
+    }
+  }
+
   var permissionAsked = false;
 
   var IC3Chat = {
@@ -60,6 +104,7 @@
       writeStore(role, store);
     },
     countUnread: countUnread,
+    setAppBadge: setAppBadge,
     otherSender: function (role) {
       return role === 'admin' ? 'user' : 'admin';
     },

@@ -1,11 +1,21 @@
 {
+  "id": "/",
   "name": "FBI IC3 Recovery Asset Team",
   "short_name": "IC3 RAT",
+  "start_url": "/",
+  "scope": "/",
   "icons": [
     {
       "src": "images/favicon-192.8aaa0.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "images/favicon-512.8aaa0.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "images/favicon-128.8aaa0.png",
@@ -20,5 +30,6 @@
   ],
   "theme_color": "#000000",
   "background_color": "#000000",
-  "display": "standalone"
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"]
 }
