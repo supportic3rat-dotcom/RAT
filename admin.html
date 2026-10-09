@@ -640,8 +640,9 @@
     .wa-convo-bot { display: flex; justify-content: space-between; gap: 0.5rem; align-items: center; margin-top: 0.15rem; }
     .wa-convo-prev { font-size: 0.78rem; color: #8696a0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .wa-unread {
-      min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: #25D366;
-      color: #111; font-size: 0.68rem; font-weight: 800; display: flex; align-items: center; justify-content: center;
+      min-height: 20px; padding: 3px 7px; border-radius: 999px; background: #25D366;
+      color: #111; font-size: 0.62rem; font-weight: 800; display: flex; align-items: center; justify-content: center;
+      white-space: nowrap; flex-shrink: 0;
     }
     .wa-thread { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: #0b141a; }
     .wa-thread .chat-card {
@@ -1409,7 +1410,11 @@
           alert('Report, chat history, and chat attachments deleted.');
         } catch (error) {
           console.error('[Admin] Report deletion failed:', error);
-          alert(error.message || 'Could not delete this report.');
+          var message = error.message || 'Could not delete this report.';
+          if (message === 'Unsupported moderation action.') {
+            message = 'The Supabase admin-moderation function is out of date. Deploy the latest function with "supabase functions deploy admin-moderation", then try again.';
+          }
+          alert(message);
         } finally {
           if (button) button.disabled = !currentSelectedKey;
         }
@@ -1805,7 +1810,10 @@
           var preview = escHtml(window.IC3Chat ? window.IC3Chat.preview(item.last.message, 54) : item.last.message);
           var time = window.IC3Chat ? window.IC3Chat.formatClock(item.last.created_at) : '';
           var active = item.key === currentSelectedKey ? ' active' : '';
-          var unread = item.unread ? '<span class="wa-unread">' + (item.unread > 99 ? '99+' : item.unread) + '</span>' : '';
+          var unread = item.unread
+            ? '<span class="wa-unread" aria-label="' + item.unread + ' unread ' + (item.unread === 1 ? 'message' : 'messages') + '">(' +
+                item.unread + ') unread ' + (item.unread === 1 ? 'message' : 'messages') + '</span>'
+            : '';
           return '<button type="button" class="wa-convo' + active + '" data-chat-key="' + escHtml(item.key || '') + '">' +
             '<span class="wa-ava">' + escHtml(window.IC3Chat ? window.IC3Chat.initials(item.user.name) : 'CL') + '</span>' +
             '<span class="wa-convo-main"><span class="wa-convo-top"><span class="wa-convo-name">' + name + '</span><span class="wa-convo-time">' + time + '</span></span>' +

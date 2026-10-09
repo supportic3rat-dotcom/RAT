@@ -29,6 +29,10 @@ The `admin-moderation` function powers the admin chat controls:
 - **Unblock chat** restores messaging.
 - **Delete chat** removes the conversation messages and its uploaded attachments,
   but keeps the complaint record.
+- **Delete report** requires the latest `admin-moderation` function deployment.
+  If the dashboard reports “Unsupported moderation action,” deploy it with
+  `supabase functions deploy admin-moderation`; redeploying only the website
+  does not update Supabase Edge Functions.
 
 The chat moderation migration changes anon chat inserts so clients may only
 send as `user`. Admin replies must go through the `admin-moderation` Edge
