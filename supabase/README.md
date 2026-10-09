@@ -39,4 +39,6 @@ Apply both `002_admin_passcode.sql` and `003_admin_chat_moderation.sql` with
 `supabase db push` before deploying the updated site. The admin chat toolbar
 then offers **Block chat**, **Unblock chat**, and **Delete chat**. Deleting a
 chat removes its messages and uploaded attachments but leaves the complaint
-record in place.
+record in place. The admin dossier also offers **Delete report**, which
+permanently removes the selected complaint, its associated chat history and
+attachments, block entry, and push subscriptions after confirmation.

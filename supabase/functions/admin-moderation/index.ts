@@ -40,6 +40,14 @@ async function listAttachmentPaths(
   return paths;
 }
 
+async function removeChatAttachments(admin: SupabaseClient, complaintRef: string): Promise<void> {
+  const paths = await listAttachmentPaths(admin, complaintRef);
+  for (let offset = 0; offset < paths.length; offset += 1000) {
+    const { error } = await admin.storage.from('chat-media').remove(paths.slice(offset, offset + 1000));
+    if (error) throw error;
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
   if (req.method !== 'POST') return json({ error: 'Method not allowed.' }, 405);
@@ -49,10 +57,6 @@ Deno.serve(async (req) => {
     if (typeof body?.password !== 'string' || body.password.length > 128) {
       return json({ error: 'The admin passcode is required.' }, 401);
     }
-    if (!isValidReference(body?.complaintRef)) {
-      return json({ error: 'Invalid complaint reference.' }, 400);
-    }
-
     const url = Deno.env.get('SUPABASE_URL');
     const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
     if (!url || !serviceRoleKey) {
@@ -71,6 +75,80 @@ Deno.serve(async (req) => {
     }
     if (validPasscode !== true) return json({ error: 'The admin passcode is incorrect.' }, 401);
 
+    if (body.action === 'delete-report') {
+      if (typeof body.reporterId !== 'string' ||
+          !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(body.reporterId)) {
+        return json({ error: 'Invalid report ID.' }, 400);
+      }
+      if (!isValidReference(body.complaintRef)) {
+        return json({ error: 'Invalid complaint reference.' }, 400);
+      }
+
+      const { data: report, error: reportError } = await admin
+        .from('complaints')
+        .select('id,reference_number,tracking_id,matter_id,email,payload')
+        .eq('id', body.reporterId)
+        .maybeSingle();
+      if (reportError) {
+        console.error('Report lookup before deletion failed:', reportError);
+        return json({ error: 'Unable to find the selected report.' }, 500);
+      }
+      if (!report) return json({ error: 'The selected report no longer exists.' }, 404);
+
+      const payload = report.payload && typeof report.payload === 'object' && !Array.isArray(report.payload)
+        ? report.payload as Record<string, unknown>
+        : {};
+      const refs = [...new Set([
+        body.complaintRef,
+        report.tracking_id,
+        report.matter_id,
+        report.reference_number,
+        payload.trackingId,
+        payload.matterId,
+      ].filter(isValidReference).map((ref) => ref.toLowerCase()))];
+
+      try {
+        for (const ref of refs) await removeChatAttachments(admin, ref);
+      } catch (error) {
+        console.error('Report attachment deletion failed:', error);
+        return json({ error: 'Unable to remove the report’s chat attachments. The report was not deleted.' }, 500);
+      }
+
+      const { error: messagesError } = await admin.from('chat_messages').delete().in('complaint_ref', refs);
+      if (messagesError) {
+        console.error('Report chat deletion failed:', messagesError);
+        return json({ error: 'Chat attachments were removed, but the report and chat records could not be deleted.' }, 500);
+      }
+
+      const { error: blockedError } = await admin.from('admin_blocked_chats').delete().in('complaint_ref', refs);
+      if (blockedError) {
+        console.error('Report block record cleanup failed:', blockedError);
+        return json({ error: 'Chat history was removed, but report cleanup could not be completed.' }, 500);
+      }
+
+      const { error: subscriptionsError } = await admin.from('push_subscriptions').delete().in('complaint_ref', refs);
+      if (subscriptionsError) {
+        console.error('Report push subscription cleanup failed:', subscriptionsError);
+        return json({ error: 'Chat history was removed, but report cleanup could not be completed.' }, 500);
+      }
+
+      const { data: deletedReport, error: deleteError } = await admin
+        .from('complaints')
+        .delete()
+        .eq('id', report.id)
+        .select('id')
+        .maybeSingle();
+      if (deleteError) {
+        console.error('Report deletion failed:', deleteError);
+        return json({ error: 'Related chat data was removed, but the report could not be deleted.' }, 500);
+      }
+      if (!deletedReport) return json({ error: 'The selected report was not deleted.' }, 404);
+      return json({ success: true, refs });
+    }
+
+    if (!isValidReference(body?.complaintRef)) {
+      return json({ error: 'Invalid complaint reference.' }, 400);
+    }
     const complaintRef = body.complaintRef.toLowerCase();
     if (body.action === 'status') {
       const { data, error } = await admin
@@ -163,20 +241,11 @@ Deno.serve(async (req) => {
     }
 
     if (body.action === 'delete-chat') {
-      let attachmentPaths: string[];
       try {
-        attachmentPaths = await listAttachmentPaths(admin, complaintRef);
+        await removeChatAttachments(admin, complaintRef);
       } catch (error) {
         console.error('Chat attachment listing failed:', error);
         return json({ error: 'Unable to list chat attachments; no chat data was deleted.' }, 500);
-      }
-
-      for (let offset = 0; offset < attachmentPaths.length; offset += 1000) {
-        const { error } = await admin.storage.from('chat-media').remove(attachmentPaths.slice(offset, offset + 1000));
-        if (error) {
-          console.error('Chat attachment deletion failed:', error);
-          return json({ error: 'Unable to delete all chat attachments; some may remain.' }, 500);
-        }
       }
 
       const { error } = await admin

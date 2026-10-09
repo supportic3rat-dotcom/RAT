@@ -976,7 +976,10 @@
                 <span id="dossierCountry">—</span>
               </div>
             </div>
-            <span class="badge badge-amber" id="dossierStatusBadge">Under Review</span>
+            <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;justify-content:flex-end;">
+              <span class="badge badge-amber" id="dossierStatusBadge">Under Review</span>
+              <button type="button" class="btn btn-ghost btn-sm" id="deleteReportButton" onclick="deleteSelectedReport()" disabled style="color:#f87171;border-color:rgba(248,113,113,0.4);">Delete report</button>
+            </div>
           </div>
 
           <div class="dossier-grid">
@@ -1353,6 +1356,63 @@
           alert(error.message || 'Could not delete this chat.');
         } finally {
           if (button && currentSelectedKey) button.disabled = false;
+        }
+      };
+
+      window.deleteSelectedReport = async function () {
+        var key = currentSelectedKey;
+        var user = key && reportersMap[key];
+        if (!user || !user.id) {
+          alert('Select a report before deleting.');
+          return;
+        }
+        var name = user.name || 'this reporter';
+        var reference = user.trackingId || user.matterId || user.id;
+        if (!window.confirm(
+          'Permanently delete the report for ' + name + ' (' + reference + '), its chat history, and chat attachments? This cannot be undone.'
+        )) return;
+
+        var button = document.getElementById('deleteReportButton');
+        if (button) button.disabled = true;
+        try {
+          var result = await adminModerationRequest(
+            'delete-report',
+            chatRefFor(user, key),
+            { reporterId: user.id }
+          );
+          if (!result || result.success !== true) {
+            throw new Error('The report was not deleted.');
+          }
+          delete reportersMap[key];
+          var deletedRefs = result.refs || [chatRefFor(user, key)];
+          chatInbox = chatInbox.filter(function (item) {
+            return deletedRefs.indexOf(item.ref) === -1;
+          });
+          currentSelectedKey = null;
+          chatMessagesRequestId += 1;
+          chatModerationRequestId += 1;
+          document.getElementById('dossierName').textContent = 'Select a Reporter';
+          document.getElementById('dossierEmail').textContent = '—';
+          document.getElementById('dossierPhone').textContent = '—';
+          document.getElementById('dossierCountry').textContent = '—';
+          document.getElementById('dossierTrackId').textContent = '—';
+          document.getElementById('dossierMatterId').textContent = '—';
+          document.getElementById('dossierScamType').textContent = '—';
+          document.getElementById('dossierLoss').textContent = '—';
+          document.getElementById('dossierDesc').textContent = 'Select a reporter from the list on the left to view case details and initiate secure chat.';
+          document.getElementById('chatHeaderName').textContent = 'Direct Chat';
+          document.getElementById('chatRefInfo').textContent = 'Select a conversation';
+          document.getElementById('chatBody').innerHTML = '<div style="text-align:center;color:var(--muted);padding:1rem;">Select a report to view its chat.</div>';
+          setChatModerationStatus(false, 'Select a conversation');
+          updateStats();
+          renderReportersList(document.getElementById('reporterSearch').value);
+          loadChatInbox();
+          alert('Report, chat history, and chat attachments deleted.');
+        } catch (error) {
+          console.error('[Admin] Report deletion failed:', error);
+          alert(error.message || 'Could not delete this report.');
+        } finally {
+          if (button) button.disabled = !currentSelectedKey;
         }
       };
 
@@ -2003,6 +2063,8 @@
 
         var u = reportersMap[key];
         if (!u) return;
+        var deleteReportButton = document.getElementById('deleteReportButton');
+        if (deleteReportButton) deleteReportButton.disabled = !u.id;
 
         // Populate Dossier
         document.getElementById('dossierName').textContent = u.name || 'Anonymous Client';
