@@ -31,6 +31,9 @@
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.8aaa0.png">
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="manifest" href="site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://eluxndzbzmyiciienoev.supabase.co">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -64,6 +67,13 @@
     input, textarea, select { font-family: inherit; }
     img, svg, video, canvas { max-width: 100%; }
     *:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
+
+    /* ══ RENDERING PERFORMANCE OPTIMIZATIONS ══════════════════════════ */
+    .view { contain: content; }
+    .view:not(.active) { display: none !important; }
+    .stat-card, .metric-card, .card { contain: content; }
+    .sidebar { contain: layout style; will-change: transform; }
+    .topbar { contain: layout style; }
 
     /* ══ SIDEBAR ══════════════════════════════════════════════════════ */
     .sidebar {
@@ -1889,21 +1899,41 @@ function recoveryProgressCaption(pct) {
 
 var MATTER_ID = '';
 
-// Load user from Supabase immediately
+// Instant Cache Hydration: Read cached user record for immediate 0ms paint
+var cachedRecord = null;
+try {
+  var rawCached = sessionStorage.getItem('ic3_cached_user_' + searchKey) ||
+                  sessionStorage.getItem('ic3_cached_user_record') ||
+                  localStorage.getItem('ic3_cached_user_' + searchKey);
+  if (rawCached) cachedRecord = JSON.parse(rawCached);
+  if (!cachedRecord && searchKey) {
+    var db = JSON.parse(localStorage.getItem('ic3_users_db') || '{}');
+    cachedRecord = db[searchKey] || db[searchKey.toLowerCase()];
+  }
+} catch(e){}
+
+if (cachedRecord) {
+  applyRecord(cachedRecord);
+  if (!MATTER_ID) MATTER_ID = payloadVal(cachedRecord, ['matterId']) || cachedRecord.trackingId || genMatterId();
+}
+
+// Load user from Supabase in background
 (async function loadUserFromDB() {
   if (!searchKey || !window.IC3API || !window.IC3API.ready()) {
-    // No session — show login overlay
-    var loginOverlay = document.getElementById('loginOverlay');
-    if (loginOverlay) loginOverlay.classList.add('open');
+    if (!cachedRecord) {
+      var loginOverlay = document.getElementById('loginOverlay');
+      if (loginOverlay) loginOverlay.classList.add('open');
+    }
     return;
   }
 
   try {
     var record = await window.IC3API.getUserRecord(searchKey);
     if (!record) {
-      // Not found — prompt login
-      var loginOverlay = document.getElementById('loginOverlay');
-      if (loginOverlay) loginOverlay.classList.add('open');
+      if (!cachedRecord) {
+        var loginOverlay = document.getElementById('loginOverlay');
+        if (loginOverlay) loginOverlay.classList.add('open');
+      }
       return;
     }
 
@@ -1911,15 +1941,22 @@ var MATTER_ID = '';
     applyRecord(record);
     if (!MATTER_ID) MATTER_ID = genMatterId();
 
-    // Store session
+    // Update session & cache
     sessionStorage.setItem('ic3_session_email', D.email.toLowerCase());
     sessionStorage.setItem('ic3_session_tracking', D.trackingId);
+    try {
+      sessionStorage.setItem('ic3_cached_user_' + searchKey, JSON.stringify(record));
+      sessionStorage.setItem('ic3_cached_user_record', JSON.stringify(record));
+    } catch(e){}
 
-    if (window.hydrateDashboard) window.hydrateDashboard();
+    _renderDashboard();
+    renderReporterChat();
   } catch(err) {
-    console.error('[Dashboard] Failed to load user from Supabase:', err);
-    var loginOverlay = document.getElementById('loginOverlay');
-    if (loginOverlay) loginOverlay.classList.add('open');
+    console.error('[Dashboard] Background load error:', err);
+    if (!cachedRecord) {
+      var loginOverlay = document.getElementById('loginOverlay');
+      if (loginOverlay) loginOverlay.classList.add('open');
+    }
   }
 })();
 
@@ -2085,20 +2122,6 @@ function showNotificationPromptIfNeeded() {
 
 // ── Hydrate Dashboard UI ──────────────────────────────────────────────────
 window.hydrateDashboard = function() {
-  // Refresh from Supabase in background, then re-render
-  if (D.email && window.IC3API && window.IC3API.ready()) {
-    window.IC3API.getUserRecord(D.email || D.trackingId || sessionStorage.getItem('ic3_session_email')).then(function(record) {
-      if (!record) return;
-      checkCaseUpdate(record);
-      applyRecord(record);
-      showNotificationPromptIfNeeded();
-      if (window.Notification && Notification.permission === 'granted' && window.IC3Push) window.IC3Push.register('user', record.trackingId || record.email);
-      _renderDashboard();
-    }).catch(function(error) {
-      console.error('[Dashboard] Case refresh failed:', error);
-      showToast('Unable to refresh case updates. Please check your connection.', 'error');
-    });
-  }
   _renderDashboard();
 };
 
@@ -2561,9 +2584,15 @@ function updateChatBadges(n) {
 function paintChatFeed(feed, msgs, compact) {
   if (!feed) return;
   if (!msgs || msgs.length === 0) {
+    if (feed._lastSig === 'empty') return;
+    feed._lastSig = 'empty';
     feed.innerHTML = '<div style="text-align:center;color:rgba(255,255,255,0.45);padding:2rem 1rem;font-size:0.82rem;">No messages yet. An officer will reply here.</div>';
     return;
   }
+  var lastMsg = msgs[msgs.length - 1];
+  var sig = (compact ? 'c:' : 'f:') + msgs.length + ':' + (lastMsg.id || lastMsg.created_at || '') + ':' + (lastMsg.message || '');
+  if (feed._lastSig === sig) return;
+  feed._lastSig = sig;
   var html = '';
   msgs.forEach(function(m) {
     var isUser = (m.sender === 'user');
@@ -2703,29 +2732,41 @@ if (sessionStorage.getItem('ic3_officer_hint_dismissed') === '1') {
   if (_hint) _hint.style.display = 'none';
 }
 
+// Chat polling: only poll when tab is visible
 setInterval(function() {
+  if (document.hidden) return;
   renderReporterChat();
 }, 4000);
 
-// Also refresh dashboard data every 30 seconds (pipeline updates from admin)
+document.addEventListener('visibilitychange', function() {
+  if (!document.hidden) {
+    renderReporterChat();
+  }
+});
+
+// Refresh dashboard data every 30 seconds when tab is active
 setInterval(function() {
+  if (document.hidden) return;
   if (D.email && window.IC3API && window.IC3API.ready()) {
     window.IC3API.getUserRecord(D.email || D.trackingId).then(function(record) {
       if (!record) return;
       checkCaseUpdate(record);
       applyRecord(record);
+      try {
+        sessionStorage.setItem('ic3_cached_user_' + searchKey, JSON.stringify(record));
+        sessionStorage.setItem('ic3_cached_user_record', JSON.stringify(record));
+      } catch(e){}
       showNotificationPromptIfNeeded();
       if (window.Notification && Notification.permission === 'granted' && window.IC3Push) window.IC3Push.register('user', record.trackingId || record.email);
-      if (window.hydrateDashboard) window.hydrateDashboard();
+      _renderDashboard();
     }).catch(function(error) {
-      console.error('[Dashboard] Scheduled case refresh failed:', error);
-      showToast('Case information may be out of date. Please check your connection.', 'error');
+      console.warn('[Dashboard] Scheduled case refresh warning:', error);
     });
   }
 }, 30000);
 
-// Initialize chat on load
-setTimeout(renderReporterChat, 800);
+// Initialize chat immediately
+renderReporterChat();
 
 })();
 </script>

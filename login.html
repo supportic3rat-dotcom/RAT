@@ -926,9 +926,10 @@ body.is-modal-open {
             return;
           }
 
-          // Store minimal session token (email only — no data cached)
+          // Store minimal session token & cache user record for 0ms instant dashboard paint
           sessionStorage.setItem('ic3_session_email', (result.email || input).toLowerCase());
           sessionStorage.setItem('ic3_session_tracking', result.trackingId || '');
+          try { sessionStorage.setItem('ic3_cached_user_record', JSON.stringify(result)); } catch(e){}
 
           showAlert('✅ Authentication successful! Opening Client Dashboard…', 'success');
           var query = result.email
@@ -936,7 +937,7 @@ body.is-modal-open {
             : '?trackingId=' + encodeURIComponent(result.trackingId || input);
           setTimeout(function() {
             window.location.href = 'dashboard.html' + query;
-          }, 600);
+          }, 200);
 
         } catch(err) {
           console.error('[IC3 Login] Error:', err);
