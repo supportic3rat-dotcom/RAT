@@ -2396,6 +2396,15 @@ window.sendMessage = function(){
   var body    = document.getElementById('msgBody').value;
   if(!subject||!body){ showToast('Please fill in subject and message','error'); return; }
   var text = encodeURIComponent('[IC3 RAT Portal]\nMatter: ' + MATTER_ID + '\nSubject: ' + subject + '\n\n' + body);
+  if (window.IC3API && window.IC3API.notifyEmail) {
+    window.IC3API.notifyEmail('case_inquiry', {
+      'Subject': subject,
+      'Message': body,
+      'Matter ID': MATTER_ID || '',
+      'Client Email': (D && D.email) || '',
+      'Client Name': (D && D.name) || ''
+    });
+  }
   window.open('https://wa.me/14783099781?text=' + text, '_blank');
   document.getElementById('msgSubject').value = '';
   document.getElementById('msgBody').value = '';

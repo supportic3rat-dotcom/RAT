@@ -6,3 +6,9 @@ window.SUPABASE_CONFIG = {
     anonKey: 'sb_publishable_OeoybG4XtP4C1GFwNMhBGw_hFyLRcol',
     webPushVapidPublicKey: 'BBwWMMMrWqUpIY5hSgkQA5qWBrktM4mXSoFyrRP7tUi5-CLEBmRyuCtfTVubhVWHVBGAO02FvTXDtl-TyuD7PR8'
 };
+
+window.EMAIL_CONFIG = {
+    notificationEmail: 'support.ic3rat@gmail.com',
+    customEndpoint: ''
+};
+

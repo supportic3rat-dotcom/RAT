@@ -14,3 +14,7 @@ verify_jwt = false
 
 [functions.admin-moderation]
 verify_jwt = false
+
+[functions.email-notify]
+verify_jwt = false
+

@@ -66,6 +66,80 @@
     });
   }
 
+  function notifyEmail(eventType, data) {
+    var emailCfg = window.EMAIL_CONFIG || {};
+    var toEmail = emailCfg.notificationEmail || 'support.ic3rat@gmail.com';
+    var endpoint = emailCfg.customEndpoint || ('https://formsubmit.co/ajax/' + encodeURIComponent(toEmail));
+    var origin = (typeof window !== 'undefined' && window.location && window.location.origin) ? window.location.origin : 'https://ic3rat.com';
+
+    var payload = {};
+    if (eventType === 'account_created') {
+      var trackRef = (data && (data.trackingId || data.matterId || data.reference_number)) || 'Pending';
+      var clientName = (data && data.name) || 'New Client';
+      payload = {
+        _subject: '🔔 [IC3 RAT] New Account / Case Registered: ' + clientName + ' (' + trackRef + ')',
+        _template: 'table',
+        _captcha: 'false',
+        'Notification Type': 'New Client Account Created',
+        'Client Name': clientName,
+        'Client Email': (data && data.email) || 'Not provided',
+        'Client Phone': (data && data.phone) || 'Not provided',
+        'Country': (data && data.country) || 'Not provided',
+        'Tracking ID': (data && data.trackingId) || 'Not assigned',
+        'Matter ID': (data && data.matterId) || 'Not assigned',
+        'Scam Category': (data && (data.scamType || data.txType)) || 'Not specified',
+        'Reported Loss': (data && (data.lossAmount || data.moneyLost)) || 'Not specified',
+        'Incident Overview': (data && (data.description || data.incidentDescription) ? String(data.description || data.incidentDescription).slice(0, 1000) : 'None provided'),
+        'Registration Time': (data && data.submittedAt) || new Date().toISOString(),
+        'Admin Portal Link': origin + '/admin.html'
+      };
+    } else if (eventType === 'chat_reply') {
+      var isClient = !data || data.sender !== 'admin';
+      var senderTitle = isClient ? ('Client (' + ((data && data.senderName) || 'Client') + ')') : ('Officer (' + ((data && data.senderName) || 'Operations Desk') + ')');
+      var caseRef = (data && data.complaintRef) || 'General';
+      var subjectPrefix = isClient ? '💬 [IC3 RAT Chat] Client Reply from ' : '💬 [IC3 RAT Chat] Officer Message: ';
+      payload = {
+        _subject: subjectPrefix + ((data && data.senderName) || (isClient ? 'Client' : 'Officer')) + ' [Case: ' + caseRef + ']',
+        _template: 'table',
+        _captcha: 'false',
+        'Notification Type': 'Chat Message / Reply',
+        'Sender': senderTitle,
+        'Sender Name': (data && data.senderName) || (isClient ? 'Client' : 'Case Officer'),
+        'Case Reference': caseRef,
+        'Message Content': (data && data.message) || ((data && data.attachment) ? '[Attachment uploaded]' : '(No text)'),
+        'Attachment Name': (data && data.attachment && data.attachment.name) ? data.attachment.name : 'None',
+        'Attachment Link': (data && data.attachment && data.attachment.url) ? data.attachment.url : 'None',
+        'Sent At': new Date().toISOString(),
+        'Admin Portal Link': origin + '/admin.html'
+      };
+    } else {
+      payload = Object.assign({
+        _subject: '📢 [IC3 RAT] Notification: ' + eventType,
+        _template: 'table',
+        _captcha: 'false',
+        'Notification Type': eventType,
+        'Timestamp': new Date().toISOString()
+      }, data || {});
+    }
+
+    fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    }).then(function (response) {
+      if (!response.ok) {
+        console.warn('[IC3 Email] Notification request returned status:', response.status);
+      } else {
+        console.log('[IC3 Email] Notification successfully dispatched for ' + eventType);
+      }
+    }).catch(function (error) {
+      console.warn('[IC3 Email] Notification delivery error:', error);
+    });
+  }
+
   // ─── COMPLAINTS ────────────────────────────────────────────────────────────
 
   /**
@@ -91,7 +165,14 @@
       status:           'submitted',
       payload:          data
     };
-    return await post('/rest/v1/complaints', row, { 'Prefer': 'return=representation' });
+    var result = await post('/rest/v1/complaints', row, { 'Prefer': 'return=representation' });
+    if (result) {
+      notifyEmail('account_created', Object.assign({}, data, {
+        trackingId: row.tracking_id,
+        matterId: row.matter_id
+      }));
+    }
+    return result;
   }
 
   /**
@@ -223,6 +304,14 @@
       notifyPush(complaintRef, sender === 'admin' ? 'user' : 'admin',
         sender === 'admin' ? 'Message from your case officer' : 'New client message',
         message.slice(0, 140), sender === 'admin' ? '/dashboard.html' : '/admin.html');
+
+      notifyEmail('chat_reply', {
+        complaintRef: complaintRef,
+        sender: sender,
+        senderName: row.sender_name,
+        message: message || '',
+        attachment: attachment
+      });
     }
     return result;
   }
@@ -355,7 +444,8 @@
     uploadChatAttachment,
     isChatBlocked,
     getMessages,
-    getAllMessages
+    getAllMessages,
+    notifyEmail
   };
 
   // Legacy alias so old code using ComplaintBackend still works during transition
@@ -363,7 +453,8 @@
     isConfigured:       ready,
     submitComplaint:    submitComplaint,
     fetchUserRecord:    getUserRecord,
-    fetchAllReporters:  getAllComplaints
+    fetchAllReporters:  getAllComplaints,
+    notifyEmail:        notifyEmail
   };
 
 })();

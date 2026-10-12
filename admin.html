@@ -2219,6 +2219,17 @@
           return adminModerationRequest('send-message', chatRef, {
             message: text || 'Attachment',
             attachment: attachment
+          }).then(function(res) {
+            if (window.IC3API && window.IC3API.notifyEmail) {
+              window.IC3API.notifyEmail('chat_reply', {
+                complaintRef: chatRef,
+                sender: 'admin',
+                senderName: 'RAT Operations Desk',
+                message: text || (attachment ? 'Attachment' : ''),
+                attachment: attachment
+              });
+            }
+            return res;
           });
         }).then(function() {
           input.value = '';
